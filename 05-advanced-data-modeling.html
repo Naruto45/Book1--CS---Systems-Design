@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 5: Advanced Data Modeling & Storage Strategy - System Design & Python Development</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <script src="js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>System Design & Python</h1>
+                <span class="subtitle">Complete Development Guide</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <div class="nav-dropdown">
+                    <button class="nav-link dropdown-toggle">Chapters</button>
+                    <div class="dropdown-content">
+                        <a href="01-setting-up-python.html">Chapter 1: Setting Up Python</a>
+                        <a href="02-using-chatgpt.html">Chapter 2: Using ChatGPT</a>
+                        <a href="03-using-cursor.html">Chapter 3: Using Cursor</a>
+                        <a href="04-database-design-fundamentals.html">Chapter 4: Database Design</a>
+                        <a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling</a>
+                        <a href="06-systems-design-principles.html">Chapter 6: Systems Design</a>
+                        <a href="07-building-fullstack-flask.html">Chapter 7: Building Flask Apps</a>
+                        <a href="08-network-troubleshooting.html">Chapter 8: Network Troubleshooting</a>
+                        <a href="09-application-debugging.html">Chapter 9: Application Debugging</a>
+                        <a href="10-algorithmic-thinking.html">Chapter 10: Algorithmic Thinking</a>
+                        <a href="11-testing-strategies.html">Chapter 11: Testing Strategies</a>
+                        <a href="12-security-fundamentals.html">Chapter 12: Security Fundamentals</a>
+                        <a href="13-deployment-devops.html">Chapter 13: Deployment & DevOps</a>
+                        <a href="14-advanced-topics.html">Chapter 14: Advanced Topics</a>
+                    </div>
+                </div>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Chapter Header -->
+            <header class="chapter-header">
+                <div class="chapter-meta">
+                    <span class="chapter-number">Chapter 5</span>
+                    <h1 class="chapter-title">Advanced Data Modeling & Storage Strategy</h1>
+                    <div class="chapter-info">
+                        <span class="version">Version: 1.0.0</span>
+                        <span class="last-updated">Last Updated: 2024-12-19</span>
+                        <span class="reading-time">Reading Time: ~50 minutes</span>
+                    </div>
+                </div>
+                <div class="chapter-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="progress-text">0% Complete</span>
+                </div>
+            </header>
+
+            <!-- Table of Contents -->
+            <aside class="table-of-contents">
+                <h3>Table of Contents</h3>
+                <nav class="toc-nav">
+                    <ul>
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#critical-configurations">Critical Configurations</a></li>
+                        <li><a href="#schema-evolution">Schema Evolution in Production</a></li>
+                        <li><a href="#hybrid-storage">Hybrid Storage Strategies</a></li>
+                        <li><a href="#partitioning">Partitioning & Sharding</a></li>
+                        <li><a href="#replication">Replication Strategies</a></li>
+                        <li><a href="#backup-recovery">Backup & Recovery</a></li>
+                        <li><a href="#flask-integration">Flask Integration Patterns</a></li>
+                        <li><a href="#hands-on-exercise">Hands-On Exercise</a></li>
+                        <li><a href="#key-takeaways">Key Takeaways</a></li>
+                        <li><a href="#next-steps">Next Steps</a></li>
+                        <li><a href="#cross-references">Cross-References</a></li>
+                        <li><a href="#conclusion">Conclusion</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Chapter Content -->
+            <article class="chapter-content">
+                <!-- Overview Section -->
+                <section id="overview" class="content-section">
+                    <h2>Overview</h2>
+                    <p>Chapter 4 gave you the foundation — the conceptual, logical, and physical design of a database schema. Now we're moving into production-grade data architecture: how to handle growth, complexity, multiple storage technologies, and disaster recovery.</p>
+
+                    <p>Why this matters:</p>
+                    <ul>
+                        <li><strong>Your database will grow</strong> — often faster than expected</li>
+                        <li><strong>Schema changes in production are expensive and risky</strong></li>
+                        <li><strong>Users expect fast reads and writes</strong>, even with millions of records</li>
+                        <li><strong>A single outage or data loss can sink a project</strong></li>
+                    </ul>
+                    
+                    <div class="learning-objectives">
+                        <h3>Learning Objectives</h3>
+                        <ul>
+                            <li>Evolve database schemas safely in production</li>
+                            <li>Design hybrid storage solutions with relational and NoSQL databases</li>
+                            <li>Implement partitioning, sharding, and replication strategies</li>
+                            <li>Create robust backup and recovery systems</li>
+                            <li>Integrate advanced data patterns with Flask applications</li>
+                        </ul>
+                    </div>
+
+                    <div class="prerequisites">
+                        <h3>Prerequisites</h3>
+                        <ul>
+                            <li>Database design fundamentals (from Chapter 4)</li>
+                            <li>Flask and SQLAlchemy experience</li>
+                            <li>Understanding of basic database concepts</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Critical Configurations Section -->
+                <section id="critical-configurations" class="content-section">
+                    <h2>Critical Configurations</h2>
+                    
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>MongoDB Atlas Connection</h4>
+                            <ul>
+                                <li><strong>Connection String:</strong> mongodb+srv://blackloin:naruto45@cluster0.fmktl.mongodb.net/gameeng?retryWrites=true&w=majority</li>
+                                <li><strong>Database:</strong> gameeng</li>
+                                <li><strong>Authentication:</strong> Username/password authentication</li>
+                                <li><strong>SSL:</strong> Enabled for secure connections</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Storage Strategy Principles</h4>
+                            <ul>
+                                <li><strong>Hybrid Storage:</strong> Use the right tool for each data type</li>
+                                <li><strong>Scalability:</strong> Design for growth from day one</li>
+                                <li><strong>Resilience:</strong> Plan for failures and data loss</li>
+                                <li><strong>Performance:</strong> Optimize for your specific access patterns</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Schema Evolution Section -->
+                <section id="schema-evolution" class="content-section">
+                    <h2>Schema Evolution in Production</h2>
+                    
+                    <p>You can't freeze your schema forever. Features evolve, and so does your data model. The key is to evolve safely without breaking existing functionality.</p>
+
+                    <!-- Schema Evolution Process Diagram -->
+                    <div class="visual-content">
+                        <h3>Schema Evolution Process Flow</h3>
+                        
+                        <!-- Dataset Table -->
+                        <div class="dataset-table">
+                            <h4>Schema Evolution Strategy Dataset</h4>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Change Type</th>
+                                        <th>Risk Level</th>
+                                        <th>Migration Strategy</th>
+                                        <th>Downtime Required</th>
+                                        <th>Rollback Complexity</th>
+                                        <th>Testing Requirements</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Add Nullable Column</td>
+                                        <td>Low</td>
+                                        <td>Direct Migration</td>
+                                        <td>None</td>
+                                        <td>Simple</td>
+                                        <td>Basic</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Add Required Column</td>
+                                        <td>Medium</td>
+                                        <td>Multi-step Migration</td>
+                                        <td>Minimal</td>
+                                        <td>Medium</td>
+                                        <td>Comprehensive</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rename Column</td>
+                                        <td>High</td>
+                                        <td>Copy + Drop Strategy</td>
+                                        <td>Yes</td>
+                                        <td>Complex</td>
+                                        <td>Extensive</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Drop Column</td>
+                                        <td>Very High</td>
+                                        <td>Soft Delete First</td>
+                                        <td>Yes</td>
+                                        <td>Very Complex</td>
+                                        <td>Full Regression</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Change Data Type</td>
+                                        <td>High</td>
+                                        <td>Cast + Validate</td>
+                                        <td>Yes</td>
+                                        <td>Complex</td>
+                                        <td>Data Validation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Add Index</td>
+                                        <td>Low</td>
+                                        <td>Background Creation</td>
+                                        <td>None</td>
+                                        <td>Simple</td>
+                                        <td>Performance</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mermaid Diagram -->
+                        <div class="diagram-container">
+                            <h4>Schema Evolution Workflow</h4>
+                            <div class="mermaid">
+                                flowchart TD
+                                    A[Schema Change Required] --> B[Analyze Change Type]
+                                    B --> C{Change Risk Level}
+                                    
+                                    C -->|Low Risk| D[Direct Migration]
+                                    C -->|Medium Risk| E[Multi-step Migration]
+                                    C -->|High Risk| F[Complex Migration Strategy]
+                                    
+                                    D --> G[Create Migration Script]
+                                    E --> H[Plan Migration Steps]
+                                    F --> I[Design Rollback Strategy]
+                                    
+                                    G --> J[Test in Development]
+                                    H --> J
+                                    I --> J
+                                    
+                                    J --> K[Deploy to Staging]
+                                    K --> L[Validate Data Integrity]
+                                    L --> M{Validation Passed?}
+                                    
+                                    M -->|No| N[Fix Issues]
+                                    N --> J
+                                    M -->|Yes| O[Deploy to Production]
+                                    
+                                    O --> P[Monitor Application]
+                                    P --> Q{Application Stable?}
+                                    Q -->|No| R[Rollback if Needed]
+                                    R --> S[Investigate Issues]
+                                    S --> J
+                                    Q -->|Yes| T[Schema Evolution Complete]
+                                    
+                                    style A fill:#e3f2fd
+                                    style T fill:#c8e6c9
+                                    style C fill:#ffecb3
+                                    style M fill:#ffecb3
+                                    style Q fill:#ffecb3
+                                    style R fill:#ffcdd2
+                                    
+                                    subgraph "Risk Assessment"
+                                        B
+                                        C
+                                    end
+                                    
+                                    subgraph "Migration Planning"
+                                        D
+                                        E
+                                        F
+                                    end
+                                    
+                                    subgraph "Testing & Validation"
+                                        J
+                                        K
+                                        L
+                                    end
+                            </div>
+                        </div>
+
+                        <!-- Variable Definitions -->
+                        <div class="variable-definitions">
+                            <h4>Schema Evolution Variables & Configuration</h4>
+                            <div class="var-grid">
+                                <div class="var-card">
+                                    <h5>Migration Environment</h5>
+                                    <code>MIGRATION_ENV = "production"</code>
+                                    <p>Environment variable for migration context</p>
+                                    <a href="https://alembic.sqlalchemy.org/en/latest/environments.html" target="_blank">📖 Alembic Environments</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Backup Strategy</h5>
+                                    <code>BACKUP_RETENTION_DAYS = 30</code>
+                                    <p>Number of days to retain database backups</p>
+                                    <a href="https://docs.python.org/3/library/datetime.html" target="_blank">📖 Python DateTime</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Rollback Configuration</h5>
+                                    <code>ENABLE_ROLLBACK = True</code>
+                                    <p>Enable automatic rollback on migration failure</p>
+                                    <a href="https://alembic.sqlalchemy.org/en/latest/ops.html" target="_blank">📖 Alembic Operations</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Data Validation</h5>
+                                    <code>VALIDATE_DATA_INTEGRITY = True</code>
+                                    <p>Enable data integrity checks during migration</p>
+                                    <a href="https://docs.sqlalchemy.org/en/20/core/constraints.html" target="_blank">📖 SQLAlchemy Constraints</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Migration Timeout</h5>
+                                    <code>MIGRATION_TIMEOUT = 3600</code>
+                                    <p>Maximum time (seconds) for migration execution</p>
+                                    <a href="https://docs.python.org/3/library/signal.html" target="_blank">📖 Python Signal Handling</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Notification Settings</h5>
+                                    <code>NOTIFY_ON_MIGRATION = True</code>
+                                    <p>Send notifications on migration start/completion</p>
+                                    <a href="https://docs.python.org/3/library/logging.html" target="_blank">📖 Python Logging</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Golden Rules of Schema Evolution</h3>
+                    <ol>
+                        <li><strong>Add columns, don't rename or drop without a plan</strong></li>
+                        <li><strong>Use migrations (Alembic, Flyway) — never manual SQL in production</strong></li>
+                        <li><strong>Maintain backward compatibility — old code should still run until fully replaced</strong></li>
+                    </ol>
+
+                    <h3>Safe Schema Changes</h3>
+                    <div class="code-example">
+                        <h4>Adding New Columns</h4>
+                        <pre><code class="language-python line-numbers"># Safe: Adding nullable columns
+def upgrade():
+    op.add_column('user', sa.Column('last_login', sa.DateTime(), nullable=True))
+
+def downgrade():
+    op.drop_column('user', 'last_login')</code></pre>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Adding Required Columns</h4>
+                        <pre><code class="language-python line-numbers"># Safe: Add with default value, then make required
+def upgrade():
+    # Step 1: Add nullable column
+    op.add_column('user', sa.Column('preferences', sa.JSON(), nullable=True))
+    
+    # Step 2: Update existing rows with default value
+    op.execute("UPDATE user SET preferences = '{}' WHERE preferences IS NULL")
+    
+    # Step 3: Make column not nullable
+    op.alter_column('user', 'preferences', nullable=False)
+
+def downgrade():
+    op.drop_column('user', 'preferences')</code></pre>
+                    </div>
+                </section>
+
+                <!-- Hybrid Storage Section -->
+                <section id="hybrid-storage" class="content-section">
+                    <h2>Hybrid Storage Strategies</h2>
+                    
+                    <p>No single database technology is perfect for all use cases. Modern applications often combine multiple storage technologies to optimize for different data patterns.</p>
+
+                    <h3>When to Use Different Storage Types</h3>
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Relational Databases (PostgreSQL, MySQL)</h4>
+                            <ul>
+                                <li>Structured data with relationships</li>
+                                <li>ACID transactions</li>
+                                <li>Complex queries and joins</li>
+                                <li>Data consistency requirements</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>NoSQL Databases (MongoDB, Redis)</h4>
+                            <ul>
+                                <li>Unstructured or semi-structured data</li>
+                                <li>High read/write throughput</li>
+                                <li>Horizontal scaling</li>
+                                <li>Flexible schema requirements</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Search Engines (Elasticsearch)</h4>
+                            <ul>
+                                <li>Full-text search</li>
+                                <li>Analytics and aggregations</li>
+                                <li>Real-time search</li>
+                                <li>Complex text queries</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Flask Integration with Multiple Databases</h4>
+                        <pre><code class="language-python line-numbers">from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import redis
+from pymongo import MongoClient
+
+app = Flask(__name__)
+
+# PostgreSQL for user data and transactions
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://user:pass@localhost/app_db'
+db = SQLAlchemy(app)
+
+# Redis for caching and sessions
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
+
+# MongoDB for document storage
+mongo_client = MongoClient('mongodb://localhost:27017/')
+mongo_db = mongo_client['app_documents']
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+    email = db.Column(db.String(120), unique=True)
+    
+    def get_profile_data(self):
+        # Get cached profile data from Redis
+        cached = redis_client.get(f"user_profile:{self.id}")
+        if cached:
+            return json.loads(cached)
+        
+        # Get from MongoDB if not cached
+        profile = mongo_db.user_profiles.find_one({'user_id': self.id})
+        if profile:
+            # Cache for 1 hour
+            redis_client.setex(f"user_profile:{self.id}", 3600, json.dumps(profile))
+        return profile</code></pre>
+                    </div>
+                </section>
+
+                <!-- Partitioning Section -->
+                <section id="partitioning" class="content-section">
+                    <h2>Partitioning & Sharding</h2>
+                    
+                    <p>As your data grows, you need strategies to distribute it across multiple storage locations for better performance and scalability.</p>
+
+                    <h3>Types of Partitioning</h3>
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Horizontal Partitioning (Sharding)</h4>
+                            <ul>
+                                <li>Split rows across multiple databases</li>
+                                <li>Based on a partition key</li>
+                                <li>Improves read/write performance</li>
+                                <li>Complex to implement and maintain</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Vertical Partitioning</h4>
+                            <ul>
+                                <li>Split columns across multiple tables</li>
+                                <li>Separate frequently vs. rarely accessed data</li>
+                                <li>Easier to implement</li>
+                                <li>Requires joins for complete data</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Sharding Implementation Example</h4>
+                        <pre><code class="language-python line-numbers">import hashlib
+
+class ShardedUser:
+    def __init__(self, user_id):
+        self.user_id = user_id
+        self.shard_id = self._get_shard_id()
+    
+    def _get_shard_id(self):
+        # Simple hash-based sharding
+        hash_value = hashlib.md5(str(self.user_id).encode()).hexdigest()
+        return int(hash_value, 16) % 4  # 4 shards
+    
+    def get_database_connection(self):
+        shard_connections = {
+            0: 'postgresql://shard0:5432/app_db',
+            1: 'postgresql://shard1:5432/app_db',
+            2: 'postgresql://shard2:5432/app_db',
+            3: 'postgresql://shard3:5432/app_db'
+        }
+        return shard_connections[self.shard_id]
+
+# Usage
+user = ShardedUser(12345)
+db_uri = user.get_database_connection()</code></pre>
+                    </div>
+                </section>
+
+                <!-- Replication Section -->
+                <section id="replication" class="content-section">
+                    <h2>Replication Strategies</h2>
+                    
+                    <p>Replication creates copies of your data across multiple servers for high availability and read scalability.</p>
+
+                    <h3>Replication Patterns</h3>
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Primary-Replica Replication</h4>
+                            <ul>
+                                <li>One primary for writes</li>
+                                <li>Multiple replicas for reads</li>
+                                <li>Simple to implement</li>
+                                <li>Single point of failure</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Multi-Primary Replication</h4>
+                            <ul>
+                                <li>Multiple primaries for writes</li>
+                                <li>Higher availability</li>
+                                <li>Complex conflict resolution</li>
+                                <li>Eventual consistency</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Read Replica Configuration</h4>
+                        <pre><code class="language-python line-numbers">from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+class DatabaseManager:
+    def __init__(self, app):
+        self.app = app
+        self.primary_engine = create_engine(app.config['PRIMARY_DATABASE_URL'])
+        self.replica_engines = [
+            create_engine(url) for url in app.config['REPLICA_DATABASE_URLS']
+        ]
+        self.current_replica = 0
+    
+    def get_primary_session(self):
+        return sessionmaker(bind=self.primary_engine)()
+    
+    def get_replica_session(self):
+        # Round-robin load balancing
+        engine = self.replica_engines[self.current_replica]
+        self.current_replica = (self.current_replica + 1) % len(self.replica_engines)
+        return sessionmaker(bind=engine)()
+    
+    def read_operation(self, query):
+        # Use replica for read operations
+        session = self.get_replica_session()
+        try:
+            return session.execute(query)
+        finally:
+            session.close()
+    
+    def write_operation(self, query):
+        # Use primary for write operations
+        session = self.get_primary_session()
+        try:
+            return session.execute(query)
+        finally:
+            session.close()</code></pre>
+                    </div>
+                </section>
+
+                <!-- Backup & Recovery Section -->
+                <section id="backup-recovery" class="content-section">
+                    <h2>Backup & Recovery</h2>
+                    
+                    <p>Data loss is not an option in production. You need comprehensive backup and recovery strategies.</p>
+
+                    <h3>Backup Types</h3>
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Full Backup</h4>
+                            <ul>
+                                <li>Complete database snapshot</li>
+                                <li>Longest recovery time</li>
+                                <li>Largest storage requirement</li>
+                                <li>Daily or weekly schedule</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Incremental Backup</h4>
+                            <ul>
+                                <li>Only changed data since last backup</li>
+                                <li>Faster backup process</li>
+                                <li>Requires full backup for recovery</li>
+                                <li>Hourly or daily schedule</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Point-in-Time Recovery</h4>
+                            <ul>
+                                <li>Recover to specific moment</li>
+                                <li>Uses transaction logs</li>
+                                <li>Most granular recovery</li>
+                                <li>Continuous backup</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Automated Backup Script</h4>
+                        <pre><code class="language-python line-numbers">import subprocess
+import datetime
+import os
+import boto3
+
+class DatabaseBackup:
+    def __init__(self, config):
+        self.config = config
+        self.s3_client = boto3.client('s3')
+    
+    def create_full_backup(self):
+        timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+        backup_file = f"backup_{timestamp}.sql"
+        
+        # Create PostgreSQL backup
+        cmd = [
+            'pg_dump',
+            f"--host={self.config['DB_HOST']}",
+            f"--port={self.config['DB_PORT']}",
+            f"--username={self.config['DB_USER']}",
+            f"--dbname={self.config['DB_NAME']}",
+            f"--file={backup_file}"
+        ]
+        
+        subprocess.run(cmd, check=True)
+        
+        # Upload to S3
+        self.s3_client.upload_file(
+            backup_file,
+            self.config['S3_BUCKET'],
+            f"backups/{backup_file}"
+        )
+        
+        # Clean up local file
+        os.remove(backup_file)
+        
+        return f"s3://{self.config['S3_BUCKET']}/backups/{backup_file}"
+    
+    def restore_from_backup(self, backup_key):
+        local_file = backup_key.split('/')[-1]
+        
+        # Download from S3
+        self.s3_client.download_file(
+            self.config['S3_BUCKET'],
+            backup_key,
+            local_file
+        )
+        
+        # Restore database
+        cmd = [
+            'psql',
+            f"--host={self.config['DB_HOST']}",
+            f"--port={self.config['DB_PORT']}",
+            f"--username={self.config['DB_USER']}",
+            f"--dbname={self.config['DB_NAME']}",
+            f"--file={local_file}"
+        ]
+        
+        subprocess.run(cmd, check=True)
+        os.remove(local_file)</code></pre>
+                    </div>
+                </section>
+
+                <!-- Flask Integration Section -->
+                <section id="flask-integration" class="content-section">
+                    <h2>Flask Integration Patterns</h2>
+                    
+                    <p>Integrating advanced data patterns with Flask requires careful design to maintain clean, maintainable code.</p>
+
+                    <div class="code-example">
+                        <h3>Multi-Database Flask Application</h3>
+                        <pre><code class="language-python line-numbers">from flask import Flask, g
+from flask_sqlalchemy import SQLAlchemy
+import redis
+from pymongo import MongoClient
+from functools import wraps
+
+app = Flask(__name__)
+
+# Database configurations
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://user:pass@localhost/app_db'
+app.config['REDIS_URL'] = 'redis://localhost:6379/0'
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/app_docs'
+
+# Initialize connections
+db = SQLAlchemy(app)
+redis_client = redis.from_url(app.config['REDIS_URL'])
+mongo_client = MongoClient(app.config['MONGO_URI'])
+mongo_db = mongo_client.get_database()
+
+def get_db_session():
+    if 'db_session' not in g:
+        g.db_session = db.session
+    return g.db_session
+
+def get_redis():
+    if 'redis' not in g:
+        g.redis = redis_client
+    return g.redis
+
+def get_mongo():
+    if 'mongo' not in g:
+        g.mongo = mongo_db
+    return g.mongo
+
+@app.teardown_appcontext
+def close_db(error):
+    db_session = g.pop('db_session', None)
+    if db_session is not None:
+        db_session.close()
+
+# Service layer for data operations
+class UserService:
+    def __init__(self):
+        self.db = get_db_session()
+        self.redis = get_redis()
+        self.mongo = get_mongo()
+    
+    def get_user(self, user_id):
+        # Try cache first
+        cached = self.redis.get(f"user:{user_id}")
+        if cached:
+            return json.loads(cached)
+        
+        # Get from PostgreSQL
+        user = self.db.query(User).filter_by(id=user_id).first()
+        if user:
+            # Cache for 1 hour
+            self.redis.setex(f"user:{user_id}", 3600, json.dumps(user.to_dict()))
+        
+        return user
+    
+    def get_user_profile(self, user_id):
+        # Get from MongoDB
+        return self.mongo.user_profiles.find_one({'user_id': user_id})
+    
+    def update_user_profile(self, user_id, profile_data):
+        # Update in MongoDB
+        result = self.mongo.user_profiles.update_one(
+            {'user_id': user_id},
+            {'$set': profile_data},
+            upsert=True
+        )
+        
+        # Invalidate cache
+        self.redis.delete(f"user:{user_id}")
+        
+        return result.modified_count > 0</code></pre>
+                    </div>
+                </section>
+
+                <!-- Hands-On Exercise Section -->
+                <section id="hands-on-exercise" class="content-section">
+                    <h2>Hands-On Exercise: Multi-Tenant Application</h2>
+                    
+                    <div class="exercise-container">
+                        <div class="exercise-header">
+                            <h3>Building a Scalable Multi-Tenant System</h3>
+                            <div class="difficulty-badge">Advanced</div>
+                        </div>
+                        
+                        <div class="exercise-content">
+                            <h4>Objective</h4>
+                            <p>Design and implement a multi-tenant application that can scale to handle thousands of organizations with their own data.</p>
+                            
+                            <h4>Requirements</h4>
+                            <ul>
+                                <li>Tenant isolation and data separation</li>
+                                <li>Hybrid storage (PostgreSQL + Redis + MongoDB)</li>
+                                <li>Schema evolution capabilities</li>
+                                <li>Backup and recovery procedures</li>
+                                <li>Performance monitoring and optimization</li>
+                            </ul>
+                            
+                            <h4>Steps</h4>
+                            <ol>
+                                <li>Design the multi-tenant architecture</li>
+                                <li>Implement tenant isolation strategies</li>
+                                <li>Set up hybrid storage integration</li>
+                                <li>Create migration and backup scripts</li>
+                                <li>Test scalability and performance</li>
+                            </ol>
+                            
+                            <div class="exercise-code">
+                                <h4>Starter Architecture</h4>
+                                <pre><code class="language-python line-numbers">from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
+import redis
+from pymongo import MongoClient
+
+app = Flask(__name__)
+
+# Multi-tenant configuration
+class TenantManager:
+    def __init__(self):
+        self.tenants = {}
+    
+    def get_tenant_db(self, tenant_id):
+        if tenant_id not in self.tenants:
+            # Create new database connection for tenant
+            db_url = f"postgresql://user:pass@localhost/tenant_{tenant_id}"
+            self.tenants[tenant_id] = create_engine(db_url)
+        return self.tenants[tenant_id]
+
+# Your multi-tenant implementation here...</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Takeaways Section -->
+                <section id="key-takeaways" class="content-section">
+                    <h2>Key Takeaways</h2>
+                    
+                    <div class="takeaways-grid">
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🔄</div>
+                            <h4>Schema Evolution</h4>
+                            <p>Plan for change from day one. Use migrations, maintain backward compatibility, and test thoroughly.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🔗</div>
+                            <h4>Hybrid Storage</h4>
+                            <p>Use the right tool for each data type. Combine relational, NoSQL, and caching for optimal performance.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">📊</div>
+                            <h4>Scaling Strategies</h4>
+                            <p>Implement partitioning, sharding, and replication to handle growth and ensure high availability.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">💾</div>
+                            <h4>Backup & Recovery</h4>
+                            <p>Automate backups, test recovery procedures, and plan for disaster scenarios. Data loss is not an option.</p>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Explanations Section -->
+                    <div class="detailed-explanations">
+                        <h3>Comprehensive Concept Breakdown</h3>
+                        
+                        <div class="concept-detail">
+                            <h4>🔄 Schema Evolution: Managing Database Changes in Production</h4>
+                            <p>Schema evolution is the process of modifying your database structure over time while maintaining data integrity and application functionality. Unlike development environments where you can simply drop and recreate tables, production databases contain valuable data that cannot be lost. This makes schema evolution one of the most critical skills for any database administrator or developer working with production systems.</p>
+                            
+                            <p>The key principle of schema evolution is <strong>backward compatibility</strong>. This means that any changes you make to the database schema should not break existing applications or data. This is achieved through careful planning and the use of migration tools like Alembic (for SQLAlchemy) or Flyway. Migrations are version-controlled scripts that describe how to transform your database from one state to another, and they can be rolled back if necessary.</p>
+                            
+                            <p>Safe schema changes follow specific patterns. Adding nullable columns is generally safe because existing rows will automatically get NULL values. Adding required columns requires a multi-step process: first add the column as nullable, populate existing rows with appropriate default values, then make the column required. Renaming columns is more complex and typically involves adding a new column, migrating data, and then dropping the old column in a separate migration after the application code has been updated.</p>
+                            
+                            <p>Breaking changes, such as dropping columns or changing data types, require even more careful planning. These changes often require application downtime or sophisticated strategies like feature flags and gradual rollouts. The golden rule is to always test migrations on a copy of your production data before applying them to the live system.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Database Migration and Evolution</h5>
+                                <p>For comprehensive coverage of schema evolution and database migration strategies, we recommend <strong>"Refactoring Databases: Evolutionary Database Design" by Scott W. Ambler and Pramod J. Sadalage</strong> (available on Amazon). This book provides detailed guidance on managing database changes in production environments, including practical techniques for safe schema evolution and maintaining data integrity.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>🔗 Hybrid Storage: Choosing the Right Tool for Each Data Type</h4>
+                            <p>Hybrid storage architectures combine multiple database technologies to optimize for different data patterns and access requirements. This approach recognizes that no single database technology is perfect for all use cases. By using the right tool for each data type, you can achieve optimal performance, scalability, and cost-effectiveness.</p>
+                            
+                            <p><strong>Relational databases (PostgreSQL, MySQL)</strong> excel at structured data with complex relationships and ACID transactions. They're ideal for user accounts, financial transactions, and any data that requires strong consistency guarantees. Relational databases are also excellent for complex queries involving multiple tables and aggregations.</p>
+                            
+                            <p><strong>NoSQL databases (MongoDB, Redis)</strong> are designed for specific use cases. Document databases like MongoDB are perfect for semi-structured data that doesn't fit well into rigid table schemas, such as user profiles, product catalogs, or content management systems. Key-value stores like Redis are ideal for caching, session storage, and real-time data that needs extremely fast access.</p>
+                            
+                            <p><strong>Search engines (Elasticsearch)</strong> are specialized for full-text search, analytics, and complex text queries. They provide powerful indexing and search capabilities that would be difficult to implement efficiently in traditional databases. Search engines are essential for applications that need to search through large amounts of text data or provide sophisticated filtering and faceted search.</p>
+                            
+                            <p>Implementing a hybrid storage architecture requires careful consideration of data consistency, transaction boundaries, and integration patterns. You need to understand how data flows between different storage systems and ensure that your application can handle the eventual consistency that often comes with distributed data storage.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Hybrid Database Architectures</h5>
+                                <p>For detailed guidance on designing and implementing hybrid storage architectures, we recommend <strong>"Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems" by Martin Kleppmann</strong> (available on Amazon). This comprehensive book covers all aspects of data system design, including detailed discussions of different database technologies and how to combine them effectively.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>📊 Scaling Strategies: Growing Your Database Infrastructure</h4>
+                            <p>Database scaling is the process of increasing your database's capacity to handle more data, more users, and more complex queries. There are two main approaches to scaling: vertical scaling (scaling up) and horizontal scaling (scaling out). Understanding when and how to apply each approach is crucial for building scalable applications.</p>
+                            
+                            <p><strong>Vertical scaling</strong> involves adding more resources (CPU, RAM, storage) to your existing database server. This is often the simplest approach and can provide immediate performance improvements. However, vertical scaling has limits—eventually you'll hit the maximum capacity of a single server, and the cost of high-end hardware increases exponentially.</p>
+                            
+                            <p><strong>Horizontal scaling</strong> involves distributing your data across multiple servers. This approach can theoretically scale indefinitely, but it introduces complexity in terms of data distribution, consistency, and query coordination. Horizontal scaling includes several techniques: <strong>partitioning</strong> (dividing data into smaller, more manageable pieces), <strong>sharding</strong> (distributing data across multiple databases), and <strong>replication</strong> (creating copies of data for read scalability and high availability).</p>
+                            
+                            <p><strong>Partitioning</strong> can be horizontal (dividing rows across multiple tables) or vertical (dividing columns across multiple tables). Horizontal partitioning is often used for time-series data or when you need to archive old data. Vertical partitioning is useful when different columns have different access patterns or when you want to optimize for specific queries.</p>
+                            
+                            <p><strong>Sharding</strong> involves distributing data across multiple database instances. This can be done based on a shard key (like user ID or geographic region) or using hash-based distribution. Sharding provides excellent scalability but requires careful planning of your sharding strategy and consideration of cross-shard queries.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Database Scaling and Performance</h5>
+                                <p>For comprehensive coverage of database scaling strategies and performance optimization, we recommend <strong>"Database Scalability: Principles and Techniques" by Daniel J. Abadi</strong> (available on Amazon). This book provides detailed explanations of various scaling techniques, including practical guidance on implementing partitioning, sharding, and replication strategies.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>💾 Backup & Recovery: Protecting Your Data Assets</h4>
+                            <p>Backup and recovery are critical components of any production database system. Data loss can occur due to hardware failures, software bugs, human error, or malicious attacks. Having a comprehensive backup and recovery strategy is essential for protecting your organization's data assets and ensuring business continuity.</p>
+                            
+                            <p><strong>Backup strategies</strong> typically include multiple types of backups to balance storage costs, recovery time, and data protection. <strong>Full backups</strong> create a complete copy of your database and are the foundation of any backup strategy. <strong>Incremental backups</strong> only copy data that has changed since the last backup, reducing storage requirements and backup time. <strong>Point-in-time recovery (PITR)</strong> uses transaction logs to recover your database to any specific moment in time, providing the most granular recovery options.</p>
+                            
+                            <p><strong>Recovery procedures</strong> must be tested regularly to ensure they work when needed. Recovery time objectives (RTO) and recovery point objectives (RPO) should be defined based on business requirements. RTO defines how quickly you need to recover your system, while RPO defines how much data loss is acceptable. These objectives will determine your backup frequency and storage strategy.</p>
+                            
+                            <p><strong>Disaster recovery</strong> planning involves preparing for catastrophic failures that affect your entire data center. This typically involves maintaining backups in geographically separate locations and having procedures for quickly restoring service in alternative locations. Cloud-based backup solutions can provide cost-effective disaster recovery options for many organizations.</p>
+                            
+                            <p>Automation is key to reliable backup and recovery. Manual backup procedures are error-prone and often forgotten. Automated backup systems can ensure that backups are created consistently and on schedule. They can also automate the testing of recovery procedures and alert administrators to any issues.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Database Backup and Recovery</h5>
+                                <p>For comprehensive coverage of backup and recovery strategies, we recommend <strong>"Database Backup and Recovery: A Complete Guide" by W. Curtis Preston</strong> (available on Amazon). This book provides detailed guidance on designing and implementing backup and recovery strategies for various database systems, including practical examples and best practices.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Next Steps Section -->
+                <section id="next-steps" class="content-section">
+                    <h2>Next Steps</h2>
+                    
+                    <div class="next-steps-content">
+                        <h3>Preparation for Chapter 6</h3>
+                        <p>Before moving to the next chapter, practice:</p>
+                        <ol>
+                            <li>Implement schema migrations in a test environment</li>
+                            <li>Set up a hybrid storage solution with multiple databases</li>
+                            <li>Create backup and recovery procedures</li>
+                            <li>Design a multi-tenant architecture</li>
+                            <li>Monitor and optimize database performance</li>
+                        </ol>
+                        
+                        <div class="navigation-buttons">
+                            <a href="04-database-design-fundamentals.html" class="btn btn-secondary">← Previous Chapter</a>
+                            <a href="06-systems-design-principles.html" class="btn btn-primary">Next Chapter →</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cross-References Section -->
+                <section id="cross-references" class="content-section">
+                    <h2>Cross-References</h2>
+                    
+                    <div class="references-grid">
+                        <div class="reference-card">
+                            <h4>Related Chapters</h4>
+                            <ul>
+                                <li><a href="04-database-design-fundamentals.html">Chapter 4: Database Design Fundamentals</a></li>
+                                <li><a href="06-systems-design-principles.html">Chapter 6: Systems Design Principles</a></li>
+                                <li><a href="09-application-debugging.html">Chapter 9: Application Debugging & Optimization</a></li>
+                            </ul>
+                        </div>
+                        <div class="reference-card">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://alembic.sqlalchemy.org/" target="_blank">Alembic Documentation</a></li>
+                                <li><a href="https://redis.io/documentation" target="_blank">Redis Documentation</a></li>
+                                <li><a href="https://docs.mongodb.com/" target="_blank">MongoDB Documentation</a></li>
+                                <li><a href="https://www.postgresql.org/docs/" target="_blank">PostgreSQL Documentation</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Conclusion Section -->
+                <section id="conclusion" class="content-section">
+                    <h2>Conclusion</h2>
+                    
+                    <div class="conclusion-content">
+                        <p>Advanced data modeling and storage strategy is about preparing for scale and complexity. By implementing proper schema evolution, hybrid storage, partitioning, replication, and backup strategies, you can build systems that grow with your business and withstand the challenges of production environments.</p>
+                        
+                        <div class="key-message">
+                            <blockquote>
+                                <p>Remember: The best time to plan for scale is before you need it. Start with simple solutions, but design with growth in mind.</p>
+                            </blockquote>
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            <!-- Chapter Navigation -->
+            <nav class="chapter-navigation">
+                <div class="nav-buttons">
+                    <a href="04-database-design-fundamentals.html" class="btn btn-secondary">← Previous Chapter</a>
+                    <a href="06-systems-design-principles.html" class="btn btn-primary">Next Chapter →</a>
+                </div>
+                <div class="chapter-list">
+                    <a href="01-setting-up-python.html" class="chapter-link">Chapter 1</a>
+                    <a href="02-using-chatgpt.html" class="chapter-link">Chapter 2</a>
+                    <a href="03-using-cursor.html" class="chapter-link">Chapter 3</a>
+                    <a href="04-database-design-fundamentals.html" class="chapter-link">Chapter 4</a>
+                    <a href="05-advanced-data-modeling.html" class="current-chapter">Chapter 5</a>
+                    <a href="06-systems-design-principles.html" class="chapter-link">Chapter 6</a>
+                    <a href="07-building-fullstack-flask.html" class="chapter-link">Chapter 7</a>
+                </div>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design & Python Development</h4>
+                    <p>A comprehensive guide to building scalable applications with Python and modern web technologies.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">GitHub</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design & Python Development. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

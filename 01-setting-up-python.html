@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1: Setting Up Python - System Design & Python Development</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <script src="js/config.js"></script>
+    <script src="js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>System Design & Python</h1>
+                <span class="subtitle">Complete Development Guide</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <div class="nav-dropdown">
+                    <button class="nav-link dropdown-toggle">Chapters</button>
+                    <div class="dropdown-content">
+                        <a href="01-setting-up-python.html">Chapter 1: Setting Up Python</a>
+                        <a href="02-using-chatgpt.html">Chapter 2: Using ChatGPT</a>
+                        <a href="03-using-cursor.html">Chapter 3: Using Cursor</a>
+                        <a href="04-database-design-fundamentals.html">Chapter 4: Database Design</a>
+                        <a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling</a>
+                        <a href="06-systems-design-principles.html">Chapter 6: Systems Design</a>
+                        <a href="07-building-fullstack-flask.html">Chapter 7: Building Flask Apps</a>
+                        <a href="08-network-troubleshooting.html">Chapter 8: Network Troubleshooting</a>
+                        <a href="09-application-debugging.html">Chapter 9: Application Debugging</a>
+                        <a href="10-algorithmic-thinking.html">Chapter 10: Algorithmic Thinking</a>
+                        <a href="11-testing-strategies.html">Chapter 11: Testing Strategies</a>
+                        <a href="12-security-fundamentals.html">Chapter 12: Security Fundamentals</a>
+                        <a href="13-deployment-devops.html">Chapter 13: Deployment & DevOps</a>
+                        <a href="14-advanced-topics.html">Chapter 14: Advanced Topics</a>
+                    </div>
+                </div>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Chapter Header -->
+            <header class="chapter-header">
+                <div class="chapter-meta">
+                    <span class="chapter-number">Chapter 1</span>
+                    <h1 class="chapter-title">Setting Up Python on Mac & PC</h1>
+                    <div class="chapter-info">
+                        <span class="version">Version: 1.0.0</span>
+                        <span class="last-updated">Last Updated: 2024-12-19</span>
+                        <span class="reading-time">Reading Time: ~30 minutes</span>
+                    </div>
+                </div>
+                <div class="chapter-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="progress-text">0% Complete</span>
+                </div>
+            </header>
+
+            <!-- Table of Contents -->
+            <aside class="table-of-contents">
+                <h3>Table of Contents</h3>
+                <nav class="toc-nav">
+                    <ul>
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#critical-configurations">Critical Configurations</a></li>
+                        <li><a href="#mac-setup">Mac Setup</a></li>
+                        <li><a href="#windows-setup">Windows Setup</a></li>
+                        <li><a href="#virtual-environments">Virtual Environments</a></li>
+                        <li><a href="#essential-packages">Essential Packages</a></li>
+                        <li><a href="#code-editors">Code Editors</a></li>
+                        <li><a href="#hands-on-exercise">Hands-On Exercise</a></li>
+                        <li><a href="#key-takeaways">Key Takeaways</a></li>
+                        <li><a href="#next-steps">Next Steps</a></li>
+                        <li><a href="#cross-references">Cross-References</a></li>
+                        <li><a href="#conclusion">Conclusion</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Chapter Content -->
+            <article class="chapter-content">
+                <!-- Overview Section -->
+                <section id="overview" class="content-section">
+                    <h2>Overview</h2>
+                    
+                    <div class="overview-content">
+                        <p>Setting up a proper Python development environment is the foundation for building scalable applications. This chapter covers everything you need to get started with Python development on both macOS and Windows, including environment setup, essential tools, and best practices for project organization.</p>
+                        
+                        <p>You'll learn how to install Python, set up virtual environments, configure your development tools, and establish a workflow that supports scalable application development. These skills are essential for any Python developer working on system design and full-stack applications.</p>
+                        
+                        <div class="key-points">
+                            <h4>What You'll Learn:</h4>
+                            <ul>
+                                <li>Python installation and configuration</li>
+                                <li>Virtual environment management</li>
+                                <li>Development tool setup</li>
+                                <li>Project structure and organization</li>
+                                <li>Package management with pip</li>
+                                <li>IDE and editor configuration</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Visual Content Section -->
+                <section id="visual-content" class="content-section">
+                    <h2>Python Environment Setup Workflow</h2>
+                    
+                    <!-- Dataset Table -->
+                    <div class="dataset-table">
+                        <h4>Python Development Environment Components</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Purpose</th>
+                                    <th>Installation Method</th>
+                                    <th>Configuration</th>
+                                    <th>Verification</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Python Interpreter</td>
+                                    <td>Core runtime environment</td>
+                                    <td>Official installer, pyenv</td>
+                                    <td>PATH environment variable</td>
+                                    <td>python --version</td>
+                                </tr>
+                                <tr>
+                                    <td>Package Manager (pip)</td>
+                                    <td>Install Python packages</td>
+                                    <td>Included with Python</td>
+                                    <td>pip.conf, requirements.txt</td>
+                                    <td>pip --version</td>
+                                </tr>
+                                <tr>
+                                    <td>Virtual Environment</td>
+                                    <td>Isolate project dependencies</td>
+                                    <td>venv, virtualenv</td>
+                                    <td>Activation scripts</td>
+                                    <td>which python</td>
+                                </tr>
+                                <tr>
+                                    <td>Code Editor/IDE</td>
+                                    <td>Development interface</td>
+                                    <td>VS Code, PyCharm</td>
+                                    <td>Extensions, themes</td>
+                                    <td>Feature testing</td>
+                                </tr>
+                                <tr>
+                                    <td>Version Control</td>
+                                    <td>Code management</td>
+                                    <td>Git installer</td>
+                                    <td>User config, SSH keys</td>
+                                    <td>git --version</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mermaid Diagram -->
+                    <div class="mermaid">
+                        <h4>Python Environment Setup Process</h4>
+                        <div class="mermaid-diagram">
+                            graph TD
+                                A[Download Python] --> B[Install Python]
+                                B --> C[Verify Installation]
+                                C --> D[Install pip]
+                                D --> E[Create Virtual Environment]
+                                E --> F[Activate Environment]
+                                F --> G[Install Dependencies]
+                                G --> H[Configure IDE]
+                                H --> I[Set up Git]
+                                I --> J[Create Project Structure]
+                                J --> K[Install Development Tools]
+                                K --> L[Verify Setup]
+                                
+                                C --> M{Installation Success?}
+                                M -->|No| N[Troubleshoot]
+                                N --> B
+                                M -->|Yes| D
+                                
+                                L --> O{Setup Complete?}
+                                O -->|No| P[Fix Issues]
+                                P --> L
+                                O -->|Yes| Q[Start Development]
+                                
+                                style A fill:#e1f5fe
+                                style B fill:#f3e5f5
+                                style C fill:#e8f5e8
+                                style D fill:#fff3e0
+                                style E fill:#fce4ec
+                                style F fill:#e0f2f1
+                                style G fill:#f1f8e9
+                                style H fill:#e8eaf6
+                                style I fill:#fafafa
+                                style J fill:#fff8e1
+                                style K fill:#f3e5f5
+                                style L fill:#e8f5e8
+                                style Q fill:#c8e6c9
+                        </div>
+                    </div>
+
+                    <!-- Variable Definitions -->
+                    <div class="variable-definitions">
+                        <h4>Key Environment Variables & Configuration</h4>
+                        <div class="var-grid">
+                            <div class="var-card">
+                                <h5>PYTHONPATH</h5>
+                                <code>/usr/local/bin/python3:/usr/bin/python3</code>
+                                <p>Specifies additional directories to search for Python modules. Controls module import behavior and package discovery.</p>
+                                <a href="https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH" target="_blank">Python PATH Documentation →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>VIRTUAL_ENV</h5>
+                                <code>/path/to/venv</code>
+                                <p>Points to the active virtual environment directory. Used by Python to identify the current virtual environment.</p>
+                                <a href="https://docs.python.org/3/library/venv.html" target="_blank">Virtual Environment Documentation →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>PIP_CONFIG_FILE</h5>
+                                <code>~/.pip/pip.conf</code>
+                                <p>Location of pip configuration file. Defines package sources, user settings, and installation preferences.</p>
+                                <a href="https://pip.pypa.io/en/stable/topics/configuration/" target="_blank">Pip Configuration →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>PYTHONSTARTUP</h5>
+                                <code>~/.pythonrc</code>
+                                <p>Path to Python startup file executed when Python starts. Used for custom initialization and imports.</p>
+                                <a href="https://docs.python.org/3/using/cmdline.html#envvar-PYTHONSTARTUP" target="_blank">Python Startup Documentation →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>PYTHONUNBUFFERED</h5>
+                                <code>1</code>
+                                <p>Forces stdout and stderr to be unbuffered. Essential for real-time logging in containerized environments.</p>
+                                <a href="https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUNBUFFERED" target="_blank">Python Unbuffered Documentation →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>PYTHONDONTWRITEBYTECODE</h5>
+                                <code>1</code>
+                                <p>Prevents Python from writing .pyc files. Useful for development environments to avoid cache issues.</p>
+                                <a href="https://docs.python.org/3/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE" target="_blank">Python Bytecode Documentation →</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Critical Configurations Section -->
+                <section id="critical-configurations" class="content-section">
+                    <h2>Critical Configurations</h2>
+                    
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Python Version</h4>
+                            <ul>
+                                <li>Python 3.12+ (latest stable)</li>
+                                <li>pip package manager</li>
+                                <li>venv module for virtual environments</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Development Tools</h4>
+                            <ul>
+                                <li>Git for version control</li>
+                                <li>VS Code or Cursor IDE</li>
+                                <li>Terminal/Command Prompt</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Essential Packages</h4>
+                            <ul>
+                                <li>Flask for web development</li>
+                                <li>SQLAlchemy for database ORM</li>
+                                <li>pytest for testing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mac Setup Section -->
+                <section id="mac-setup" class="content-section">
+                    <h2>Mac Setup</h2>
+                    
+                    <h3>Installing Python on macOS</h3>
+                    <p>macOS comes with Python 2.7 pre-installed, but we need Python 3.x for modern development. Here's how to set it up properly:</p>
+
+                    <div class="code-example">
+                        <h4>Using Homebrew (Recommended)</h4>
+                        <pre><code class="language-bash line-numbers"># Install Homebrew if you don't have it
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install Python 3.12
+brew install python@3.12
+
+# Verify installation
+python3 --version
+pip3 --version</code></pre>
+                        <div class="code-explanation">
+                            <p>Homebrew is the preferred package manager for macOS. It handles dependencies and updates automatically.</p>
+                        </div>
+                    </div>
+
+                    <h3>Configuring PATH</h3>
+                    <p>Ensure Python is in your PATH by adding it to your shell configuration:</p>
+
+                    <div class="code-example">
+                        <h4>For Zsh (macOS Catalina+)</h4>
+                        <pre><code class="language-bash line-numbers"># Add to ~/.zshrc
+echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
+echo 'export PATH="/opt/homebrew/opt/python@3.12/bin:$PATH"' >> ~/.zshrc
+
+# Reload configuration
+source ~/.zshrc</code></pre>
+                    </div>
+
+                    <h3>Alternative: Official Python Installer</h3>
+                    <p>If you prefer not to use Homebrew, you can download the official installer from python.org:</p>
+                    
+                    <div class="config-card">
+                        <h4>Steps for Official Installer</h4>
+                        <ol>
+                            <li>Visit <a href="https://www.python.org/downloads/" target="_blank">python.org/downloads</a></li>
+                            <li>Download Python 3.12.x for macOS</li>
+                            <li>Run the installer package</li>
+                            <li>Check "Add Python to PATH" during installation</li>
+                            <li>Verify installation in Terminal</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- Windows Setup Section -->
+                <section id="windows-setup" class="content-section">
+                    <h2>Windows Setup</h2>
+                    
+                    <h3>Installing Python on Windows</h3>
+                    <p>Windows doesn't come with Python pre-installed, so we'll need to install it manually:</p>
+
+                    <div class="code-example">
+                        <h4>Using Official Installer</h4>
+                        <pre><code class="language-batch line-numbers"># After installation, verify in Command Prompt
+python --version
+pip --version
+
+# If python command doesn't work, try:
+py --version
+py -m pip --version</code></pre>
+                        <div class="code-explanation">
+                            <p>The Windows installer includes pip and adds Python to your PATH automatically.</p>
+                        </div>
+                    </div>
+
+                    <h3>Windows Subsystem for Linux (WSL)</h3>
+                    <p>For a more Unix-like experience on Windows, consider using WSL:</p>
+
+                    <div class="code-example">
+                        <h4>Installing WSL</h4>
+                        <pre><code class="language-batch line-numbers"># Enable WSL feature
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+
+# Install Ubuntu from Microsoft Store
+# Then in Ubuntu terminal:
+sudo apt update
+sudo apt install python3 python3-pip python3-venv</code></pre>
+                    </div>
+
+                    <h3>Using Chocolatey Package Manager</h3>
+                    <p>Chocolatey is a package manager for Windows that makes installation easier:</p>
+
+                    <div class="code-example">
+                        <h4>Installing with Chocolatey</h4>
+                        <pre><code class="language-batch line-numbers"># Install Chocolatey first (run as Administrator)
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+# Install Python
+choco install python
+
+# Verify installation
+python --version</code></pre>
+                    </div>
+                </section>
+
+                <!-- Virtual Environments Section -->
+                <section id="virtual-environments" class="content-section">
+                    <h2>Virtual Environments</h2>
+                    
+                    <p>Virtual environments are crucial for isolating project dependencies and avoiding conflicts between different projects.</p>
+
+                    <div class="code-example">
+                        <h3>Creating and Using Virtual Environments</h3>
+                        <pre><code class="language-bash line-numbers"># Create a new virtual environment
+python3 -m venv myproject
+
+# Activate the virtual environment
+# On macOS/Linux:
+source myproject/bin/activate
+
+# On Windows:
+myproject\Scripts\activate
+
+# Your prompt should change to show the environment name
+(myproject) $
+
+# Install packages in the virtual environment
+pip install flask sqlalchemy
+
+# Deactivate when done
+deactivate</code></pre>
+                        <div class="code-explanation">
+                            <p>Virtual environments create isolated Python environments where you can install packages without affecting your system Python.</p>
+                        </div>
+                    </div>
+
+                    <h3>Managing Dependencies</h3>
+                    <p>Keep track of your project dependencies:</p>
+
+                    <div class="code-example">
+                        <h4>Requirements File</h4>
+                        <pre><code class="language-bash line-numbers"># Generate requirements.txt
+pip freeze > requirements.txt
+
+# Install from requirements.txt
+pip install -r requirements.txt</code></pre>
+                    </div>
+
+                    <div class="config-card">
+                        <h4>Best Practices for Virtual Environments</h4>
+                        <ul>
+                            <li>Create one virtual environment per project</li>
+                            <li>Always activate the environment before working</li>
+                            <li>Keep requirements.txt updated</li>
+                            <li>Don't commit virtual environment folders to Git</li>
+                            <li>Use descriptive environment names</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Essential Packages Section -->
+                <section id="essential-packages" class="content-section">
+                    <h2>Essential Packages</h2>
+                    
+                    <p>These packages form the foundation of modern Python web development:</p>
+
+                    <div class="code-example">
+                        <h3>Core Development Packages</h3>
+                        <pre><code class="language-bash line-numbers"># Activate your virtual environment first
+source myproject/bin/activate
+
+# Web Framework
+pip install flask
+
+# Database ORM
+pip install sqlalchemy flask-sqlalchemy
+
+# HTTP requests
+pip install requests
+
+# Testing framework
+pip install pytest
+
+# Environment variables
+pip install python-dotenv
+
+# Database migrations
+pip install flask-migrate
+
+# User authentication
+pip install flask-login
+
+# Verify installations
+pip list</code></pre>
+                    </div>
+
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Flask Ecosystem</h4>
+                            <ul>
+                                <li>Flask: Core web framework</li>
+                                <li>Flask-SQLAlchemy: Database integration</li>
+                                <li>Flask-Login: User authentication</li>
+                                <li>Flask-Migrate: Database migrations</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Development Tools</h4>
+                            <ul>
+                                <li>pytest: Testing framework</li>
+                                <li>python-dotenv: Environment management</li>
+                                <li>requests: HTTP client</li>
+                                <li>black: Code formatting</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Code Editors Section -->
+                <section id="code-editors" class="content-section">
+                    <h2>Code Editors</h2>
+                    
+                    <h3>VS Code (Visual Studio Code)</h3>
+                    <p>VS Code is a popular, free code editor with excellent Python support:</p>
+
+                    <div class="config-card">
+                        <h4>VS Code Setup</h4>
+                        <ol>
+                            <li>Download and install VS Code from <a href="https://code.visualstudio.com/" target="_blank">code.visualstudio.com</a></li>
+                            <li>Install the Python extension (Microsoft)</li>
+                            <li>Install the Python IntelliSense extension</li>
+                            <li>Configure your Python interpreter</li>
+                        </ol>
+                    </div>
+
+                    <h3>Cursor (AI-Powered Editor)</h3>
+                    <p>Cursor is built on VS Code but includes AI assistance:</p>
+
+                    <div class="config-card">
+                        <h4>Cursor Features</h4>
+                        <ul>
+                            <li>AI code completion and generation</li>
+                            <li>Built-in chat interface</li>
+                            <li>Code explanation and documentation</li>
+                            <li>Bug detection and fixes</li>
+                        </ul>
+                    </div>
+
+                    <h3>PyCharm (Professional IDE)</h3>
+                    <p>PyCharm is a full-featured Python IDE with advanced features:</p>
+
+                    <div class="config-card">
+                        <h4>PyCharm Benefits</h4>
+                        <ul>
+                            <li>Advanced debugging tools</li>
+                            <li>Database integration</li>
+                            <li>Built-in testing tools</li>
+                            <li>Refactoring support</li>
+                        </ul>
+                    </div>
+
+                    <!-- Visual Content: Development Environment -->
+                    <div class="visual-content">
+                        <h3>Python Development Environment Setup Process</h3>
+                        
+                        <!-- Dataset Table -->
+                        <div class="dataset-table">
+                            <h4>Environment Configuration Dataset</h4>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Component</th>
+                                        <th>Version</th>
+                                        <th>Installation Method</th>
+                                        <th>Configuration File</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Python</td>
+                                        <td>3.12.0</td>
+                                        <td>Homebrew/Installer</td>
+                                        <td>~/.zshrc</td>
+                                        <td>✅ Required</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Virtual Environment</td>
+                                        <td>venv</td>
+                                        <td>Built-in</td>
+                                        <td>requirements.txt</td>
+                                        <td>✅ Required</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Flask</td>
+                                        <td>3.0.0</td>
+                                        <td>pip install</td>
+                                        <td>app.py</td>
+                                        <td>✅ Required</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SQLAlchemy</td>
+                                        <td>2.0.23</td>
+                                        <td>pip install</td>
+                                        <td>models.py</td>
+                                        <td>✅ Required</td>
+                                    </tr>
+                                    <tr>
+                                        <td>pytest</td>
+                                        <td>7.4.3</td>
+                                        <td>pip install</td>
+                                        <td>tests/</td>
+                                        <td>✅ Required</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VS Code/Cursor</td>
+                                        <td>Latest</td>
+                                        <td>Download</td>
+                                        <td>settings.json</td>
+                                        <td>✅ Recommended</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mermaid Diagram -->
+                        <div class="diagram-container">
+                            <h4>Development Environment Setup Flow</h4>
+                            <div class="mermaid">
+                                flowchart TD
+                                    A[Start: System Check] --> B{OS Detection}
+                                    B -->|macOS| C[Install Homebrew]
+                                    B -->|Windows| D[Download Python Installer]
+                                    B -->|Linux| E[Use Package Manager]
+                                    
+                                    C --> F[Install Python 3.12]
+                                    D --> F
+                                    E --> F
+                                    
+                                    F --> G[Verify Installation]
+                                    G --> H{Installation Success?}
+                                    H -->|No| I[Debug Installation]
+                                    I --> F
+                                    H -->|Yes| J[Configure PATH]
+                                    
+                                    J --> K[Create Project Directory]
+                                    K --> L[Initialize Virtual Environment]
+                                    L --> M[Activate Environment]
+                                    M --> N[Install Core Packages]
+                                    
+                                    N --> O[Flask Installation]
+                                    N --> P[SQLAlchemy Installation]
+                                    N --> Q[pytest Installation]
+                                    
+                                    O --> R[Configure IDE]
+                                    P --> R
+                                    Q --> R
+                                    
+                                    R --> S[Create Basic Flask App]
+                                    S --> T[Test Application]
+                                    T --> U{App Working?}
+                                    U -->|No| V[Debug Issues]
+                                    V --> S
+                                    U -->|Yes| W[Environment Ready!]
+                                    
+                                    style A fill:#e1f5fe
+                                    style W fill:#c8e6c9
+                                    style H fill:#ffecb3
+                                    style U fill:#ffecb3
+                            </div>
+                        </div>
+
+                        <!-- Variable Definitions -->
+                        <div class="variable-definitions">
+                            <h4>Environment Variables & Configuration</h4>
+                            <div class="var-grid">
+                                <div class="var-card">
+                                    <h5>PATH Configuration</h5>
+                                    <code>export PATH="/opt/homebrew/bin:$PATH"</code>
+                                    <p>Adds Homebrew binaries to system PATH for macOS</p>
+                                    <a href="https://docs.python.org/3/using/mac.html" target="_blank">📖 Python macOS Guide</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Python Version</h5>
+                                    <code>python3 --version</code>
+                                    <p>Verifies Python 3.12+ installation</p>
+                                    <a href="https://www.python.org/downloads/" target="_blank">📖 Python Downloads</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Virtual Environment</h5>
+                                    <code>python3 -m venv myproject</code>
+                                    <p>Creates isolated Python environment</p>
+                                    <a href="https://docs.python.org/3/library/venv.html" target="_blank">📖 venv Documentation</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Package Installation</h5>
+                                    <code>pip install flask sqlalchemy pytest</code>
+                                    <p>Installs core development packages</p>
+                                    <a href="https://pip.pypa.io/en/stable/" target="_blank">📖 pip Documentation</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Flask Configuration</h5>
+                                    <code>app.config['SECRET_KEY'] = 'your-secret-key'</code>
+                                    <p>Sets Flask application secret key</p>
+                                    <a href="https://flask.palletsprojects.com/en/3.0.x/config/" target="_blank">📖 Flask Configuration</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Database URI</h5>
+                                    <code>app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'</code>
+                                    <p>Configures SQLAlchemy database connection</p>
+                                    <a href="https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/config/" target="_blank">📖 Flask-SQLAlchemy Config</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Hands-On Exercise Section -->
+                <section id="hands-on-exercise" class="content-section">
+                    <h2>Hands-On Exercise: Your First Flask App</h2>
+                    
+                    <div class="exercise-container">
+                        <div class="exercise-header">
+                            <h3>Building a Simple Flask Application</h3>
+                            <div class="difficulty-badge">Beginner</div>
+                        </div>
+                        
+                        <div class="exercise-content">
+                            <h4>Objective</h4>
+                            <p>Create a simple Flask web application to verify your Python setup and learn basic Flask concepts.</p>
+                            
+                            <h4>Steps</h4>
+                            <ol>
+                                <li>Set up your development environment</li>
+                                <li>Create a new project directory</li>
+                                <li>Set up a virtual environment</li>
+                                <li>Install Flask</li>
+                                <li>Create a simple Flask application</li>
+                                <li>Run and test the application</li>
+                            </ol>
+                            
+                            <div class="exercise-code">
+                                <h4>Complete Implementation</h4>
+                                <pre><code class="language-python line-numbers"># app.py
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return jsonify({
+        "message": "Hello, Python is working!",
+        "status": "success",
+        "framework": "Flask"
+    })
+
+@app.route('/health')
+def health():
+    return jsonify({
+        "status": "healthy",
+        "message": "Flask is running"
+    })
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)</code></pre>
+                            </div>
+
+                            <h4>Running the Application</h4>
+                            <pre><code class="language-bash line-numbers"># Create project directory
+mkdir my-first-flask-app
+cd my-first-flask-app
+
+# Create virtual environment
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install Flask
+pip install flask
+
+# Create app.py with the code above
+# Then run:
+python app.py</code></pre>
+
+                            <h4>Testing</h4>
+                            <p>Open your browser and visit:</p>
+                            <ul>
+                                <li><code>http://localhost:5000/</code> - Main endpoint</li>
+                                <li><code>http://localhost:5000/health</code> - Health check</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Takeaways Section -->
+                <section id="key-takeaways" class="content-section">
+                    <h2>Key Takeaways</h2>
+                    
+                    <div class="takeaways-grid">
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🐍</div>
+                            <h4>Python Installation</h4>
+                            <p>Always use Python 3.x for new projects. Use package managers like Homebrew (Mac) or Chocolatey (Windows) for easier installation and updates.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🔒</div>
+                            <h4>Virtual Environments</h4>
+                            <p>Use virtual environments for every project to isolate dependencies and avoid conflicts between different projects.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">📦</div>
+                            <h4>Package Management</h4>
+                            <p>Keep requirements.txt updated and use pip for package management. Consider using pip-tools for more advanced dependency management.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">⚙️</div>
+                            <h4>Development Tools</h4>
+                            <p>Choose a code editor that fits your workflow. VS Code and Cursor are excellent choices for Python development.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Next Steps Section -->
+                <section id="next-steps" class="content-section">
+                    <h2>Next Steps</h2>
+                    
+                    <div class="next-steps-content">
+                        <h3>Preparation for Chapter 2</h3>
+                        <p>Before moving to the next chapter, practice:</p>
+                        <ol>
+                            <li>Create multiple virtual environments for different projects</li>
+                            <li>Install and test different packages</li>
+                            <li>Modify the Flask app to add new routes</li>
+                            <li>Experiment with different code editors</li>
+                            <li>Set up Git for version control</li>
+                        </ol>
+                        
+                        <div class="navigation-buttons">
+                            <a href="#" class="btn btn-secondary">← Previous Chapter</a>
+                            <a href="02-using-chatgpt.html" class="btn btn-primary">Next Chapter →</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cross-References Section -->
+                <section id="cross-references" class="content-section">
+                    <h2>Cross-References</h2>
+                    
+                    <div class="references-grid">
+                        <div class="reference-card">
+                            <h4>Related Chapters</h4>
+                            <ul>
+                                <li><a href="02-using-chatgpt.html">Chapter 2: Using ChatGPT to Design and Plan Code</a></li>
+                                <li><a href="03-using-cursor.html">Chapter 3: Using Cursor with Python for System Design & Task Tracking</a></li>
+                                <li><a href="07-building-fullstack-flask.html">Chapter 7: Building a Full-Stack App with Flask</a></li>
+                            </ul>
+                        </div>
+                        <div class="reference-card">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://www.python.org/downloads/" target="_blank">Python Official Downloads</a></li>
+                                <li><a href="https://flask.palletsprojects.com/" target="_blank">Flask Documentation</a></li>
+                                <li><a href="https://code.visualstudio.com/" target="_blank">VS Code</a></li>
+                                <li><a href="https://cursor.sh/" target="_blank">Cursor Editor</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Conclusion Section -->
+                <section id="conclusion" class="content-section">
+                    <h2>Conclusion</h2>
+                    
+                    <div class="conclusion-content">
+                        <p>You now have a solid Python development environment set up on your machine. This foundation will serve you well as we move into more advanced topics like AI-assisted development, database design, and system architecture.</p>
+                        
+                        <div class="key-message">
+                            <blockquote>
+                                <p>Remember: A well-configured environment saves time and prevents "it works on my machine" problems that can frustrate both you and your teammates.</p>
+                            </blockquote>
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            <!-- Chapter Navigation -->
+            <nav class="chapter-navigation">
+                <div class="nav-buttons">
+                    <a href="#" class="btn btn-secondary">← Previous Chapter</a>
+                    <a href="02-using-chatgpt.html" class="btn btn-primary">Next Chapter →</a>
+                </div>
+                <div class="chapter-list">
+                    <a href="01-setting-up-python.html" class="current-chapter">Chapter 1</a>
+                    <a href="02-using-chatgpt.html" class="chapter-link">Chapter 2</a>
+                    <a href="03-using-cursor.html" class="chapter-link">Chapter 3</a>
+                    <a href="04-database-design-fundamentals.html" class="chapter-link">Chapter 4</a>
+                    <a href="05-advanced-data-modeling.html" class="chapter-link">Chapter 5</a>
+                    <a href="06-systems-design-principles.html" class="chapter-link">Chapter 6</a>
+                    <a href="07-building-fullstack-flask.html" class="chapter-link">Chapter 7</a>
+                </div>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design & Python Development</h4>
+                    <p>A comprehensive guide to building scalable applications with Python and modern web technologies.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">GitHub</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design & Python Development. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+# GitHub Pages Configuration
+# This file ensures proper deployment on GitHub Pages
+
+# Site settings
+title: "System Design & Python Development"
+description: "A comprehensive guide to building scalable applications with Python and modern web technologies"
+url: "https://russellpowers.github.io/Book1_CS/book-website/"
+baseurl: "/Book1_CS/book-website"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Collections
+collections:
+  chapters:
+    output: true
+    permalink: /:collection/:name/
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude from processing
+exclude:
+  - README.md
+  - .github/
+  - node_modules/
+  - package.json
+  - package-lock.json
+
+# Include files
+include:
+  - _pages
+  - _posts
+  - _drafts
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "chapters"
+    values:
+      layout: "default"
+      author: "Russell Powers"
+      category: "Technical Guide"
+
+# Author information
+author:
+  name: "Russell Powers"
+  email: ""
+  bio: "Python Developer and System Design Expert"
+  location: ""
+  links:
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/russellpowers"
+
+# Social media
+social_media:
+  - name: "GitHub"
+    url: "https://github.com/russellpowers"
+  - name: "LinkedIn"
+    url: ""
+
+# Analytics (optional)
+google_analytics: ""
+google_analytics_anonymize_ip: true
+
+# Comments (optional)
+disqus:
+  shortname: ""
+
+# Pagination
+paginate: 10
+paginate_path: "/page/:num/"
+
+# Feed
+feed:
+  path: atom.xml
+  limit: 10
+
+# Sitemap
+sitemap:
+  changefreq: weekly
+  priority: 0.5
+  exclude: []
+
+# SEO
+seo:
+  title: "System Design & Python Development - Complete Guide"
+  description: "A comprehensive technical book covering system design, Python development, and modern web technologies"
+  author: "Russell Powers"
+  image: ""
+  type: "website"

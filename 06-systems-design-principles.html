@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 6: Systems Design Principles - System Design & Python Development</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <script src="js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>System Design & Python</h1>
+                <span class="subtitle">Complete Development Guide</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <div class="nav-dropdown">
+                    <button class="nav-link dropdown-toggle">Chapters</button>
+                    <div class="dropdown-content">
+                        <a href="01-setting-up-python.html">Chapter 1: Setting Up Python</a>
+                        <a href="02-using-chatgpt.html">Chapter 2: Using ChatGPT</a>
+                        <a href="03-using-cursor.html">Chapter 3: Using Cursor</a>
+                        <a href="04-database-design-fundamentals.html">Chapter 4: Database Design</a>
+                        <a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling</a>
+                        <a href="06-systems-design-principles.html">Chapter 6: Systems Design</a>
+                        <a href="07-building-fullstack-flask.html">Chapter 7: Building Flask Apps</a>
+                        <a href="08-network-troubleshooting.html">Chapter 8: Network Troubleshooting</a>
+                        <a href="09-application-debugging.html">Chapter 9: Application Debugging</a>
+                        <a href="10-algorithmic-thinking.html">Chapter 10: Algorithmic Thinking</a>
+                        <a href="11-testing-strategies.html">Chapter 11: Testing Strategies</a>
+                        <a href="12-security-fundamentals.html">Chapter 12: Security Fundamentals</a>
+                        <a href="13-deployment-devops.html">Chapter 13: Deployment & DevOps</a>
+                        <a href="14-advanced-topics.html">Chapter 14: Advanced Topics</a>
+                    </div>
+                </div>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Chapter Header -->
+            <header class="chapter-header">
+                <div class="chapter-meta">
+                    <span class="chapter-number">Chapter 6</span>
+                    <h1 class="chapter-title">Systems Design Principles</h1>
+                    <div class="chapter-info">
+                        <span class="version">Version: 1.0.0</span>
+                        <span class="last-updated">Last Updated: 2024-12-19</span>
+                        <span class="reading-time">Reading Time: ~40 minutes</span>
+                    </div>
+                </div>
+                <div class="chapter-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="progress-text">0% Complete</span>
+                </div>
+            </header>
+
+            <!-- Table of Contents -->
+            <aside class="table-of-contents">
+                <h3>Table of Contents</h3>
+                <nav class="toc-nav">
+                    <ul>
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#critical-configurations">Critical Configurations</a></li>
+                        <li><a href="#three-pillars">Three Pillars of System Design</a></li>
+                        <li><a href="#layered-architecture">Layered Architecture</a></li>
+                        <li><a href="#trust-boundaries">Trust Boundaries</a></li>
+                        <li><a href="#data-flow">Data Flow Diagrams</a></li>
+                        <li><a href="#scalability-design">Designing for Scalability</a></li>
+                        <li><a href="#maintainability">Designing for Maintainability</a></li>
+                        <li><a href="#resilience">Designing for Resilience</a></li>
+                        <li><a href="#hands-on-exercise">Hands-On Exercise</a></li>
+                        <li><a href="#key-takeaways">Key Takeaways</a></li>
+                        <li><a href="#next-steps">Next Steps</a></li>
+                        <li><a href="#cross-references">Cross-References</a></li>
+                        <li><a href="#conclusion">Conclusion</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Chapter Content -->
+            <article class="chapter-content">
+                <!-- Overview Section -->
+                <section id="overview" class="content-section">
+                    <h2>Overview</h2>
+                    <p>You've now built a solid database foundation and planned for growth. The next step is to wrap that data in a complete, scalable, and secure system.</p>
+                    
+                    <p>System design is where your database meets the real world:</p>
+                    <ul>
+                        <li>Users connect through networks</li>
+                        <li>APIs serve and transform data</li>
+                        <li>Security policies govern every interaction</li>
+                        <li>Infrastructure scales to meet demand</li>
+                    </ul>
+                    
+                    <div class="learning-objectives">
+                        <h3>Learning Objectives</h3>
+                        <ul>
+                            <li>Understand the three pillars of system design</li>
+                            <li>Design layered architectures for scalability</li>
+                            <li>Implement trust boundaries and security</li>
+                            <li>Create data flow diagrams and documentation</li>
+                            <li>Plan Flask architecture for production systems</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Critical Configurations Section -->
+                <section id="critical-configurations" class="content-section">
+                    <h2>Critical Configurations</h2>
+                    
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>System Architecture Principles</h4>
+                            <ul>
+                                <li><strong>Layered Design:</strong> Separate concerns for maintainability</li>
+                                <li><strong>Trust Boundaries:</strong> Validate data at every boundary</li>
+                                <li><strong>Fail-Safe Defaults:</strong> Deny by default, explicitly allow</li>
+                                <li><strong>Defense in Depth:</strong> Multiple layers of security</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Port Configuration</h4>
+                            <ul>
+                                <li><strong>Backend Port:</strong> 3005 (Flask application)</li>
+                                <li><strong>Frontend Port:</strong> 3036 (React/UI application)</li>
+                                <li><strong>Database Port:</strong> 5432 (PostgreSQL)</li>
+                                <li><strong>Redis Port:</strong> 6379 (Caching)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Three Pillars Section -->
+                <section id="three-pillars" class="content-section">
+                    <h2>The Three Pillars of Good System Design</h2>
+                    
+                    <p>When designing a system, every decision should be tested against three pillars:</p>
+
+                    <!-- System Design Pillars Diagram -->
+                    <div class="visual-content">
+                        <h3>System Design Pillars Framework</h3>
+                        
+                        <!-- Dataset Table -->
+                        <div class="dataset-table">
+                            <h4>System Design Pillars Dataset</h4>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Pillar</th>
+                                        <th>Focus Area</th>
+                                        <th>Key Metrics</th>
+                                        <th>Design Patterns</th>
+                                        <th>Implementation Priority</th>
+                                        <th>Success Indicators</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Scalability</td>
+                                        <td>Performance & Growth</td>
+                                        <td>Response Time, Throughput</td>
+                                        <td>Load Balancing, Caching</td>
+                                        <td>High</td>
+                                        <td>99.9% Uptime, <200ms Response</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Maintainability</td>
+                                        <td>Code Quality & Evolution</td>
+                                        <td>Code Complexity, Test Coverage</td>
+                                        <td>Modular Design, Clean Code</td>
+                                        <td>High</td>
+                                        <td>90% Test Coverage, <10 Cyclomatic Complexity</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Resilience</td>
+                                        <td>Fault Tolerance</td>
+                                        <td>MTTR, MTTF</td>
+                                        <td>Circuit Breakers, Retry Logic</td>
+                                        <td>High</td>
+                                        <td><5min MTTR, 99.99% Availability</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mermaid Diagram -->
+                        <div class="diagram-container">
+                            <h4>System Design Pillars Architecture</h4>
+                            <div class="mermaid">
+                                flowchart TD
+                                    A[System Requirements] --> B[Design Analysis]
+                                    B --> C{Evaluate Against Pillars}
+                                    
+                                    C --> D[Scalability Assessment]
+                                    C --> E[Maintainability Assessment]
+                                    C --> F[Resilience Assessment]
+                                    
+                                    D --> G[Horizontal Scaling]
+                                    D --> H[Vertical Scaling]
+                                    D --> I[Load Balancing]
+                                    
+                                    E --> J[Modular Architecture]
+                                    E --> K[Clean Interfaces]
+                                    E --> L[Documentation]
+                                    
+                                    F --> M[Redundancy]
+                                    F --> N[Failover Systems]
+                                    F --> O[Circuit Breakers]
+                                    
+                                    G --> P[Design Validation]
+                                    H --> P
+                                    I --> P
+                                    J --> P
+                                    K --> P
+                                    L --> P
+                                    M --> P
+                                    N --> P
+                                    O --> P
+                                    
+                                    P --> Q{All Pillars Satisfied?}
+                                    Q -->|No| R[Refactor Design]
+                                    R --> B
+                                    Q -->|Yes| S[Implementation Ready]
+                                    
+                                    style A fill:#e3f2fd
+                                    style S fill:#c8e6c9
+                                    style C fill:#ffecb3
+                                    style Q fill:#ffecb3
+                                    style R fill:#ffcdd2
+                                    
+                                    subgraph "Scalability"
+                                        G
+                                        H
+                                        I
+                                    end
+                                    
+                                    subgraph "Maintainability"
+                                        J
+                                        K
+                                        L
+                                    end
+                                    
+                                    subgraph "Resilience"
+                                        M
+                                        N
+                                        O
+                                    end
+                            </div>
+                        </div>
+
+                        <!-- Variable Definitions -->
+                        <div class="variable-definitions">
+                            <h4>System Design Configuration Variables</h4>
+                            <div class="var-grid">
+                                <div class="var-card">
+                                    <h5>Load Balancer Configuration</h5>
+                                    <code>LOAD_BALANCER_ALGORITHM = "round_robin"</code>
+                                    <p>Algorithm for distributing traffic across servers</p>
+                                    <a href="https://nginx.org/en/docs/http/load_balancing.html" target="_blank">📖 Nginx Load Balancing</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Circuit Breaker Settings</h5>
+                                    <code>CIRCUIT_BREAKER_THRESHOLD = 5</code>
+                                    <p>Number of failures before opening circuit breaker</p>
+                                    <a href="https://github.com/pybreaker/pybreaker" target="_blank">📖 PyBreaker Documentation</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Retry Configuration</h5>
+                                    <code>MAX_RETRY_ATTEMPTS = 3</code>
+                                    <p>Maximum number of retry attempts for failed requests</p>
+                                    <a href="https://docs.python.org/3/library/time.html" target="_blank">📖 Python Time Module</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Health Check Interval</h5>
+                                    <code>HEALTH_CHECK_INTERVAL = 30</code>
+                                    <p>Interval in seconds for health check monitoring</p>
+                                    <a href="https://flask.palletsprojects.com/en/3.0.x/patterns/appfactories/" target="_blank">📖 Flask App Factory</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Cache TTL</h5>
+                                    <code>CACHE_TTL_SECONDS = 3600</code>
+                                    <p>Time-to-live for cached data in seconds</p>
+                                    <a href="https://redis.io/commands/expire" target="_blank">📖 Redis Expire Command</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Database Connection Pool</h5>
+                                    <code>DB_POOL_SIZE = 20</code>
+                                    <p>Maximum number of database connections in pool</p>
+                                    <a href="https://docs.sqlalchemy.org/en/20/core/pooling.html" target="_blank">📖 SQLAlchemy Pooling</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Scalability</h3>
+                    <p>Can it handle more users, data, and traffic without breaking?</p>
+                    
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Scalability Strategies</h4>
+                            <ul>
+                                <li><strong>Horizontal Scaling:</strong> Add more servers/containers</li>
+                                <li><strong>Vertical Scaling:</strong> More CPU/RAM for existing servers</li>
+                                <li><strong>Load Balancing:</strong> Distribute traffic across multiple instances</li>
+                                <li><strong>Caching:</strong> Reduce database load with Redis/Memcached</li>
+                                <li><strong>Database Optimization:</strong> Indexes, query optimization, read replicas</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Maintainability</h3>
+                    <p>Can you change or extend it without rewriting everything?</p>
+                    
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Maintainability Principles</h4>
+                            <ul>
+                                <li><strong>Modular Design:</strong> Break system into independent components</li>
+                                <li><strong>Clear Interfaces:</strong> Well-defined APIs between components</li>
+                                <li><strong>Consistent Patterns:</strong> Use the same approaches throughout</li>
+                                <li><strong>Documentation:</strong> Keep design decisions and architecture current</li>
+                                <li><strong>Testing:</strong> Automated tests to catch regressions</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Resilience</h3>
+                    <p>Can it survive failures without losing data or service availability?</p>
+                    
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Resilience Patterns</h4>
+                            <ul>
+                                <li><strong>Redundancy:</strong> Multiple instances of critical components</li>
+                                <li><strong>Failover:</strong> Automatic switching to backup systems</li>
+                                <li><strong>Graceful Degradation:</strong> Core services remain available</li>
+                                <li><strong>Circuit Breakers:</strong> Prevent cascade failures</li>
+                                <li><strong>Retry Logic:</strong> Handle temporary failures</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Layered Architecture Section -->
+                <section id="layered-architecture" class="content-section">
+                    <h2>The Layered Architecture Model</h2>
+                    
+                    <p>A clean, layered architecture separates concerns so you can change one part without affecting the others.</p>
+
+                    <div class="code-example">
+                        <h3>Flask Layered Architecture Example</h3>
+                        <pre><code class="language-python line-numbers"># Presentation Layer (Routes)
+@app.route('/api/users', methods=['GET'])
+@jwt_required()
+def get_users():
+    try:
+        users = user_service.get_all_users()
+        return jsonify(users), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Application Layer (Services)
+class UserService:
+    def __init__(self, user_repository):
+        self.user_repository = user_repository
+    
+    def get_all_users(self):
+        return self.user_repository.find_all()
+    
+    def create_user(self, user_data):
+        # Business logic validation
+        if not self._validate_user_data(user_data):
+            raise ValueError("Invalid user data")
+        return self.user_repository.create(user_data)
+
+# Data Layer (Repository)
+class UserRepository:
+    def __init__(self, db_session):
+        self.db_session = db_session
+    
+    def find_all(self):
+        return self.db_session.query(User).all()
+    
+    def create(self, user_data):
+        user = User(**user_data)
+        self.db_session.add(user)
+        self.db_session.commit()
+        return user
+
+# Infrastructure Layer (Configuration)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['REDIS_URL'] = os.environ.get('REDIS_URL')</code></pre>
+                    </div>
+                </section>
+
+                <!-- Trust Boundaries Section -->
+                <section id="trust-boundaries" class="content-section">
+                    <h2>Trust Boundaries</h2>
+                    
+                    <p>Trust boundaries are points where data crosses from one security context to another. Every boundary should validate and sanitize data.</p>
+
+                    <div class="config-card">
+                        <h4>Common Trust Boundaries</h4>
+                        <ul>
+                            <li><strong>User Input:</strong> Forms, API requests, file uploads</li>
+                            <li><strong>External APIs:</strong> Third-party services and integrations</li>
+                            <li><strong>Database:</strong> Data persistence and retrieval</li>
+                            <li><strong>Network:</strong> Internal vs. external networks</li>
+                            <li><strong>Authentication:</strong> User sessions and tokens</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Trust Boundary Implementation</h4>
+                        <pre><code class="language-python line-numbers">from flask import request, jsonify
+from marshmallow import Schema, fields, ValidationError
+import bleach
+
+# Input validation schema
+class UserSchema(Schema):
+    username = fields.Str(required=True, validate=lambda x: len(x) >= 3)
+    email = fields.Email(required=True)
+    password = fields.Str(required=True, validate=lambda x: len(x) >= 8)
+
+# Trust boundary: User input validation
+@app.route('/api/users', methods=['POST'])
+def create_user():
+    try:
+        # Validate and sanitize input
+        schema = UserSchema()
+        data = schema.load(request.get_json())
+        
+        # Sanitize text fields
+        data['username'] = bleach.clean(data['username'])
+        data['email'] = bleach.clean(data['email'])
+        
+        # Hash password before storage
+        data['password'] = generate_password_hash(data['password'])
+        
+        # Create user in database
+        user = user_service.create_user(data)
+        return jsonify(user.to_dict()), 201
+        
+    except ValidationError as e:
+        return jsonify({'error': 'Validation failed', 'details': e.messages}), 400
+    except Exception as e:
+        return jsonify({'error': 'Internal server error'}), 500</code></pre>
+                    </div>
+                </section>
+
+                <!-- Data Flow Section -->
+                <section id="data-flow" class="content-section">
+                    <h2>Data Flow Diagrams</h2>
+                    
+                    <p>Data Flow Diagrams (DFDs) show how data moves through your system, helping identify bottlenecks and security vulnerabilities.</p>
+
+                    <div class="code-example">
+                        <h4>Simple Data Flow Example</h4>
+                        <pre><code class="language-python line-numbers"># Data flow: User Registration
+def user_registration_flow():
+    """
+    1. User submits registration form
+    2. Frontend validates input
+    3. API receives request
+    4. Backend validates and sanitizes
+    5. Password is hashed
+    6. User is saved to database
+    7. Confirmation email is sent
+    8. Response is returned to user
+    """
+    
+    # Step 1: Input validation
+    user_data = validate_registration_input(request_data)
+    
+    # Step 2: Business logic
+    if user_service.email_exists(user_data['email']):
+        raise ValidationError("Email already exists")
+    
+    # Step 3: Data persistence
+    user = user_service.create_user(user_data)
+    
+    # Step 4: External service call
+    email_service.send_welcome_email(user.email)
+    
+    # Step 5: Response
+    return user.to_dict()</code></pre>
+                    </div>
+                </section>
+
+                <!-- Hands-On Exercise Section -->
+                <section id="hands-on-exercise" class="content-section">
+                    <h2>Hands-On Exercise: Design a Microservice Architecture</h2>
+                    
+                    <div class="exercise-container">
+                        <div class="exercise-header">
+                            <h3>Building a Scalable E-commerce System</h3>
+                            <div class="difficulty-badge">Advanced</div>
+                        </div>
+                        
+                        <div class="exercise-content">
+                            <h4>Objective</h4>
+                            <p>Design and implement a microservice-based e-commerce system that demonstrates the three pillars of system design.</p>
+                            
+                            <h4>Requirements</h4>
+                            <ul>
+                                <li>User management service</li>
+                                <li>Product catalog service</li>
+                                <li>Order management service</li>
+                                <li>Payment processing service</li>
+                                <li>API gateway for routing</li>
+                            </ul>
+                            
+                            <div class="exercise-code">
+                                <h4>Service Architecture</h4>
+                                <pre><code class="language-python line-numbers"># API Gateway
+from flask import Flask, request, jsonify
+import requests
+
+app = Flask(__name__)
+
+SERVICES = {
+    'users': 'http://user-service:3001',
+    'products': 'http://product-service:3002',
+    'orders': 'http://order-service:3003',
+    'payments': 'http://payment-service:3004'
+}
+
+@app.route('/api/<service>/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def proxy_request(service, path):
+    if service not in SERVICES:
+        return jsonify({'error': 'Service not found'}), 404
+    
+    # Forward request to appropriate service
+    service_url = f"{SERVICES[service]}/{path}"
+    response = requests.request(
+        method=request.method,
+        url=service_url,
+        headers=request.headers,
+        data=request.get_data()
+    )
+    
+    return response.content, response.status_code, response.headers.items()</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Takeaways Section -->
+                <section id="key-takeaways" class="content-section">
+                    <h2>Key Takeaways</h2>
+                    
+                    <div class="takeaways-grid">
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">📈</div>
+                            <h4>Scalability First</h4>
+                            <p>Design for growth from day one. Plan for horizontal scaling and implement caching strategies early.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🔧</div>
+                            <h4>Maintainable Code</h4>
+                            <p>Use layered architecture and clear interfaces. Write code that's easy to understand and modify.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🛡️</div>
+                            <h4>Resilient Systems</h4>
+                            <p>Implement circuit breakers, retry logic, and graceful degradation. Plan for failure scenarios.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🔒</div>
+                            <h4>Trust Boundaries</h4>
+                            <p>Validate and sanitize data at every boundary. Implement defense in depth for security.</p>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Explanations Section -->
+                    <div class="detailed-explanations">
+                        <h3>Comprehensive Concept Breakdown</h3>
+                        
+                        <div class="concept-detail">
+                            <h4>📈 Scalability First: Building for Growth from Day One</h4>
+                            <p>Scalability is not just about handling more users—it's about building a system that can grow efficiently without proportional increases in complexity, cost, or maintenance overhead. The "Scalability First" principle means designing your system architecture with growth in mind from the very beginning, rather than trying to retrofit scalability into an existing system later.</p>
+                            
+                            <p><strong>Horizontal scaling</strong> involves adding more servers or instances to handle increased load. This approach is more cost-effective and flexible than vertical scaling (adding more resources to existing servers). To enable horizontal scaling, your system must be designed as stateless, meaning that any server can handle any request without depending on local state. This is achieved through techniques like session externalization, database centralization, and stateless application design.</p>
+                            
+                            <p><strong>Caching strategies</strong> are essential for scalability because they reduce the load on your primary data sources and improve response times. Effective caching involves multiple layers: application-level caching (in-memory caches like Redis), database query caching, CDN caching for static content, and browser caching. The key is to cache data that is frequently accessed but rarely changed, and to implement proper cache invalidation strategies to ensure data consistency.</p>
+                            
+                            <p><strong>Load balancing</strong> distributes incoming requests across multiple servers to ensure no single server becomes overwhelmed. This can be implemented at multiple levels: DNS load balancing, application load balancing, and database load balancing. Load balancers can use various algorithms like round-robin, least connections, or weighted distribution based on server capacity.</p>
+                            
+                            <p>Scalability also involves <strong>database scaling strategies</strong> like read replicas, sharding, and partitioning. Read replicas allow you to distribute read operations across multiple database instances, while write operations go to the primary database. Sharding involves distributing data across multiple databases based on a shard key, while partitioning divides data within a single database into smaller, more manageable pieces.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Scalable System Design</h5>
+                                <p>For comprehensive coverage of scalability principles and patterns, we recommend <strong>"Scalable Internet Architectures" by Theo Schlossnagle</strong> (available on Amazon). This book provides detailed guidance on designing scalable systems, including practical examples and real-world case studies from high-traffic websites.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>🔧 Maintainable Code: The Foundation of Long-Term Success</h4>
+                            <p>Maintainable code is the foundation of any successful software project. It's code that can be easily understood, modified, and extended by developers who didn't write it originally. This is especially important in enterprise environments where systems may be maintained for decades and by multiple generations of developers.</p>
+                            
+                            <p><strong>Layered architecture</strong> is a fundamental pattern for creating maintainable systems. It separates concerns into distinct layers, each with a specific responsibility. The presentation layer handles user interface concerns, the application layer contains business logic, the data layer manages data persistence, and the infrastructure layer provides cross-cutting concerns like logging and security. This separation makes the system easier to understand, test, and modify.</p>
+                            
+                            <p><strong>Clear interfaces</strong> between components are essential for maintainability. Interfaces should be well-defined, documented, and stable. They should hide implementation details and expose only what's necessary for other components to function. This principle applies at all levels: between classes, between modules, between services, and between systems. Good interfaces make it easier to change implementations without affecting other parts of the system.</p>
+                            
+                            <p><strong>Code quality practices</strong> include consistent naming conventions, proper documentation, comprehensive testing, and code reviews. Naming conventions should be descriptive and consistent across the codebase. Documentation should explain not just what the code does, but why it does it that way. Testing should cover both unit tests (testing individual components) and integration tests (testing how components work together). Code reviews help catch issues early and ensure that code follows established patterns and standards.</p>
+                            
+                            <p><strong>Refactoring</strong> is the process of improving code structure without changing its behavior. Regular refactoring helps maintain code quality over time by removing duplication, simplifying complex logic, and improving readability. Refactoring should be done incrementally and should always be accompanied by tests to ensure that behavior doesn't change.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Clean Code and Maintainability</h5>
+                                <p>For detailed guidance on writing maintainable code, we recommend <strong>"Clean Code: A Handbook of Agile Software Craftsmanship" by Robert C. Martin</strong> (available on Amazon). This book provides comprehensive coverage of clean code principles, including naming conventions, function design, error handling, and testing strategies.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>🛡️ Resilient Systems: Preparing for the Inevitable</h4>
+                            <p>Resilience is the ability of a system to continue functioning correctly in the face of failures. In distributed systems, failures are not just possible—they're inevitable. Hardware fails, networks become congested, services become unavailable, and bugs are introduced. A resilient system is designed with these realities in mind and includes mechanisms to detect, isolate, and recover from failures automatically.</p>
+                            
+                            <p><strong>Circuit breakers</strong> are a pattern for preventing cascading failures. When a service is failing repeatedly, the circuit breaker "opens" and stops sending requests to that service for a period of time. This prevents the failure from spreading to other parts of the system and gives the failing service time to recover. Circuit breakers can be implemented at multiple levels: between services, between applications and databases, and between clients and external APIs.</p>
+                            
+                            <p><strong>Retry logic</strong> handles transient failures by automatically retrying failed operations. Retry strategies should be exponential backoff (increasing delays between retries) to avoid overwhelming failing services. Retry logic should distinguish between transient failures (like network timeouts) and permanent failures (like authentication errors) to avoid retrying operations that are guaranteed to fail.</p>
+                            
+                            <p><strong>Graceful degradation</strong> allows the system to continue providing service even when some components are unavailable. This might involve serving cached data when the database is unavailable, providing basic functionality when advanced features are down, or showing appropriate error messages when services are temporarily unavailable. The key is to maintain a good user experience even during partial failures.</p>
+                            
+                            <p><strong>Health checks and monitoring</strong> are essential for detecting failures quickly and accurately. Health checks should verify that each component is functioning correctly and responding within acceptable time limits. Monitoring should track key metrics like response times, error rates, and resource utilization. Alerts should be configured to notify operators when thresholds are exceeded or when failures are detected.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: System Resilience and Fault Tolerance</h5>
+                                <p>For comprehensive coverage of resilience patterns and fault tolerance, we recommend <strong>"Release It!: Design and Deploy Production-Ready Software" by Michael T. Nygard</strong> (available on Amazon). This book provides detailed guidance on building resilient systems, including practical patterns for handling failures and maintaining system stability.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>🔒 Trust Boundaries: Security by Design</h4>
+                            <p>Trust boundaries are the points in your system where data transitions between different security contexts. These boundaries are critical security control points where you must implement appropriate security measures to protect against malicious attacks, data breaches, and unauthorized access. Understanding and properly implementing trust boundaries is essential for building secure systems.</p>
+                            
+                            <p><strong>Input validation</strong> is the first line of defense at trust boundaries. All user input should be validated for type, length, format, and business rules. This includes checking for common attack vectors like SQL injection, cross-site scripting (XSS), and command injection. Validation should happen as close to the boundary as possible, before the data is processed by business logic. The principle of "never trust user input" should be applied consistently throughout the system.</p>
+                            
+                            <p><strong>Authentication and authorization</strong> ensure that only authorized users can access specific resources. Authentication verifies the identity of users, while authorization determines what actions they're allowed to perform. These controls should be implemented at every trust boundary, not just at the system's entry points. In distributed systems, this often involves implementing token-based authentication and role-based access control.</p>
+                            
+                            <p><strong>Data sanitization</strong> involves cleaning and validating data to remove potentially malicious content. This includes escaping special characters, removing HTML tags, and validating file uploads. Data sanitization should be applied to all data that crosses trust boundaries, including data received from external APIs, file uploads, and user input.</p>
+                            
+                            <p><strong>Defense in depth</strong> involves implementing multiple layers of security controls. This means not relying on a single security measure, but implementing multiple complementary controls. For example, you might implement input validation, authentication, authorization, and encryption at different layers of your system. This approach ensures that if one security control fails, others will still provide protection.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Application Security</h5>
+                                <p>For comprehensive coverage of trust boundaries and application security, we recommend <strong>"The Web Application Hacker's Handbook: Finding and Exploiting Security Flaws" by Dafydd Stuttard and Marcus Pinto</strong> (available on Amazon). This book provides detailed explanations of security vulnerabilities and how to implement proper security controls at trust boundaries.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Next Steps Section -->
+                <section id="next-steps" class="content-section">
+                    <h2>Next Steps</h2>
+                    
+                    <div class="next-steps-content">
+                        <h3>Preparation for Chapter 7</h3>
+                        <p>Before moving to the next chapter, practice:</p>
+                        <ol>
+                            <li>Design a system architecture diagram for a real application</li>
+                            <li>Implement layered architecture in a Flask application</li>
+                            <li>Set up trust boundaries and input validation</li>
+                            <li>Create data flow diagrams for complex processes</li>
+                            <li>Plan for scalability and resilience in your designs</li>
+                        </ol>
+                        
+                        <div class="navigation-buttons">
+                            <a href="05-advanced-data-modeling.html" class="btn btn-secondary">← Previous Chapter</a>
+                            <a href="07-building-fullstack-flask.html" class="btn btn-primary">Next Chapter →</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cross-References Section -->
+                <section id="cross-references" class="content-section">
+                    <h2>Cross-References</h2>
+                    
+                    <div class="references-grid">
+                        <div class="reference-card">
+                            <h4>Related Chapters</h4>
+                            <ul>
+                                <li><a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling & Storage Strategy</a></li>
+                                <li><a href="07-building-fullstack-flask.html">Chapter 7: Building a Full-Stack App with Flask</a></li>
+                                <li><a href="12-security-fundamentals.html">Chapter 12: Security Fundamentals</a></li>
+                            </ul>
+                        </div>
+                        <div class="reference-card">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://flask.palletsprojects.com/" target="_blank">Flask Documentation</a></li>
+                                <li><a href="https://microservices.io/" target="_blank">Microservices Patterns</a></li>
+                                <li><a href="https://martinfowler.com/articles/microservices.html" target="_blank">Martin Fowler on Microservices</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Conclusion Section -->
+                <section id="conclusion" class="content-section">
+                    <h2>Conclusion</h2>
+                    
+                    <div class="conclusion-content">
+                        <p>System design is the bridge between your database and the real world. By following the three pillars of scalability, maintainability, and resilience, you can create systems that grow with your business and withstand the challenges of production environments.</p>
+                        
+                        <div class="key-message">
+                            <blockquote>
+                                <p>Remember: Good system design is not about building the perfect system today, but about building a system that can evolve and adapt to tomorrow's requirements.</p>
+                            </blockquote>
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            <!-- Chapter Navigation -->
+            <nav class="chapter-navigation">
+                <div class="nav-buttons">
+                    <a href="05-advanced-data-modeling.html" class="btn btn-secondary">← Previous Chapter</a>
+                    <a href="07-building-fullstack-flask.html" class="btn btn-primary">Next Chapter →</a>
+                </div>
+                <div class="chapter-list">
+                    <a href="01-setting-up-python.html" class="chapter-link">Chapter 1</a>
+                    <a href="02-using-chatgpt.html" class="chapter-link">Chapter 2</a>
+                    <a href="03-using-cursor.html" class="chapter-link">Chapter 3</a>
+                    <a href="04-database-design-fundamentals.html" class="chapter-link">Chapter 4</a>
+                    <a href="05-advanced-data-modeling.html" class="chapter-link">Chapter 5</a>
+                    <a href="06-systems-design-principles.html" class="current-chapter">Chapter 6</a>
+                    <a href="07-building-fullstack-flask.html" class="chapter-link">Chapter 7</a>
+                </div>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design & Python Development</h4>
+                    <p>A comprehensive guide to building scalable applications with Python and modern web technologies.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">GitHub</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design & Python Development. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

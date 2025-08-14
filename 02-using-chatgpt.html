@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 2: Using ChatGPT to Design and Plan Code - System Design & Python Development</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <script src="js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>System Design & Python</h1>
+                <span class="subtitle">Complete Development Guide</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <div class="nav-dropdown">
+                    <button class="nav-link dropdown-toggle">Chapters</button>
+                    <div class="dropdown-content">
+                        <a href="01-setting-up-python.html">Chapter 1: Setting Up Python</a>
+                        <a href="02-using-chatgpt.html">Chapter 2: Using ChatGPT</a>
+                        <a href="03-using-cursor.html">Chapter 3: Using Cursor</a>
+                        <a href="04-database-design-fundamentals.html">Chapter 4: Database Design</a>
+                        <a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling</a>
+                        <a href="06-systems-design-principles.html">Chapter 6: Systems Design</a>
+                        <a href="07-building-fullstack-flask.html">Chapter 7: Building Flask Apps</a>
+                        <a href="08-network-troubleshooting.html">Chapter 8: Network Troubleshooting</a>
+                        <a href="09-application-debugging.html">Chapter 9: Application Debugging</a>
+                        <a href="10-algorithmic-thinking.html">Chapter 10: Algorithmic Thinking</a>
+                        <a href="11-testing-strategies.html">Chapter 11: Testing Strategies</a>
+                        <a href="12-security-fundamentals.html">Chapter 12: Security Fundamentals</a>
+                        <a href="13-deployment-devops.html">Chapter 13: Deployment & DevOps</a>
+                        <a href="14-advanced-topics.html">Chapter 14: Advanced Topics</a>
+                    </div>
+                </div>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Chapter Header -->
+            <header class="chapter-header">
+                <div class="chapter-meta">
+                    <span class="chapter-number">Chapter 2</span>
+                    <h1 class="chapter-title">Using ChatGPT to Design and Plan Code</h1>
+                    <div class="chapter-info">
+                        <span class="version">Version: 1.0.0</span>
+                        <span class="last-updated">Last Updated: 2024-12-19</span>
+                        <span class="reading-time">Reading Time: ~35 minutes</span>
+                    </div>
+                </div>
+                <div class="chapter-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="progress-text">0% Complete</span>
+                </div>
+            </header>
+
+            <!-- Table of Contents -->
+            <aside class="table-of-contents">
+                <h3>Table of Contents</h3>
+                <nav class="toc-nav">
+                    <ul>
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#critical-configurations">Critical Configurations</a></li>
+                        <li><a href="#effective-prompting">Effective Prompting</a></li>
+                        <li><a href="#system-architecture">System Architecture Design</a></li>
+                        <li><a href="#database-design">Database Design</a></li>
+                        <li><a href="#code-generation">Code Generation</a></li>
+                        <li><a href="#debugging">Debugging with AI</a></li>
+                        <li><a href="#hands-on-exercise">Hands-On Exercise</a></li>
+                        <li><a href="#key-takeaways">Key Takeaways</a></li>
+                        <li><a href="#next-steps">Next Steps</a></li>
+                        <li><a href="#cross-references">Cross-References</a></li>
+                        <li><a href="#conclusion">Conclusion</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Chapter Content -->
+            <article class="chapter-content">
+                <!-- Overview Section -->
+                <section id="overview" class="content-section">
+                    <h2>Overview</h2>
+                    
+                    <div class="overview-content">
+                        <p>ChatGPT has revolutionized how developers approach coding, design, and problem-solving. This chapter explores how to effectively integrate ChatGPT into your Python development workflow, from initial design and planning to debugging and optimization. You'll learn how to craft effective prompts, validate AI-generated code, and use ChatGPT as a collaborative development partner.</p>
+                        
+                        <p>We'll cover practical techniques for using ChatGPT in system design, database modeling, API development, and testing. You'll discover how to leverage AI assistance while maintaining code quality and understanding the underlying principles. These skills will significantly accelerate your development process and improve your problem-solving capabilities.</p>
+                        
+                        <div class="key-points">
+                            <h4>What You'll Learn:</h4>
+                            <ul>
+                                <li>Effective prompt engineering for development tasks</li>
+                                <li>System design and architecture planning with AI</li>
+                                <li>Database modeling and optimization strategies</li>
+                                <li>Code generation and review techniques</li>
+                                <li>Debugging and troubleshooting with AI assistance</li>
+                                <li>Best practices for AI-assisted development</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Visual Content Section -->
+                <section id="visual-content" class="content-section">
+                    <h2>ChatGPT Development Workflow</h2>
+                    
+                    <!-- Dataset Table -->
+                    <div class="dataset-table">
+                        <h4>ChatGPT Development Use Cases & Prompts</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Development Phase</th>
+                                    <th>Use Case</th>
+                                    <th>Prompt Strategy</th>
+                                    <th>Expected Output</th>
+                                    <th>Validation Method</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Planning</td>
+                                    <td>System architecture design</td>
+                                    <td>Context + requirements + constraints</td>
+                                    <td>Architecture diagram, component list</td>
+                                    <td>Review with team, feasibility check</td>
+                                </tr>
+                                <tr>
+                                    <td>Design</td>
+                                    <td>Database schema design</td>
+                                    <td>Data requirements + relationships + scale</td>
+                                    <td>ERD, table definitions, indexes</td>
+                                    <td>Normalization check, performance review</td>
+                                </tr>
+                                <tr>
+                                    <td>Implementation</td>
+                                    <td>Code generation</td>
+                                    <td>Function spec + language + patterns</td>
+                                    <td>Working code with comments</td>
+                                    <td>Unit tests, code review</td>
+                                </tr>
+                                <tr>
+                                    <td>Testing</td>
+                                    <td>Test case generation</td>
+                                    <td>Function spec + edge cases + scenarios</td>
+                                    <td>Test cases, mock data</td>
+                                    <td>Test execution, coverage analysis</td>
+                                </tr>
+                                <tr>
+                                    <td>Debugging</td>
+                                    <td>Error analysis</td>
+                                    <td>Error message + context + code</td>
+                                    <td>Root cause, solution steps</td>
+                                    <td>Solution implementation, verification</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mermaid Diagram -->
+                    <div class="mermaid">
+                        <h4>AI-Assisted Development Process</h4>
+                        <div class="mermaid-diagram">
+                            graph TD
+                                A[Define Problem] --> B[Craft Prompt]
+                                B --> C[Generate Response]
+                                C --> D[Review Output]
+                                D --> E{Quality Check}
+                                E -->|Pass| F[Implement Solution]
+                                E -->|Fail| G[Refine Prompt]
+                                G --> C
+                                F --> H[Test Implementation]
+                                H --> I{Test Results}
+                                I -->|Pass| J[Document Solution]
+                                I -->|Fail| K[Debug Issues]
+                                K --> L[Ask ChatGPT for Help]
+                                L --> M[Get Debugging Tips]
+                                M --> N[Apply Fixes]
+                                N --> H
+                                J --> O[Iterate & Improve]
+                                
+                                style A fill:#e1f5fe
+                                style B fill:#f3e5f5
+                                style C fill:#e8f5e8
+                                style D fill:#fff3e0
+                                style E fill:#fce4ec
+                                style F fill:#e0f2f1
+                                style H fill:#f1f8e9
+                                style I fill:#e8eaf6
+                                style J fill:#fafafa
+                                style K fill:#fff8e1
+                                style L fill:#f3e5f5
+                                style M fill:#e8f5e8
+                                style N fill:#c8e6c9
+                                style O fill:#e1f5fe
+                        </div>
+                    </div>
+
+                    <!-- Variable Definitions -->
+                    <div class="variable-definitions">
+                        <h4>Key ChatGPT Configuration & Prompt Variables</h4>
+                        <div class="var-grid">
+                            <div class="var-card">
+                                <h5>OPENAI_API_KEY</h5>
+                                <code>sk-...your-api-key...</code>
+                                <p>Authentication key for OpenAI API access. Required for programmatic ChatGPT integration and custom applications.</p>
+                                <a href="https://platform.openai.com/docs/api-reference/authentication" target="_blank">OpenAI API Authentication →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>CHATGPT_MODEL</h5>
+                                <code>gpt-4, gpt-3.5-turbo</code>
+                                <p>Specifies which ChatGPT model to use. Different models have varying capabilities and cost structures.</p>
+                                <a href="https://platform.openai.com/docs/models" target="_blank">OpenAI Models Documentation →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>MAX_TOKENS</h5>
+                                <code>4000, 8000, 32000</code>
+                                <p>Maximum number of tokens in the response. Controls response length and API cost.</p>
+                                <a href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-max_tokens" target="_blank">Token Limits Documentation →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>TEMPERATURE</h5>
+                                <code>0.0 - 2.0</code>
+                                <p>Controls randomness in responses. Lower values are more deterministic, higher values more creative.</p>
+                                <a href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature" target="_blank">Temperature Parameter →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>SYSTEM_PROMPT</h5>
+                                <code>You are a Python expert...</code>
+                                <p>Defines the AI's role and behavior. Sets context and constraints for all interactions.</p>
+                                <a href="https://platform.openai.com/docs/guides/gpt/chat-completions-api" target="_blank">Chat Completions API →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>CONTEXT_WINDOW</h5>
+                                <code>4096, 8192, 32768</code>
+                                <p>Maximum tokens for input context. Determines how much information can be included in prompts.</p>
+                                <a href="https://platform.openai.com/docs/models/gpt-4" target="_blank">GPT-4 Context Window →</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Critical Configurations Section -->
+                <section id="critical-configurations" class="content-section">
+                    <h2>Critical Configurations</h2>
+                    
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>AI Tools</h4>
+                            <ul>
+                                <li>ChatGPT Plus (recommended)</li>
+                                <li>Claude or other AI assistants</li>
+                                <li>GitHub Copilot (optional)</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Prompting Framework</h4>
+                            <ul>
+                                <li>Context provision</li>
+                                <li>Clear requirements</li>
+                                <li>Output format specification</li>
+                                <li>Iterative refinement</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Integration Points</h4>
+                            <ul>
+                                <li>System design phase</li>
+                                <li>Database modeling</li>
+                                <li>Code generation</li>
+                                <li>Debugging sessions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Effective Prompting Section -->
+                <section id="effective-prompting" class="content-section">
+                    <h2>Effective Prompting Techniques</h2>
+                    
+                    <h3>The Five-Step Prompting Framework</h3>
+                    <p>Effective prompting is the key to getting useful responses from ChatGPT. Here's a proven framework:</p>
+
+                    <div class="code-example">
+                        <h4>Example: Task Management System Prompt</h4>
+                        <pre><code class="language-text line-numbers">I am building a task-tracking web app in Flask for small teams.
+
+Requirements:
+- Python 3.12, Flask, SQLAlchemy
+- SQLite database for development
+- CRUD operations for tasks
+- Authentication with Flask-Login
+- Routes for creating, viewing, updating, and deleting tasks
+- Each task should have: title, description, status, assigned user, due date
+
+Generate the SQLAlchemy models and Flask routes, and explain your design choices.</code></pre>
+                        <div class="code-explanation">
+                            <p>This prompt provides context, specific requirements, technology constraints, and asks for explanation of design decisions.</p>
+                        </div>
+                    </div>
+
+                    <h3>Prompt Structure Best Practices</h3>
+                    <div class="config-card">
+                        <h4>Components of a Good Prompt</h4>
+                        <ol>
+                            <li><strong>Context</strong>: What you're building and why</li>
+                            <li><strong>Requirements</strong>: Specific features and constraints</li>
+                            <li><strong>Technology Stack</strong>: Languages, frameworks, databases</li>
+                            <li><strong>Output Format</strong>: How you want the response structured</li>
+                            <li><strong>Next Steps</strong>: What you'll do with the response</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- System Architecture Section -->
+                <section id="system-architecture" class="content-section">
+                    <h2>System Architecture Design</h2>
+                    
+                    <h3>Using ChatGPT for Architecture Decisions</h3>
+                    <p>ChatGPT can help you design system architecture by considering scalability, maintainability, and performance requirements.</p>
+
+                    <div class="code-example">
+                        <h4>Architecture Design Prompt</h4>
+                        <pre><code class="language-text line-numbers">I need to design a scalable e-commerce system that can handle:
+- 10,000 concurrent users
+- Product catalog with 100,000+ items
+- Real-time inventory management
+- Payment processing
+- Order tracking
+
+Technology constraints: Python, Flask, PostgreSQL
+Budget: Moderate (can use cloud services)
+
+Design the system architecture with:
+1. Component diagram
+2. Database schema
+3. API endpoints
+4. Scalability considerations
+5. Security measures</code></pre>
+                    </div>
+
+                    <h3>Architecture Patterns</h3>
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Layered Architecture</h4>
+                            <ul>
+                                <li>Presentation Layer</li>
+                                <li>Application Layer</li>
+                                <li>Data Layer</li>
+                                <li>Infrastructure Layer</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Microservices</h4>
+                            <ul>
+                                <li>Service decomposition</li>
+                                <li>API gateways</li>
+                                <li>Service discovery</li>
+                                <li>Data consistency</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- ChatGPT Workflow Diagram -->
+                    <div class="visual-content">
+                        <h3>ChatGPT-Assisted Development Workflow</h3>
+                        
+                        <!-- Dataset Table -->
+                        <div class="dataset-table">
+                            <h4>AI Development Process Dataset</h4>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Development Phase</th>
+                                        <th>ChatGPT Role</th>
+                                        <th>Input Type</th>
+                                        <th>Output Type</th>
+                                        <th>Success Rate</th>
+                                        <th>Time Saved</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>System Design</td>
+                                        <td>Architecture Planning</td>
+                                        <td>Requirements Doc</td>
+                                        <td>Architecture Diagram</td>
+                                        <td>85%</td>
+                                        <td>60%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Database Design</td>
+                                        <td>Schema Generation</td>
+                                        <td>Entity List</td>
+                                        <td>ERD + SQLAlchemy Models</td>
+                                        <td>90%</td>
+                                        <td>70%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Code Generation</td>
+                                        <td>Boilerplate Creation</td>
+                                        <td>API Spec</td>
+                                        <td>Flask Routes + Models</td>
+                                        <td>80%</td>
+                                        <td>50%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Debugging</td>
+                                        <td>Error Analysis</td>
+                                        <td>Error Stack Trace</td>
+                                        <td>Solution + Explanation</td>
+                                        <td>75%</td>
+                                        <td>40%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Testing</td>
+                                        <td>Test Case Generation</td>
+                                        <td>Function Code</td>
+                                        <td>Unit Tests</td>
+                                        <td>70%</td>
+                                        <td>45%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Documentation</td>
+                                        <td>Doc Generation</td>
+                                        <td>Code Comments</td>
+                                        <td>API Documentation</td>
+                                        <td>95%</td>
+                                        <td>80%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mermaid Diagram -->
+                        <div class="diagram-container">
+                            <h4>AI-Assisted Development Process Flow</h4>
+                            <div class="mermaid">
+                                flowchart TD
+                                    A[Project Requirements] --> B[ChatGPT Analysis]
+                                    B --> C[System Architecture Design]
+                                    C --> D[Database Schema Design]
+                                    D --> E[API Endpoint Planning]
+                                    E --> F[Code Generation Phase]
+                                    
+                                    F --> G[Flask App Structure]
+                                    F --> H[SQLAlchemy Models]
+                                    F --> I[Authentication System]
+                                    F --> J[CRUD Operations]
+                                    
+                                    G --> K[Implementation Review]
+                                    H --> K
+                                    I --> K
+                                    J --> K
+                                    
+                                    K --> L[Code Testing]
+                                    L --> M{Code Working?}
+                                    M -->|No| N[Debug with ChatGPT]
+                                    N --> O[Error Analysis]
+                                    O --> P[Solution Generation]
+                                    P --> Q[Code Fixes]
+                                    Q --> L
+                                    
+                                    M -->|Yes| R[Performance Optimization]
+                                    R --> S[Documentation Generation]
+                                    S --> T[Deployment Planning]
+                                    T --> U[Project Complete]
+                                    
+                                    style A fill:#e3f2fd
+                                    style U fill:#c8e6c9
+                                    style M fill:#ffecb3
+                                    style N fill:#ffcdd2
+                            </div>
+                        </div>
+
+                        <!-- Variable Definitions -->
+                        <div class="variable-definitions">
+                            <h4>ChatGPT Integration Variables & Configuration</h4>
+                            <div class="var-grid">
+                                <div class="var-card">
+                                    <h5>API Configuration</h5>
+                                    <code>OPENAI_API_KEY = "sk-..."</code>
+                                    <p>OpenAI API key for programmatic access</p>
+                                    <a href="https://platform.openai.com/docs/api-reference" target="_blank">📖 OpenAI API Reference</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Model Selection</h5>
+                                    <code>model = "gpt-4"</code>
+                                    <p>AI model for code generation and analysis</p>
+                                    <a href="https://platform.openai.com/docs/models" target="_blank">📖 OpenAI Models</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Temperature Setting</h5>
+                                    <code>temperature = 0.3</code>
+                                    <p>Controls creativity vs consistency in responses</p>
+                                    <a href="https://platform.openai.com/docs/api-reference/completions/create#completions-create-temperature" target="_blank">📖 Temperature Parameter</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Max Tokens</h5>
+                                    <code>max_tokens = 4000</code>
+                                    <p>Maximum response length for code generation</p>
+                                    <a href="https://platform.openai.com/docs/api-reference/completions/create#completions-create-max_tokens" target="_blank">📖 Max Tokens Parameter</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Prompt Template</h5>
+                                    <code>PROMPT_TEMPLATE = "Context: {context}\nRequirements: {requirements}\nOutput: {format}"</code>
+                                    <p>Structured prompt template for consistent results</p>
+                                    <a href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank">📖 Prompt Engineering Guide</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Response Validation</h5>
+                                    <code>VALIDATION_RULES = ["syntax_check", "security_scan", "performance_review"]</code>
+                                    <p>Validation rules for generated code quality</p>
+                                    <a href="https://platform.openai.com/docs/guides/safety-best-practices" target="_blank">📖 Safety Best Practices</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Database Design Section -->
+                <section id="database-design" class="content-section">
+                    <h2>Database Design with AI</h2>
+                    
+                    <h3>Entity-Relationship Design</h3>
+                    <p>ChatGPT can help you design database schemas by understanding your domain model and suggesting optimal relationships.</p>
+
+                    <div class="code-example">
+                        <h4>Database Design Prompt</h4>
+                        <pre><code class="language-text line-numbers">Design a database schema for a project management system with:
+
+Entities:
+- Users (employees, managers)
+- Projects (with budgets, timelines)
+- Tasks (assigned to users, part of projects)
+- Time entries (users log time on tasks)
+- Comments (on tasks and projects)
+
+Requirements:
+- Support for project hierarchies
+- Time tracking and reporting
+- User role management
+- Audit trail for changes
+
+Generate:
+1. ERD with relationships
+2. SQLAlchemy models
+3. Indexing strategy
+4. Sample queries for common operations</code></pre>
+                    </div>
+
+                    <h3>Normalization and Optimization</h3>
+                    <div class="config-card">
+                        <h4>Database Design Principles</h4>
+                        <ul>
+                            <li>Normalize to 3NF for data integrity</li>
+                            <li>Denormalize for performance when needed</li>
+                            <li>Use appropriate indexes</li>
+                            <li>Consider partitioning for large tables</li>
+                            <li>Plan for future growth</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Code Generation Section -->
+                <section id="code-generation" class="content-section">
+                    <h2>Code Generation and Boilerplate</h2>
+                    
+                    <h3>Generating Starter Code</h3>
+                    <p>ChatGPT excels at generating boilerplate code and starter templates for common patterns.</p>
+
+                    <div class="code-example">
+                        <h4>Flask Application Structure</h4>
+                        <pre><code class="language-python line-numbers"># Generated by ChatGPT
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
+from werkzeug.security import generate_password_hash, check_password_hash
+import os
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-key-change-in-production')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///app.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'auth.login'
+
+# Models
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128))
+    tasks = db.relationship('Task', backref='assigned_user', lazy=True)
+
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text)
+    status = db.Column(db.String(50), default='pending')
+    assigned_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    due_date = db.Column(db.DateTime)
+
+# Routes
+@app.route('/api/tasks', methods=['GET'])
+@login_required
+def get_tasks():
+    tasks = Task.query.all()
+    return jsonify([{
+        'id': task.id,
+        'title': task.title,
+        'status': task.status,
+        'assigned_user': task.assigned_user.username if task.assigned_user else None
+    } for task in tasks])
+
+if __name__ == '__main__':
+    app.run(debug=True)</code></pre>
+                    </div>
+                </section>
+
+                <!-- Debugging Section -->
+                <section id="debugging" class="content-section">
+                    <h2>Debugging with AI</h2>
+                    
+                    <h3>Error Analysis and Fixes</h3>
+                    <p>ChatGPT can help you debug code by analyzing error messages and suggesting fixes.</p>
+
+                    <div class="code-example">
+                        <h4>Debugging Prompt Example</h4>
+                        <pre><code class="language-text line-numbers">I'm getting this error in my Flask app:
+
+Traceback (most recent call last):
+  File "app.py", line 45, in <module>
+    db.create_all()
+  File "/venv/lib/python3.9/site-packages/flask_sqlalchemy/__init__.py", line 963, in create_all
+    self._execute_for_all_tables(app, bind, 'create_all')
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) table user already exists
+
+My code:
+[Include relevant code here]
+
+How do I fix this and prevent it in the future?</code></pre>
+                    </div>
+
+                    <!-- Interactive Demo: ChatGPT Debugging -->
+                    <div class="interactive-demo">
+                        <h3>Interactive Demo: ChatGPT Debugging</h3>
+                        <div class="demo-container">
+                            <div class="demo-controls">
+                                <button class="btn btn-primary" onclick="runChatGPTDemo()">Ask ChatGPT</button>
+                                <button class="btn btn-secondary" onclick="resetChatGPTDemo()">Reset</button>
+                            </div>
+                            <div class="demo-output">
+                                <pre id="chatgpt-demo-result">Click "Ask ChatGPT" to see how AI would debug this error...</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Performance Optimization</h3>
+                    <div class="config-card">
+                        <h4>Common Performance Issues</h4>
+                        <ul>
+                            <li>N+1 query problems</li>
+                            <li>Missing database indexes</li>
+                            <li>Inefficient algorithms</li>
+                            <li>Memory leaks</li>
+                            <li>Unnecessary database calls</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Hands-On Exercise Section -->
+                <section id="hands-on-exercise" class="content-section">
+                    <h2>Hands-On Exercise: AI-Assisted Project Planning</h2>
+                    
+                    <div class="exercise-container">
+                        <div class="exercise-header">
+                            <h3>Designing a Blog System with ChatGPT</h3>
+                            <div class="difficulty-badge">Intermediate</div>
+                        </div>
+                        
+                        <div class="exercise-content">
+                            <h4>Objective</h4>
+                            <p>Use ChatGPT to design and plan a complete blog system, then implement the core functionality.</p>
+                            
+                            <h4>Steps</h4>
+                            <ol>
+                                <li>Create a comprehensive prompt for the blog system</li>
+                                <li>Get ChatGPT to design the architecture</li>
+                                <li>Generate database models and API endpoints</li>
+                                <li>Implement the core functionality</li>
+                                <li>Test and refine the implementation</li>
+                            </ol>
+                            
+                            <div class="exercise-code">
+                                <h4>Sample Prompt</h4>
+                                <pre><code class="language-text line-numbers">Design a blog system with the following requirements:
+
+Features:
+- User registration and authentication
+- Create, edit, delete blog posts
+- Comment system on posts
+- Tag system for categorizing posts
+- Search functionality
+- Admin panel for managing users and content
+
+Technical requirements:
+- Flask backend with SQLAlchemy
+- RESTful API design
+- JWT authentication
+- PostgreSQL database
+- File upload for images
+
+Generate:
+1. System architecture diagram
+2. Database schema with relationships
+3. API endpoint specifications
+4. Flask application structure
+5. Security considerations</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Takeaways Section -->
+                <section id="key-takeaways" class="content-section">
+                    <h2>Key Takeaways</h2>
+                    
+                    <div class="takeaways-grid">
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">💬</div>
+                            <h4>Effective Prompting</h4>
+                            <p>Clear, specific prompts with context and requirements produce the best results from AI tools.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🏗️</div>
+                            <h4>Architecture Design</h4>
+                            <p>Use AI to explore different architectural patterns and make informed design decisions.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🗄️</div>
+                            <h4>Database Modeling</h4>
+                            <p>AI can help design optimal database schemas and suggest indexing strategies.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🔧</div>
+                            <h4>Code Generation</h4>
+                            <p>Generate boilerplate code and starter templates to accelerate development.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Next Steps Section -->
+                <section id="next-steps" class="content-section">
+                    <h2>Next Steps</h2>
+                    
+                    <div class="next-steps-content">
+                        <h3>Preparation for Chapter 3</h3>
+                        <p>Before moving to the next chapter, practice:</p>
+                        <ol>
+                            <li>Create prompts for different types of projects</li>
+                            <li>Use ChatGPT to design a simple application</li>
+                            <li>Generate and test code snippets</li>
+                            <li>Practice debugging with AI assistance</li>
+                            <li>Explore different architectural patterns</li>
+                        </ol>
+                        
+                        <div class="navigation-buttons">
+                            <a href="01-setting-up-python.html" class="btn btn-secondary">← Previous Chapter</a>
+                            <a href="03-using-cursor.html" class="btn btn-primary">Next Chapter →</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cross-References Section -->
+                <section id="cross-references" class="content-section">
+                    <h2>Cross-References</h2>
+                    
+                    <div class="references-grid">
+                        <div class="reference-card">
+                            <h4>Related Chapters</h4>
+                            <ul>
+                                <li><a href="03-using-cursor.html">Chapter 3: Using Cursor with Python for System Design</a></li>
+                                <li><a href="04-database-design-fundamentals.html">Chapter 4: Database Design Fundamentals</a></li>
+                                <li><a href="07-building-fullstack-flask.html">Chapter 7: Building a Full-Stack App with Flask</a></li>
+                            </ul>
+                        </div>
+                        <div class="reference-card">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://openai.com/chatgpt" target="_blank">ChatGPT Official Site</a></li>
+                                <li><a href="https://platform.openai.com/docs" target="_blank">OpenAI API Documentation</a></li>
+                                <li><a href="https://github.com/openai/openai-python" target="_blank">OpenAI Python Library</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Conclusion Section -->
+                <section id="conclusion" class="content-section">
+                    <h2>Conclusion</h2>
+                    
+                    <div class="conclusion-content">
+                        <p>ChatGPT is a powerful tool that can significantly enhance your development workflow when used effectively. By mastering the art of prompting and understanding how to integrate AI assistance into your development process, you can accelerate your learning and build better applications.</p>
+                        
+                        <div class="key-message">
+                            <blockquote>
+                                <p>Remember: ChatGPT is a tool to enhance your skills, not replace them. The best developers use AI to amplify their capabilities while maintaining their critical thinking and problem-solving abilities.</p>
+                            </blockquote>
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            <!-- Chapter Navigation -->
+            <nav class="chapter-navigation">
+                <div class="nav-buttons">
+                    <a href="01-setting-up-python.html" class="btn btn-secondary">← Previous Chapter</a>
+                    <a href="03-using-cursor.html" class="btn btn-primary">Next Chapter →</a>
+                </div>
+                <div class="chapter-list">
+                    <a href="01-setting-up-python.html" class="chapter-link">Chapter 1</a>
+                    <a href="02-using-chatgpt.html" class="current-chapter">Chapter 2</a>
+                    <a href="03-using-cursor.html" class="chapter-link">Chapter 3</a>
+                    <a href="04-database-design-fundamentals.html" class="chapter-link">Chapter 4</a>
+                    <a href="05-advanced-data-modeling.html" class="chapter-link">Chapter 5</a>
+                    <a href="06-systems-design-principles.html" class="chapter-link">Chapter 6</a>
+                    <a href="07-building-fullstack-flask.html" class="chapter-link">Chapter 7</a>
+                </div>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design & Python Development</h4>
+                    <p>A comprehensive guide to building scalable applications with Python and modern web technologies.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">GitHub</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design & Python Development. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

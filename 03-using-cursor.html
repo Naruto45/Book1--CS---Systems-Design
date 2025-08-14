@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 3: Using Cursor with Python for System Design - System Design & Python Development</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <script src="js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>System Design & Python</h1>
+                <span class="subtitle">Complete Development Guide</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <div class="nav-dropdown">
+                    <button class="nav-link dropdown-toggle">Chapters</button>
+                    <div class="dropdown-content">
+                        <a href="01-setting-up-python.html">Chapter 1: Setting Up Python</a>
+                        <a href="02-using-chatgpt.html">Chapter 2: Using ChatGPT</a>
+                        <a href="03-using-cursor.html">Chapter 3: Using Cursor</a>
+                        <a href="04-database-design-fundamentals.html">Chapter 4: Database Design</a>
+                        <a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling</a>
+                        <a href="06-systems-design-principles.html">Chapter 6: Systems Design</a>
+                        <a href="07-building-fullstack-flask.html">Chapter 7: Building Flask Apps</a>
+                        <a href="08-network-troubleshooting.html">Chapter 8: Network Troubleshooting</a>
+                        <a href="09-application-debugging.html">Chapter 9: Application Debugging</a>
+                        <a href="10-algorithmic-thinking.html">Chapter 10: Algorithmic Thinking</a>
+                        <a href="11-testing-strategies.html">Chapter 11: Testing Strategies</a>
+                        <a href="12-security-fundamentals.html">Chapter 12: Security Fundamentals</a>
+                        <a href="13-deployment-devops.html">Chapter 13: Deployment & DevOps</a>
+                        <a href="14-advanced-topics.html">Chapter 14: Advanced Topics</a>
+                    </div>
+                </div>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Chapter Header -->
+            <header class="chapter-header">
+                <div class="chapter-meta">
+                    <span class="chapter-number">Chapter 3</span>
+                    <h1 class="chapter-title">Using Cursor with Python for System Design & Task Tracking</h1>
+                    <div class="chapter-info">
+                        <span class="version">Version: 1.0.0</span>
+                        <span class="last-updated">Last Updated: 2024-12-19</span>
+                        <span class="reading-time">Reading Time: ~40 minutes</span>
+                    </div>
+                </div>
+                <div class="chapter-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="progress-text">0% Complete</span>
+                </div>
+            </header>
+
+            <!-- Table of Contents -->
+            <aside class="table-of-contents">
+                <h3>Table of Contents</h3>
+                <nav class="toc-nav">
+                    <ul>
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#critical-configurations">Critical Configurations</a></li>
+                        <li><a href="#installation-setup">Installation & Setup</a></li>
+                        <li><a href="#system-design-planning">System Design Planning</a></li>
+                        <li><a href="#ai-assisted-coding">AI-Assisted Coding</a></li>
+                        <li><a href="#task-tracking">Task Tracking Integration</a></li>
+                        <li><a href="#advanced-features">Advanced Features</a></li>
+                        <li><a href="#hands-on-exercise">Hands-On Exercise</a></li>
+                        <li><a href="#key-takeaways">Key Takeaways</a></li>
+                        <li><a href="#next-steps">Next Steps</a></li>
+                        <li><a href="#cross-references">Cross-References</a></li>
+                        <li><a href="#conclusion">Conclusion</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Chapter Content -->
+            <article class="chapter-content">
+                <!-- Overview Section -->
+                <section id="overview" class="content-section">
+                    <h2>Overview</h2>
+                    
+                    <div class="overview-content">
+                        <p>Cursor is a powerful AI-enhanced code editor that combines the best of modern development tools with advanced AI capabilities. This chapter explores how to leverage Cursor for Python development, system design, and project management. You'll learn how to use AI-assisted coding features, manage complex projects, and integrate Cursor into your development workflow.</p>
+                        
+                        <p>We'll cover Cursor's unique features like AI chat, code generation, refactoring assistance, and project-wide understanding. You'll discover how to use Cursor for database design, API development, testing, and debugging. These skills will help you become more productive and write higher-quality code with AI assistance.</p>
+                        
+                        <div class="key-points">
+                            <h4>What You'll Learn:</h4>
+                            <ul>
+                                <li>Cursor installation and configuration</li>
+                                <li>AI-assisted coding and refactoring</li>
+                                <li>Project management and organization</li>
+                                <li>Database design and modeling tools</li>
+                                <li>Testing and debugging with AI</li>
+                                <li>Team collaboration features</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Visual Content Section -->
+                <section id="visual-content" class="content-section">
+                    <h2>Cursor AI Development Workflow</h2>
+                    
+                    <!-- Dataset Table -->
+                    <div class="dataset-table">
+                        <h4>Cursor AI Features & Use Cases</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>Purpose</th>
+                                    <th>Activation Method</th>
+                                    <th>Best Use Case</th>
+                                    <th>Output Quality</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AI Chat</td>
+                                    <td>Interactive code assistance</td>
+                                    <td>Cmd/Ctrl + K</td>
+                                    <td>Code explanation, debugging</td>
+                                    <td>High - contextual</td>
+                                </tr>
+                                <tr>
+                                    <td>Code Generation</td>
+                                    <td>Generate code from comments</td>
+                                    <td>Cmd/Ctrl + L</td>
+                                    <td>Boilerplate, functions</td>
+                                    <td>High - follows patterns</td>
+                                </tr>
+                                <tr>
+                                    <td>Refactoring</td>
+                                    <td>Improve existing code</td>
+                                    <td>Select code + AI chat</td>
+                                    <td>Code optimization, cleanup</td>
+                                    <td>Medium - needs review</td>
+                                </tr>
+                                <tr>
+                                    <td>Documentation</td>
+                                    <td>Generate docstrings</td>
+                                    <td>Function + AI chat</td>
+                                    <td>API documentation</td>
+                                    <td>High - consistent</td>
+                                </tr>
+                                <tr>
+                                    <td>Testing</td>
+                                    <td>Generate test cases</td>
+                                    <td>Function + test request</td>
+                                    <td>Unit tests, edge cases</td>
+                                    <td>Medium - needs validation</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mermaid Diagram -->
+                    <div class="mermaid">
+                        <h4>Cursor AI Development Process</h4>
+                        <div class="mermaid-diagram">
+                            graph TD
+                                A[Open Project] --> B[Configure AI Settings]
+                                B --> C[Start Development]
+                                C --> D[Write Code/Comments]
+                                D --> E[Use AI Chat]
+                                E --> F[Generate Code]
+                                F --> G[Review Generated Code]
+                                G --> H{Quality Check}
+                                H -->|Accept| I[Integrate Code]
+                                H -->|Reject| J[Refine Request]
+                                J --> E
+                                I --> K[Test Implementation]
+                                K --> L{Test Pass?}
+                                L -->|Yes| M[Commit Changes]
+                                L -->|No| N[Debug with AI]
+                                N --> O[Get Debugging Help]
+                                O --> P[Apply Fixes]
+                                P --> K
+                                M --> Q[Continue Development]
+                                
+                                style A fill:#e1f5fe
+                                style B fill:#f3e5f5
+                                style C fill:#e8f5e8
+                                style D fill:#fff3e0
+                                style E fill:#fce4ec
+                                style F fill:#e0f2f1
+                                style G fill:#f1f8e9
+                                style H fill:#e8eaf6
+                                style I fill:#fafafa
+                                style K fill:#fff8e1
+                                style L fill:#f3e5f5
+                                style M fill:#e8f5e8
+                                style N fill:#c8e6c9
+                                style O fill:#e1f5fe
+                                style P fill:#f3e5f5
+                                style Q fill:#e8f5e8
+                        </div>
+                    </div>
+
+                    <!-- Variable Definitions -->
+                    <div class="variable-definitions">
+                        <h4>Key Cursor Configuration & AI Variables</h4>
+                        <div class="var-grid">
+                            <div class="var-card">
+                                <h5>CURSOR_API_KEY</h5>
+                                <code>cursor_...your-api-key...</code>
+                                <p>Authentication key for Cursor AI features. Required for accessing advanced AI capabilities and cloud features.</p>
+                                <a href="https://cursor.sh/docs" target="_blank">Cursor Documentation →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>AI_MODEL</h5>
+                                <code>gpt-4, claude-3, gpt-3.5-turbo</code>
+                                <p>Specifies which AI model Cursor uses for code generation and assistance. Affects response quality and speed.</p>
+                                <a href="https://cursor.sh/docs/ai-models" target="_blank">Cursor AI Models →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>CONTEXT_LENGTH</h5>
+                                <code>8192, 32768, 128000</code>
+                                <p>Maximum context window for AI interactions. Determines how much code and conversation history is considered.</p>
+                                <a href="https://cursor.sh/docs/context" target="_blank">Context Management →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>TEMPERATURE</h5>
+                                <code>0.0 - 1.0</code>
+                                <p>Controls creativity vs consistency in AI responses. Lower values for precise code, higher for creative solutions.</p>
+                                <a href="https://cursor.sh/docs/settings" target="_blank">Cursor Settings →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>PROJECT_CONTEXT</h5>
+                                <code>true, false</code>
+                                <p>Enables project-wide context understanding. Allows AI to reference files and understand project structure.</p>
+                                <a href="https://cursor.sh/docs/project-context" target="_blank">Project Context →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>AUTO_SAVE</h5>
+                                <code>true, false</code>
+                                <p>Automatically saves files during AI-assisted editing. Prevents loss of work during code generation.</p>
+                                <a href="https://cursor.sh/docs/auto-save" target="_blank">Auto Save Settings →</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Critical Configurations Section -->
+                <section id="critical-configurations" class="content-section">
+                    <h2>Critical Configurations</h2>
+                    
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Cursor Setup</h4>
+                            <ul>
+                                <li>Cursor IDE installation</li>
+                                <li>Python interpreter configuration</li>
+                                <li>Git integration setup</li>
+                                <li>AI model selection</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Project Structure</h4>
+                            <ul>
+                                <li>/docs folder for design documents</li>
+                                <li>Task tracking integration</li>
+                                <li>Code organization patterns</li>
+                                <li>Version control workflow</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>AI Features</h4>
+                            <ul>
+                                <li>Code completion and generation</li>
+                                <li>Inline AI assistance</li>
+                                <li>Code explanation and refactoring</li>
+                                <li>Bug detection and fixes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Installation & Setup Section -->
+                <section id="installation-setup" class="content-section">
+                    <h2>Installation & Setup</h2>
+                    
+                    <h3>Installing Cursor</h3>
+                    <p>Cursor is built on VS Code but includes advanced AI capabilities. Here's how to set it up:</p>
+
+                    <div class="code-example">
+                        <h4>Installation Steps</h4>
+                        <pre><code class="language-bash line-numbers"># Download Cursor from https://cursor.sh
+# Install on macOS
+brew install --cask cursor
+
+# Install on Windows
+# Download installer from cursor.sh
+
+# Install on Linux
+# Download .deb or .rpm package</code></pre>
+                        <div class="code-explanation">
+                            <p>Cursor is available for all major platforms and integrates seamlessly with your existing development environment.</p>
+                        </div>
+                    </div>
+
+                    <h3>Configuring Python Environment</h3>
+                    <div class="code-example">
+                        <h4>Python Interpreter Setup</h4>
+                        <pre><code class="language-json line-numbers">// settings.json
+{
+    "python.defaultInterpreterPath": "/path/to/your/python",
+    "python.terminal.activateEnvironment": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.provider": "black"
+}</code></pre>
+                    </div>
+
+                    <h3>Essential Extensions</h3>
+                    <div class="config-card">
+                        <h4>Recommended Extensions</h4>
+                        <ul>
+                            <li><strong>Python</strong> - Microsoft's Python extension</li>
+                            <li><strong>Pylance</strong> - Advanced Python language support</li>
+                            <li><strong>GitLens</strong> - Enhanced Git capabilities</li>
+                            <li><strong>Thunder Client</strong> - API testing</li>
+                            <li><strong>Auto Rename Tag</strong> - HTML/XML tag management</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- System Design Planning Section -->
+                <section id="system-design-planning" class="content-section">
+                    <h2>System Design Planning</h2>
+                    
+                    <h3>Using /docs Folder for Design</h3>
+                    <p>Cursor excels at helping you plan and document your system architecture. Create a `/docs` folder in your project for design documents.</p>
+
+                    <div class="code-example">
+                        <h4>System Design Document Template</h4>
+                        <pre><code class="language-markdown line-numbers"># System Architecture - [Project Name]
+
+## Overview
+Brief description of what the system does and its main components.
+
+## Technology Stack
+- **Backend**: Python Flask
+- **Database**: PostgreSQL with SQLAlchemy ORM
+- **Authentication**: Flask-Login with JWT
+- **Frontend**: React.js (if applicable)
+- **Deployment**: Docker on AWS/GCP
+
+## Architecture Diagram
+[Include system architecture diagram]
+
+## Database Schema
+[Include ERD or database schema]
+
+## API Endpoints
+[Document all API endpoints]
+
+## Security Considerations
+[Security measures and best practices]
+
+## Performance Requirements
+[Scalability and performance targets]</code></pre>
+                    </div>
+
+                    <h3>AI-Assisted Design Planning</h3>
+                    <div class="config-card">
+                        <h4>Design Planning Workflow</h4>
+        <ol>
+            <li>Create project structure with `/docs` folder</li>
+            <li>Use Cursor's AI to generate initial design documents</li>
+            <li>Iterate on design with AI assistance</li>
+            <li>Link design documents to implementation</li>
+            <li>Update documentation as you develop</li>
+        </ol>
+    </div>
+                </section>
+
+                <!-- AI-Assisted Coding Section -->
+                <section id="ai-assisted-coding" class="content-section">
+                    <h2>AI-Assisted Coding</h2>
+                    
+                    <h3>Code Generation with Cursor</h3>
+                    <p>Cursor's AI can help you generate code, refactor existing code, and explain complex implementations.</p>
+
+                    <div class="code-example">
+                        <h4>Using Cmd+K for Code Generation</h4>
+                        <pre><code class="language-python line-numbers"># Type Cmd+K (Mac) or Ctrl+K (Windows/Linux)
+# Then describe what you want to generate:
+
+# "Create a Flask route for user registration with validation"
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    
+    # Validate required fields
+    required_fields = ['username', 'email', 'password']
+    for field in required_fields:
+        if field not in data:
+            return jsonify({'error': f'Missing required field: {field}'}), 400
+    
+    # Check if user already exists
+    if User.query.filter_by(username=data['username']).first():
+        return jsonify({'error': 'Username already exists'}), 409
+    
+    # Create new user
+    user = User(
+        username=data['username'],
+        email=data['email'],
+        password_hash=generate_password_hash(data['password'])
+    )
+    
+    db.session.add(user)
+    db.session.commit()
+    
+    return jsonify({'message': 'User registered successfully'}), 201</code></pre>
+                    </div>
+
+                    <h3>Inline AI Assistance</h3>
+                    <div class="config-card">
+                        <h4>AI Features in Cursor</h4>
+                        <ul>
+                            <li><strong>Code Completion</strong> - Intelligent code suggestions</li>
+                            <li><strong>Inline Chat</strong> - Ask questions about your code</li>
+                            <li><strong>Code Explanation</strong> - Understand complex code</li>
+                            <li><strong>Refactoring</strong> - AI-assisted code improvement</li>
+                            <li><strong>Bug Detection</strong> - Find and fix issues</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Task Tracking Section -->
+                <section id="task-tracking" class="content-section">
+                    <h2>Task Tracking Integration</h2>
+                    
+                    <h3>Linking Design to Implementation</h3>
+                    <p>Cursor helps you maintain the connection between your design documents and actual implementation.</p>
+
+                    <div class="code-example">
+                        <h4>Task Tracking with Git Commits</h4>
+                        <pre><code class="language-bash line-numbers"># Create a task in your design document
+# Then implement it with proper commit messages
+
+git add .
+git commit -m "feat: implement user authentication system
+
+- Add User model with SQLAlchemy
+- Create login/register routes
+- Implement JWT token generation
+- Add password hashing with werkzeug
+
+Closes: #TASK-001"
+
+# Link commits to design documents
+# Update docs/implementation-status.md</code></pre>
+                    </div>
+
+                    <h3>Implementation Status Tracking</h3>
+                    <div class="code-example">
+                        <h4>Implementation Status Document</h4>
+                        <pre><code class="language-markdown line-numbers"># Implementation Status
+
+## Completed Features
+- [x] User authentication system
+- [x] Database models (User, Task)
+- [x] Basic CRUD operations for tasks
+
+## In Progress
+- [ ] API documentation generation
+- [ ] Frontend integration
+- [ ] Testing suite setup
+
+## Planned Features
+- [ ] Real-time notifications
+- [ ] File upload functionality
+- [ ] Advanced search and filtering
+
+## Notes
+- Authentication system completed in commit abc123
+- Database schema updated in commit def456</code></pre>
+                    </div>
+                </section>
+
+                <!-- Advanced Features Section -->
+                <section id="advanced-features" class="content-section">
+                    <h2>Advanced Features</h2>
+                    
+                    <h3>Code Explanation and Documentation</h3>
+                    <p>Cursor can help you understand and document complex code.</p>
+
+                    <div class="code-example">
+                        <h4>Using AI for Code Documentation</h4>
+                        <pre><code class="language-python line-numbers"># Select complex code and use Cmd+K
+# "Explain this code and generate documentation"
+
+def optimize_database_queries(user_id, filters=None):
+    """
+    Optimize database queries for user tasks with advanced filtering.
+    
+    This function implements query optimization techniques including:
+    - Eager loading to prevent N+1 queries
+    - Dynamic filtering based on user preferences
+    - Pagination for large result sets
+    - Caching for frequently accessed data
+    
+    Args:
+        user_id (int): The ID of the user requesting tasks
+        filters (dict, optional): Filter criteria for tasks
+        
+    Returns:
+        list: Optimized list of task objects with related data
+        
+    Raises:
+        ValueError: If user_id is invalid
+        DatabaseError: If database connection fails
+    """
+    # Implementation details...
+    pass</code></pre>
+                    </div>
+
+                    <!-- Interactive Demo: Cursor AI Assistance -->
+                    <div class="interactive-demo">
+                        <h3>Interactive Demo: Cursor AI Code Generation</h3>
+                        <div class="demo-container">
+                            <div class="demo-controls">
+                                <button class="btn btn-primary" onclick="runCursorDemo()">Generate Code</button>
+                                <button class="btn btn-secondary" onclick="resetCursorDemo()">Reset</button>
+                            </div>
+                            <div class="demo-output">
+                                <pre id="cursor-demo-result">Click "Generate Code" to see Cursor AI in action...</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Testing and Debugging</h3>
+                    <div class="config-card">
+                        <h4>AI-Assisted Testing</h4>
+                        <ul>
+                            <li>Generate test cases for your functions</li>
+                            <li>Create mock objects and fixtures</li>
+                            <li>Debug complex issues with AI assistance</li>
+                            <li>Optimize test performance</li>
+                            <li>Generate test documentation</li>
+                        </ul>
+                    </div>
+
+                    <!-- Cursor Workflow Diagram -->
+                    <div class="visual-content">
+                        <h3>Cursor AI-Enhanced Development Workflow</h3>
+                        
+                        <!-- Dataset Table -->
+                        <div class="dataset-table">
+                            <h4>Cursor Development Process Dataset</h4>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Development Phase</th>
+                                        <th>Cursor AI Feature</th>
+                                        <th>Input Method</th>
+                                        <th>Output Type</th>
+                                        <th>Productivity Gain</th>
+                                        <th>Accuracy</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Project Setup</td>
+                                        <td>Project Structure Generation</td>
+                                        <td>Cmd+K + Description</td>
+                                        <td>Folder Structure + Files</td>
+                                        <td>80%</td>
+                                        <td>95%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>System Design</td>
+                                        <td>Documentation Generation</td>
+                                        <td>Inline Chat</td>
+                                        <td>Markdown Docs</td>
+                                        <td>70%</td>
+                                        <td>90%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Code Generation</td>
+                                        <td>Intelligent Completion</td>
+                                        <td>Real-time Typing</td>
+                                        <td>Code Snippets</td>
+                                        <td>60%</td>
+                                        <td>85%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Code Review</td>
+                                        <td>Inline Analysis</td>
+                                        <td>Select Code + Cmd+K</td>
+                                        <td>Suggestions + Fixes</td>
+                                        <td>50%</td>
+                                        <td>80%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Testing</td>
+                                        <td>Test Case Generation</td>
+                                        <td>Function Selection</td>
+                                        <td>Unit Tests</td>
+                                        <td>75%</td>
+                                        <td>88%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Debugging</td>
+                                        <td>Error Analysis</td>
+                                        <td>Error Selection</td>
+                                        <td>Solutions + Explanations</td>
+                                        <td>65%</td>
+                                        <td>82%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mermaid Diagram -->
+                        <div class="diagram-container">
+                            <h4>Cursor AI Development Process Flow</h4>
+                            <div class="mermaid">
+                                flowchart TD
+                                    A[Project Initialization] --> B[Create /docs Folder]
+                                    B --> C[System Design Planning]
+                                    C --> D[AI-Generated Documentation]
+                                    D --> E[Project Structure Setup]
+                                    
+                                    E --> F[Code Development Phase]
+                                    F --> G[Real-time AI Completion]
+                                    F --> H[Inline Code Generation]
+                                    F --> I[Code Explanation Requests]
+                                    
+                                    G --> J[Code Review & Refactoring]
+                                    H --> J
+                                    I --> J
+                                    
+                                    J --> K[AI-Assisted Testing]
+                                    K --> L[Test Case Generation]
+                                    L --> M[Test Execution]
+                                    M --> N{All Tests Pass?}
+                                    
+                                    N -->|No| O[AI Debugging Assistance]
+                                    O --> P[Error Analysis]
+                                    P --> Q[Solution Generation]
+                                    Q --> R[Code Fixes]
+                                    R --> M
+                                    
+                                    N -->|Yes| S[Documentation Updates]
+                                    S --> T[Git Integration]
+                                    T --> U[Task Tracking Updates]
+                                    U --> V[Project Completion]
+                                    
+                                    style A fill:#e3f2fd
+                                    style V fill:#c8e6c9
+                                    style N fill:#ffecb3
+                                    style O fill:#ffcdd2
+                                    
+                                    subgraph "AI Features"
+                                        G
+                                        H
+                                        I
+                                        O
+                                        P
+                                        Q
+                                    end
+                                    
+                                    subgraph "Development Phases"
+                                        C
+                                        F
+                                        K
+                                        S
+                                    end
+                            </div>
+                        </div>
+
+                        <!-- Variable Definitions -->
+                        <div class="variable-definitions">
+                            <h4>Cursor Configuration Variables & Settings</h4>
+                            <div class="var-grid">
+                                <div class="var-card">
+                                    <h5>AI Model Configuration</h5>
+                                    <code>"cursor.ai.model": "gpt-4"</code>
+                                    <p>Sets the AI model for code generation and assistance</p>
+                                    <a href="https://cursor.sh/docs/ai-features" target="_blank">📖 Cursor AI Features</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Auto-completion Settings</h5>
+                                    <code>"cursor.ai.autoComplete": true</code>
+                                    <p>Enables real-time AI code completion</p>
+                                    <a href="https://cursor.sh/docs/autocomplete" target="_blank">📖 Auto-completion Guide</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Inline Chat Configuration</h5>
+                                    <code>"cursor.ai.inlineChat": true</code>
+                                    <p>Enables inline AI chat for code assistance</p>
+                                    <a href="https://cursor.sh/docs/chat" target="_blank">📖 Chat Documentation</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Code Generation Shortcut</h5>
+                                    <code>Cmd+K (Mac) / Ctrl+K (Windows)</code>
+                                    <p>Keyboard shortcut for AI code generation</p>
+                                    <a href="https://cursor.sh/docs/shortcuts" target="_blank">📖 Keyboard Shortcuts</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Project Structure Template</h5>
+                                    <code>PROJECT_TEMPLATE = "flask-app-structure"</code>
+                                    <p>Template for generating project structure</p>
+                                    <a href="https://cursor.sh/docs/templates" target="_blank">📖 Project Templates</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Git Integration</h5>
+                                    <code>"git.enableSmartCommit": true</code>
+                                    <p>Enables AI-assisted Git commit messages</p>
+                                    <a href="https://cursor.sh/docs/git-integration" target="_blank">📖 Git Integration</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Hands-On Exercise Section -->
+                <section id="hands-on-exercise" class="content-section">
+                    <h2>Hands-On Exercise: Building with Cursor</h2>
+                    
+                    <div class="exercise-container">
+                        <div class="exercise-header">
+                            <h3>Creating a Task Management System</h3>
+                            <div class="difficulty-badge">Intermediate</div>
+                        </div>
+                        
+                        <div class="exercise-content">
+                            <h4>Objective</h4>
+                            <p>Use Cursor to design, plan, and implement a complete task management system with AI assistance.</p>
+                            
+                            <h4>Steps</h4>
+                            <ol>
+                                <li>Set up Cursor and create project structure</li>
+                                <li>Use AI to generate system design documents</li>
+                                <li>Implement features with AI assistance</li>
+                                <li>Track progress and link to design documents</li>
+                                <li>Test and refine the implementation</li>
+                            </ol>
+                            
+                            <div class="exercise-code">
+                                <h4>Project Structure</h4>
+                                <pre><code class="language-bash line-numbers">task-management-system/
+├── docs/
+│   ├── system-design.md
+│   ├── database-schema.md
+│   ├── api-specification.md
+│   └── implementation-status.md
+├── app/
+│   ├── __init__.py
+│   ├── models.py
+│   ├── routes.py
+│   └── utils.py
+├── tests/
+│   ├── test_models.py
+│   ├── test_routes.py
+│   └── conftest.py
+├── requirements.txt
+└── README.md</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Takeaways Section -->
+                <section id="key-takeaways" class="content-section">
+                    <h2>Key Takeaways</h2>
+                    
+                    <div class="takeaways-grid">
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🚀</div>
+                            <h4>AI-Powered Development</h4>
+                            <p>Cursor combines the best of VS Code with advanced AI capabilities for enhanced productivity.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">📋</div>
+                            <h4>Design-First Approach</h4>
+                            <p>Use the /docs folder to plan your system architecture before implementation.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🔗</div>
+                            <h4>Task Tracking</h4>
+                            <p>Link your implementation to design documents through Git commits and status tracking.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">⚡</div>
+                            <h4>Productivity Boost</h4>
+                            <p>AI-assisted coding, debugging, and documentation significantly speed up development.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Next Steps Section -->
+                <section id="next-steps" class="content-section">
+                    <h2>Next Steps</h2>
+                    
+                    <div class="next-steps-content">
+                        <h3>Preparation for Chapter 4</h3>
+                        <p>Before moving to the next chapter, practice:</p>
+                        <ol>
+                            <li>Set up Cursor for a new Python project</li>
+                            <li>Create system design documents using AI</li>
+                            <li>Implement a small feature with AI assistance</li>
+                            <li>Practice task tracking and documentation</li>
+                            <li>Explore Cursor's advanced features</li>
+                        </ol>
+                        
+                        <div class="navigation-buttons">
+                            <a href="02-using-chatgpt.html" class="btn btn-secondary">← Previous Chapter</a>
+                            <a href="04-database-design-fundamentals.html" class="btn btn-primary">Next Chapter →</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cross-References Section -->
+                <section id="cross-references" class="content-section">
+                    <h2>Cross-References</h2>
+                    
+                    <div class="references-grid">
+                        <div class="reference-card">
+                            <h4>Related Chapters</h4>
+                            <ul>
+                                <li><a href="02-using-chatgpt.html">Chapter 2: Using ChatGPT to Design and Plan Code</a></li>
+                                <li><a href="04-database-design-fundamentals.html">Chapter 4: Database Design Fundamentals</a></li>
+                                <li><a href="07-building-fullstack-flask.html">Chapter 7: Building a Full-Stack App with Flask</a></li>
+                            </ul>
+                        </div>
+                        <div class="reference-card">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://cursor.sh" target="_blank">Cursor Official Website</a></li>
+                                <li><a href="https://code.visualstudio.com/docs" target="_blank">VS Code Documentation</a></li>
+                                <li><a href="https://git-scm.com/doc" target="_blank">Git Documentation</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Conclusion Section -->
+                <section id="conclusion" class="content-section">
+                    <h2>Conclusion</h2>
+                    
+                    <div class="conclusion-content">
+                        <p>Cursor represents the future of development tools, combining powerful AI assistance with a familiar and robust code editor. By mastering Cursor's features, you can significantly enhance your productivity and code quality.</p>
+                        
+                        <div class="key-message">
+                            <blockquote>
+                                <p>Remember: The goal is not to let AI write all your code, but to use it to handle repetitive tasks, generate boilerplate, and help you think through complex problems. This allows you to focus on the unique aspects of your application and the creative problem-solving that makes development rewarding.</p>
+                            </blockquote>
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            <!-- Chapter Navigation -->
+            <nav class="chapter-navigation">
+                <div class="nav-buttons">
+                    <a href="02-using-chatgpt.html" class="btn btn-secondary">← Previous Chapter</a>
+                    <a href="04-database-design-fundamentals.html" class="btn btn-primary">Next Chapter →</a>
+                </div>
+                <div class="chapter-list">
+                    <a href="01-setting-up-python.html" class="chapter-link">Chapter 1</a>
+                    <a href="02-using-chatgpt.html" class="chapter-link">Chapter 2</a>
+                    <a href="03-using-cursor.html" class="current-chapter">Chapter 3</a>
+                    <a href="04-database-design-fundamentals.html" class="chapter-link">Chapter 4</a>
+                    <a href="05-advanced-data-modeling.html" class="chapter-link">Chapter 5</a>
+                    <a href="06-systems-design-principles.html" class="chapter-link">Chapter 6</a>
+                    <a href="07-building-fullstack-flask.html" class="chapter-link">Chapter 7</a>
+                </div>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design & Python Development</h4>
+                    <p>A comprehensive guide to building scalable applications with Python and modern web technologies.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">GitHub</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design & Python Development. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

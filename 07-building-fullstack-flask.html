@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 7: Building a Full-Stack App with Flask - System Design & Python Development</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <script src="js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>System Design & Python</h1>
+                <span class="subtitle">Complete Development Guide</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <div class="nav-dropdown">
+                    <button class="nav-link dropdown-toggle">Chapters</button>
+                    <div class="dropdown-content">
+                        <a href="01-setting-up-python.html">Chapter 1: Setting Up Python</a>
+                        <a href="02-using-chatgpt.html">Chapter 2: Using ChatGPT</a>
+                        <a href="03-using-cursor.html">Chapter 3: Using Cursor</a>
+                        <a href="04-database-design-fundamentals.html">Chapter 4: Database Design</a>
+                        <a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling</a>
+                        <a href="06-systems-design-principles.html">Chapter 6: Systems Design</a>
+                        <a href="07-building-fullstack-flask.html">Chapter 7: Building Flask Apps</a>
+                        <a href="08-network-troubleshooting.html">Chapter 8: Network Troubleshooting</a>
+                        <a href="09-application-debugging.html">Chapter 9: Application Debugging</a>
+                        <a href="10-algorithmic-thinking.html">Chapter 10: Algorithmic Thinking</a>
+                        <a href="11-testing-strategies.html">Chapter 11: Testing Strategies</a>
+                        <a href="12-security-fundamentals.html">Chapter 12: Security Fundamentals</a>
+                        <a href="13-deployment-devops.html">Chapter 13: Deployment & DevOps</a>
+                        <a href="14-advanced-topics.html">Chapter 14: Advanced Topics</a>
+                    </div>
+                </div>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Chapter Header -->
+            <header class="chapter-header">
+                <div class="chapter-meta">
+                    <span class="chapter-number">Chapter 7</span>
+                    <h1 class="chapter-title">Building a Full-Stack App with Flask</h1>
+                    <div class="chapter-info">
+                        <span class="version">Version: 1.0.0</span>
+                        <span class="last-updated">Last Updated: 2024-12-19</span>
+                        <span class="reading-time">Reading Time: ~60 minutes</span>
+                    </div>
+                </div>
+                <div class="chapter-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="progress-text">0% Complete</span>
+                </div>
+            </header>
+
+            <!-- Table of Contents -->
+            <aside class="table-of-contents">
+                <h3>Table of Contents</h3>
+                <nav class="toc-nav">
+                    <ul>
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#critical-configurations">Critical Configurations</a></li>
+                        <li><a href="#project-structure">Project Structure</a></li>
+                        <li><a href="#flask-setup">Setting Up Flask</a></li>
+                        <li><a href="#app-factory">Flask App Factory Pattern</a></li>
+                        <li><a href="#models">SQLAlchemy Models</a></li>
+                        <li><a href="#authentication">Authentication System</a></li>
+                        <li><a href="#api-endpoints">API Endpoints</a></li>
+                        <li><a href="#frontend-integration">Frontend Integration</a></li>
+                        <li><a href="#hands-on-exercise">Hands-On Exercise</a></li>
+                        <li><a href="#key-takeaways">Key Takeaways</a></li>
+                        <li><a href="#next-steps">Next Steps</a></li>
+                        <li><a href="#cross-references">Cross-References</a></li>
+                        <li><a href="#conclusion">Conclusion</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Chapter Content -->
+            <article class="chapter-content">
+                <!-- Overview Section -->
+                <section id="overview" class="content-section">
+                    <h2>Overview</h2>
+                    <p>Up to this point, you've:</p>
+                    <ul>
+                        <li>Set up Python (Chapter 1)</li>
+                        <li>Learned AI-assisted design workflows (Chapters 2–3)</li>
+                        <li>Built and scaled a database (Chapters 4–5)</li>
+                        <li>Designed a layered, secure system (Chapter 6)</li>
+                    </ul>
+                    
+                    <p>Now it's time to assemble the pieces into a real application. In this chapter, you'll:</p>
+                    <ul>
+                        <li>Set up a modular Flask project structure</li>
+                        <li>Connect Flask to your SQLAlchemy database</li>
+                        <li>Implement core API endpoints</li>
+                        <li>Add basic authentication</li>
+                        <li>Integrate with a frontend (brief intro)</li>
+                        <li>Prepare for deployment</li>
+                    </ul>
+                    
+                    <p>We'll build a Task Tracking Application as our example, following the design principles you've already learned.</p>
+                    
+                    <div class="learning-objectives">
+                        <h3>Learning Objectives</h3>
+                        <ul>
+                            <li>Create a modular Flask application structure</li>
+                            <li>Implement the Flask App Factory pattern</li>
+                            <li>Design and implement SQLAlchemy models</li>
+                            <li>Build authentication and authorization systems</li>
+                            <li>Create RESTful API endpoints</li>
+                            <li>Integrate frontend and backend components</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Critical Configurations Section -->
+                <section id="critical-configurations" class="content-section">
+                    <h2>Critical Configurations</h2>
+                    
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Flask Application Setup</h4>
+                            <ul>
+                                <li><strong>Port:</strong> 3005 (Backend Flask application)</li>
+                                <li><strong>Environment:</strong> Development with debug mode enabled</li>
+                                <li><strong>Database:</strong> SQLite for development, PostgreSQL for production</li>
+                                <li><strong>Authentication:</strong> Flask-Login with JWT tokens</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Project Structure</h4>
+                            <ul>
+                                <li><strong>Modular Design:</strong> Blueprints for different features</li>
+                                <li><strong>Separation of Concerns:</strong> Models, routes, services, utilities</li>
+                                <li><strong>Configuration Management:</strong> Environment-based settings</li>
+                                <li><strong>Testing:</strong> Unit and integration tests</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Project Structure Section -->
+                <section id="project-structure" class="content-section">
+                    <h2>Project Structure</h2>
+                    
+                    <p>We'll use a blueprints + services + models layout for maintainability.</p>
+
+                    <!-- Flask Project Architecture Diagram -->
+                    <div class="visual-content">
+                        <h3>Flask Application Architecture</h3>
+                        
+                        <!-- Dataset Table -->
+                        <div class="dataset-table">
+                            <h4>Flask Project Structure Dataset</h4>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Directory</th>
+                                        <th>Purpose</th>
+                                        <th>Key Files</th>
+                                        <th>Dependencies</th>
+                                        <th>Testing Strategy</th>
+                                        <th>Deployment Impact</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>app/</td>
+                                        <td>Main Application Code</td>
+                                        <td>__init__.py, config.py</td>
+                                        <td>Flask, SQLAlchemy</td>
+                                        <td>Unit Tests</td>
+                                        <td>Core Application</td>
+                                    </tr>
+                                    <tr>
+                                        <td>app/models/</td>
+                                        <td>Database Models</td>
+                                        <td>user.py, task.py</td>
+                                        <td>SQLAlchemy ORM</td>
+                                        <td>Model Tests</td>
+                                        <td>Database Schema</td>
+                                    </tr>
+                                    <tr>
+                                        <td>app/routes/</td>
+                                        <td>API Endpoints</td>
+                                        <td>auth.py, tasks.py</td>
+                                        <td>Flask Blueprints</td>
+                                        <td>Integration Tests</td>
+                                        <td>API Interface</td>
+                                    </tr>
+                                    <tr>
+                                        <td>app/services/</td>
+                                        <td>Business Logic</td>
+                                        <td>email_service.py</td>
+                                        <td>External APIs</td>
+                                        <td>Service Tests</td>
+                                        <td>Business Rules</td>
+                                    </tr>
+                                    <tr>
+                                        <td>app/utils/</td>
+                                        <td>Helper Functions</td>
+                                        <td>validators.py</td>
+                                        <td>Standard Library</td>
+                                        <td>Utility Tests</td>
+                                        <td>Shared Code</td>
+                                    </tr>
+                                    <tr>
+                                        <td>migrations/</td>
+                                        <td>Database Migrations</td>
+                                        <td>versions/</td>
+                                        <td>Flask-Migrate</td>
+                                        <td>Migration Tests</td>
+                                        <td>Schema Changes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mermaid Diagram -->
+                        <div class="diagram-container">
+                            <h4>Flask Application Architecture Flow</h4>
+                            <div class="mermaid">
+                                flowchart TD
+                                    A[Client Request] --> B[Flask App Factory]
+                                    B --> C[Configuration Loading]
+                                    C --> D[Database Initialization]
+                                    D --> E[Blueprint Registration]
+                                    
+                                    E --> F[Route Matching]
+                                    F --> G{Authentication Required?}
+                                    G -->|Yes| H[JWT Token Validation]
+                                    G -->|No| I[Route Handler]
+                                    H --> I
+                                    
+                                    I --> J[Service Layer]
+                                    J --> K[Business Logic]
+                                    K --> L[Database Operations]
+                                    L --> M[SQLAlchemy Models]
+                                    
+                                    M --> N[Response Generation]
+                                    N --> O[Error Handling]
+                                    O --> P[Client Response]
+                                    
+                                    subgraph "Application Layers"
+                                        B
+                                        C
+                                        D
+                                        E
+                                    end
+                                    
+                                    subgraph "Request Processing"
+                                        F
+                                        G
+                                        H
+                                        I
+                                    end
+                                    
+                                    subgraph "Business Logic"
+                                        J
+                                        K
+                                        L
+                                        M
+                                    end
+                                    
+                                    subgraph "Response"
+                                        N
+                                        O
+                                        P
+                                    end
+                                    
+                                    style A fill:#e3f2fd
+                                    style P fill:#c8e6c9
+                                    style G fill:#ffecb3
+                                    style O fill:#ffcdd2
+                            </div>
+                        </div>
+
+                        <!-- Variable Definitions -->
+                        <div class="variable-definitions">
+                            <h4>Flask Application Configuration Variables</h4>
+                            <div class="var-grid">
+                                <div class="var-card">
+                                    <h5>Application Configuration</h5>
+                                    <code>FLASK_ENV = "development"</code>
+                                    <p>Environment setting for Flask application</p>
+                                    <a href="https://flask.palletsprojects.com/en/3.0.x/config/" target="_blank">📖 Flask Configuration</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Database URI</h5>
+                                    <code>SQLALCHEMY_DATABASE_URI = "sqlite:///app.db"</code>
+                                    <p>Database connection string for SQLAlchemy</p>
+                                    <a href="https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/config/" target="_blank">📖 Flask-SQLAlchemy Config</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Secret Key</h5>
+                                    <code>SECRET_KEY = os.environ.get('SECRET_KEY')</code>
+                                    <p>Secret key for session management and JWT tokens</p>
+                                    <a href="https://flask.palletsprojects.com/en/3.0.x/config/#SECRET_KEY" target="_blank">📖 Flask Secret Key</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>JWT Configuration</h5>
+                                    <code>JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')</code>
+                                    <p>Secret key for JWT token signing and verification</p>
+                                    <a href="https://pyjwt.readthedocs.io/en/latest/" target="_blank">📖 PyJWT Documentation</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Debug Mode</h5>
+                                    <code>DEBUG = True</code>
+                                    <p>Enable debug mode for development (disable in production)</p>
+                                    <a href="https://flask.palletsprojects.com/en/3.0.x/quickstart/#debug-mode" target="_blank">📖 Flask Debug Mode</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Port Configuration</h5>
+                                    <code>PORT = 3005</code>
+                                    <p>Port number for Flask application server</p>
+                                    <a href="https://flask.palletsprojects.com/en/3.0.x/quickstart/#a-minimal-application" target="_blank">📖 Flask Quickstart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Project Directory Structure</h4>
+                        <pre><code class="language-bash line-numbers">tasktracker/
+  app/
+    __init__.py
+    config.py
+    models/
+      __init__.py
+      user.py
+      task.py
+    routes/
+      __init__.py
+      auth.py
+      tasks.py
+    services/
+      __init__.py
+      email_service.py
+    utils/
+      __init__.py
+      validators.py
+  migrations/
+  tests/
+  requirements.txt
+  wsgi.py
+  .env</code></pre>
+                    </div>
+                </section>
+
+                <!-- Flask Setup Section -->
+                <section id="flask-setup" class="content-section">
+                    <h2>Setting Up Flask</h2>
+                    
+                    <h3>Requirements File</h3>
+                    <p>Create `requirements.txt`:</p>
+                    
+                    <div class="code-example">
+                        <h4>Requirements.txt</h4>
+                        <pre><code class="language-text line-numbers">Flask==2.3.3
+Flask-SQLAlchemy==3.0.5
+Flask-Migrate==4.0.5
+Flask-Login==0.6.3
+Flask-WTF==1.1.1
+python-dotenv==1.0.0
+Werkzeug==2.3.7
+PyJWT==2.8.0
+bcrypt==4.0.1
+pytest==7.4.2</code></pre>
+                    </div>
+
+                    <p>Install dependencies:</p>
+                    <div class="code-example">
+                        <pre><code class="language-bash line-numbers">pip install -r requirements.txt</code></pre>
+                    </div>
+                </section>
+
+                <!-- App Factory Section -->
+                <section id="app-factory" class="content-section">
+                    <h2>Flask App Factory Pattern</h2>
+                    
+                    <p>The app factory pattern allows for better testing, multiple instances, and configuration management.</p>
+
+                    <div class="code-example">
+                        <h3>Main Application File</h3>
+                        <pre><code class="language-python line-numbers"># app/__init__.py
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_login import LoginManager
+from config import Config
+
+db = SQLAlchemy()
+migrate = Migrate()
+login_manager = LoginManager()
+
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+    
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
+    
+    # Register blueprints
+    from app.routes.auth import auth_bp
+    from app.routes.tasks import tasks_bp
+    
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(tasks_bp, url_prefix='/api/tasks')
+    
+    return app
+
+# Import models to ensure they're registered with SQLAlchemy
+from app.models import user, task</code></pre>
+                    </div>
+
+                    <div class="code-example">
+                        <h3>Configuration File</h3>
+                        <pre><code class="language-python line-numbers"># config.py
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class Config:
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///app.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or 'jwt-secret-key'
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+class ProductionConfig(Config):
+    DEBUG = False
+
+class TestingConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'</code></pre>
+                    </div>
+                </section>
+
+                <!-- Models Section -->
+                <section id="models" class="content-section">
+                    <h2>SQLAlchemy Models</h2>
+                    
+                    <p>Models represent your database tables and relationships.</p>
+
+                    <div class="code-example">
+                        <h3>User Model</h3>
+                        <pre><code class="language-python line-numbers"># app/models/user.py
+from app import db, login_manager
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
+
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Relationships
+    tasks = db.relationship('Task', backref='user', lazy='dynamic')
+    
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+    
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'created_at': self.created_at.isoformat()
+        }
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))</code></pre>
+                    </div>
+
+                    <div class="code-example">
+                        <h3>Task Model</h3>
+                        <pre><code class="language-python line-numbers"># app/models/task.py
+from app import db
+from datetime import datetime
+
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text)
+    status = db.Column(db.String(20), default='pending')
+    priority = db.Column(db.String(20), default='medium')
+    due_date = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Foreign key
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'status': self.status,
+            'priority': self.priority,
+            'due_date': self.due_date.isoformat() if self.due_date else None,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat(),
+            'user_id': self.user_id
+        }</code></pre>
+                    </div>
+                </section>
+
+                <!-- Authentication Section -->
+                <section id="authentication" class="content-section">
+                    <h2>Authentication System</h2>
+                    
+                    <p>Implement secure authentication using Flask-Login and JWT tokens.</p>
+
+                    <div class="code-example">
+                        <h3>Authentication Routes</h3>
+                        <pre><code class="language-python line-numbers"># app/routes/auth.py
+from flask import Blueprint, request, jsonify
+from flask_login import login_user, logout_user, login_required, current_user
+from app.models.user import User
+from app import db
+import jwt
+from datetime import datetime, timedelta
+from functools import wraps
+
+auth_bp = Blueprint('auth', __name__)
+
+def generate_token(user_id):
+    payload = {
+        'user_id': user_id,
+        'exp': datetime.utcnow() + timedelta(hours=24)
+    }
+    return jwt.encode(payload, current_app.config['JWT_SECRET_KEY'], algorithm='HS256')
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.headers.get('Authorization')
+        if not token:
+            return jsonify({'message': 'Token is missing'}), 401
+        
+        try:
+            token = token.split(' ')[1]  # Remove 'Bearer ' prefix
+            data = jwt.decode(token, current_app.config['JWT_SECRET_KEY'], algorithms=['HS256'])
+            current_user = User.query.get(data['user_id'])
+        except:
+            return jsonify({'message': 'Token is invalid'}), 401
+        
+        return f(current_user, *args, **kwargs)
+    return decorated
+
+@auth_bp.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    
+    if User.query.filter_by(username=data['username']).first():
+        return jsonify({'message': 'Username already exists'}), 400
+    
+    if User.query.filter_by(email=data['email']).first():
+        return jsonify({'message': 'Email already exists'}), 400
+    
+    user = User(username=data['username'], email=data['email'])
+    user.set_password(data['password'])
+    
+    db.session.add(user)
+    db.session.commit()
+    
+    return jsonify({'message': 'User created successfully'}), 201
+
+@auth_bp.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    user = User.query.filter_by(username=data['username']).first()
+    
+    if user and user.check_password(data['password']):
+        login_user(user)
+        token = generate_token(user.id)
+        return jsonify({'token': token, 'user': user.to_dict()})
+    
+    return jsonify({'message': 'Invalid credentials'}), 401
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return jsonify({'message': 'Logged out successfully'})</code></pre>
+                    </div>
+                </section>
+
+                <!-- API Endpoints Section -->
+                <section id="api-endpoints" class="content-section">
+                    <h2>API Endpoints</h2>
+                    
+                    <p>Create RESTful API endpoints for task management.</p>
+
+                    <div class="code-example">
+                        <h3>Task Routes</h3>
+                        <pre><code class="language-python line-numbers"># app/routes/tasks.py
+from flask import Blueprint, request, jsonify
+from app.models.task import Task
+from app.routes.auth import token_required
+from app import db
+
+tasks_bp = Blueprint('tasks', __name__)
+
+@tasks_bp.route('/', methods=['GET'])
+@token_required
+def get_tasks(current_user):
+    tasks = Task.query.filter_by(user_id=current_user.id).all()
+    return jsonify([task.to_dict() for task in tasks])
+
+@tasks_bp.route('/', methods=['POST'])
+@token_required
+def create_task(current_user):
+    data = request.get_json()
+    
+    task = Task(
+        title=data['title'],
+        description=data.get('description', ''),
+        priority=data.get('priority', 'medium'),
+        due_date=datetime.fromisoformat(data['due_date']) if data.get('due_date') else None,
+        user_id=current_user.id
+    )
+    
+    db.session.add(task)
+    db.session.commit()
+    
+    return jsonify(task.to_dict()), 201
+
+@tasks_bp.route('/<int:task_id>', methods=['GET'])
+@token_required
+def get_task(current_user, task_id):
+    task = Task.query.filter_by(id=task_id, user_id=current_user.id).first()
+    if not task:
+        return jsonify({'message': 'Task not found'}), 404
+    
+    return jsonify(task.to_dict())
+
+@tasks_bp.route('/<int:task_id>', methods=['PUT'])
+@token_required
+def update_task(current_user, task_id):
+    task = Task.query.filter_by(id=task_id, user_id=current_user.id).first()
+    if not task:
+        return jsonify({'message': 'Task not found'}), 404
+    
+    data = request.get_json()
+    
+    task.title = data.get('title', task.title)
+    task.description = data.get('description', task.description)
+    task.status = data.get('status', task.status)
+    task.priority = data.get('priority', task.priority)
+    task.due_date = datetime.fromisoformat(data['due_date']) if data.get('due_date') else task.due_date
+    
+    db.session.commit()
+    
+    return jsonify(task.to_dict())
+
+@tasks_bp.route('/<int:task_id>', methods=['DELETE'])
+@token_required
+def delete_task(current_user, task_id):
+    task = Task.query.filter_by(id=task_id, user_id=current_user.id).first()
+    if not task:
+        return jsonify({'message': 'Task not found'}), 404
+    
+    db.session.delete(task)
+    db.session.commit()
+    
+    return jsonify({'message': 'Task deleted successfully'})</code></pre>
+                    </div>
+                </section>
+
+                <!-- Frontend Integration Section -->
+                <section id="frontend-integration" class="content-section">
+                    <h2>Frontend Integration</h2>
+                    
+                    <p>Basic HTML/JavaScript frontend to interact with your Flask API.</p>
+
+                    <div class="code-example">
+                        <h3>Simple Frontend</h3>
+                        <pre><code class="language-html line-numbers">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Task Tracker&lt;/title&gt;
+    &lt;style&gt;
+        .task { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .completed { background-color: #e8f5e8; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Task Tracker&lt;/h1&gt;
+    
+    &lt;div id="login-form"&gt;
+        &lt;h2&gt;Login&lt;/h2&gt;
+        &lt;input type="text" id="username" placeholder="Username"&gt;
+        &lt;input type="password" id="password" placeholder="Password"&gt;
+        &lt;button onclick="login()"&gt;Login&lt;/button&gt;
+    &lt;/div&gt;
+    
+    &lt;div id="task-manager" style="display: none;"&gt;
+        &lt;h2&gt;Tasks&lt;/h2&gt;
+        &lt;input type="text" id="task-title" placeholder="Task title"&gt;
+        &lt;button onclick="createTask()"&gt;Add Task&lt;/button&gt;
+        &lt;div id="tasks"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        let token = localStorage.getItem('token');
+        
+        if (token) {
+            showTaskManager();
+            loadTasks();
+        }
+        
+        async function login() {
+            const response = await fetch('/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value
+                })
+            });
+            
+            const data = await response.json();
+            if (response.ok) {
+                token = data.token;
+                localStorage.setItem('token', token);
+                showTaskManager();
+                loadTasks();
+            } else {
+                alert(data.message);
+            }
+        }
+        
+        async function loadTasks() {
+            const response = await fetch('/api/tasks/', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            const tasks = await response.json();
+            const tasksDiv = document.getElementById('tasks');
+            tasksDiv.innerHTML = '';
+            
+            tasks.forEach(task =&gt; {
+                const taskDiv = document.createElement('div');
+                taskDiv.className = `task ${task.status === 'completed' ? 'completed' : ''}`;
+                taskDiv.innerHTML = `
+                    &lt;h3&gt;${task.title}&lt;/h3&gt;
+                    &lt;p&gt;${task.description}&lt;/p&gt;
+                    &lt;p&gt;Status: ${task.status}&lt;/p&gt;
+                    &lt;button onclick="updateTask(${task.id}, 'completed')"&gt;Complete&lt;/button&gt;
+                    &lt;button onclick="deleteTask(${task.id})"&gt;Delete&lt;/button&gt;
+                `;
+                tasksDiv.appendChild(taskDiv);
+            });
+        }
+        
+        async function createTask() {
+            const title = document.getElementById('task-title').value;
+            const response = await fetch('/api/tasks/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ title })
+            });
+            
+            if (response.ok) {
+                document.getElementById('task-title').value = '';
+                loadTasks();
+            }
+        }
+        
+        function showTaskManager() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('task-manager').style.display = 'block';
+        }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </section>
+
+                <!-- Hands-On Exercise Section -->
+                <section id="hands-on-exercise" class="content-section">
+                    <h2>Hands-On Exercise: Build a Complete Task Tracker</h2>
+                    
+                    <div class="exercise-container">
+                        <div class="exercise-header">
+                            <h3>Full-Stack Task Management Application</h3>
+                            <div class="difficulty-badge">Advanced</div>
+                        </div>
+                        
+                        <div class="exercise-content">
+                            <h4>Objective</h4>
+                            <p>Build a complete task tracking application with user authentication, CRUD operations, and a responsive frontend.</p>
+                            
+                            <h4>Requirements</h4>
+                            <ul>
+                                <li>User registration and authentication</li>
+                                <li>Task creation, reading, updating, and deletion</li>
+                                <li>Task filtering and search</li>
+                                <li>Responsive web interface</li>
+                                <li>API documentation</li>
+                                <li>Unit and integration tests</li>
+                            </ul>
+                            
+                            <h4>Steps</h4>
+                            <ol>
+                                <li>Set up the Flask project structure</li>
+                                <li>Create database models and migrations</li>
+                                <li>Implement authentication system</li>
+                                <li>Build RESTful API endpoints</li>
+                                <li>Create a modern frontend interface</li>
+                                <li>Add comprehensive testing</li>
+                                <li>Deploy to a cloud platform</li>
+                            </ol>
+                            
+                            <div class="exercise-code">
+                                <h4>Project Setup</h4>
+                                <pre><code class="language-bash line-numbers"># Create project structure
+mkdir tasktracker
+cd tasktracker
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Initialize database
+flask db init
+flask db migrate -m "Initial migration"
+flask db upgrade
+
+# Run the application
+flask run --port=3005</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Takeaways Section -->
+                <section id="key-takeaways" class="content-section">
+                    <h2>Key Takeaways</h2>
+                    
+                    <div class="takeaways-grid">
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🏗️</div>
+                            <h4>Modular Architecture</h4>
+                            <p>Use blueprints and the app factory pattern for maintainable, scalable Flask applications.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🔐</div>
+                            <h4>Secure Authentication</h4>
+                            <p>Implement proper authentication with JWT tokens and secure password hashing.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">📊</div>
+                            <h4>Database Design</h4>
+                            <p>Design models with proper relationships and use migrations for schema changes.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🌐</div>
+                            <h4>API Design</h4>
+                            <p>Create RESTful APIs with proper error handling and status codes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Explanations Section -->
+                    <div class="detailed-explanations">
+                        <h3>Comprehensive Concept Breakdown</h3>
+                        
+                        <div class="concept-detail">
+                            <h4>🏗️ Modular Architecture: Building Scalable Flask Applications</h4>
+                            <p>Modular architecture is the foundation of maintainable and scalable Flask applications. It involves organizing your code into logical, reusable components that can be developed, tested, and maintained independently. This approach becomes essential as your application grows beyond a few routes and models.</p>
+                            
+                            <p><strong>Flask Blueprints</strong> are the primary mechanism for creating modular Flask applications. A blueprint is a way to organize related views and other code into a single module. Instead of registering views and other code directly with an application, they are registered with a blueprint. Then the blueprint is registered with the application when it is available. This allows you to organize your application into logical components, such as authentication, user management, and API endpoints.</p>
+                            
+                            <p><strong>Application Factory Pattern</strong> is a design pattern that involves creating your Flask application instance in a function rather than at the module level. This pattern provides several benefits: it allows you to create multiple instances of your application (useful for testing), it makes it easier to configure your application for different environments, and it helps avoid circular import issues. The factory function typically takes configuration parameters and returns a configured Flask application instance.</p>
+                            
+                            <p><strong>Separation of Concerns</strong> is a fundamental principle that should guide your application structure. Each module should have a single, well-defined responsibility. For example, authentication logic should be separate from business logic, and data access should be separate from presentation logic. This separation makes your code easier to understand, test, and maintain. It also makes it easier to reuse components in different parts of your application or in different applications entirely.</p>
+                            
+                            <p><strong>Configuration Management</strong> is essential for deploying applications to different environments. Flask applications should use environment variables for configuration, allowing you to have different settings for development, testing, and production environments. This includes database URLs, secret keys, API keys, and other sensitive information that should not be hardcoded in your source code.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Flask Application Architecture</h5>
+                                <p>For comprehensive coverage of Flask application architecture and modular design, we recommend <strong>"Flask Web Development: Developing Web Applications with Python" by Miguel Grinberg</strong> (available on Amazon). This book provides detailed guidance on building scalable Flask applications, including blueprints, application factories, and best practices for organizing Flask code.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>🔐 Secure Authentication: Protecting User Data and Sessions</h4>
+                            <p>Secure authentication is critical for any web application that handles user data or provides personalized services. It involves verifying the identity of users and managing their sessions securely. In Flask applications, this is typically implemented using Flask-Login for session management and JWT tokens for stateless authentication.</p>
+                            
+                            <p><strong>JWT (JSON Web Tokens)</strong> are a stateless authentication mechanism that's particularly useful for API authentication and single-page applications. JWTs contain encoded information about the user and can be verified without accessing the database on every request. This makes them efficient for distributed systems and microservices architectures. JWTs should be signed with a secret key and should have an expiration time to limit their lifetime.</p>
+                            
+                            <p><strong>Secure Password Hashing</strong> is essential for protecting user accounts. Passwords should never be stored in plain text. Instead, they should be hashed using a secure hashing algorithm like bcrypt, which includes a salt to prevent rainbow table attacks. The hashing process should be slow enough to make brute force attacks impractical. When users log in, their provided password should be hashed and compared with the stored hash, not the original password.</p>
+                            
+                            <p><strong>Session Management</strong> involves securely handling user sessions across requests. Sessions should be stored securely (typically in a server-side session store or in encrypted cookies), and session IDs should be random and unpredictable. Sessions should have a reasonable expiration time, and users should be able to log out and invalidate their sessions. For sensitive applications, consider implementing additional security measures like two-factor authentication and session monitoring.</p>
+                            
+                            <p><strong>Authorization and Access Control</strong> determine what resources and actions users can access. This typically involves implementing role-based access control (RBAC) where users are assigned roles, and roles are granted permissions to specific resources. Authorization should be checked at every endpoint that accesses sensitive data or performs privileged operations.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Web Application Security</h5>
+                                <p>For comprehensive coverage of web application security and authentication, we recommend <strong>"Web Application Security: A Beginner's Guide" by Bryan Sullivan and Vincent Liu</strong> (available on Amazon). This book provides detailed guidance on implementing secure authentication systems, including password security, session management, and protection against common web vulnerabilities.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>📊 Database Design: Building Robust Data Models</h4>
+                            <p>Database design is a critical component of any web application. It involves designing data models, implementing database operations, and managing database schema changes over time. In Flask applications, this is typically handled using SQLAlchemy as an ORM (Object-Relational Mapping) and Alembic for database migrations.</p>
+                            
+                            <p><strong>SQLAlchemy Models</strong> provide a high-level interface for working with databases in Python. They allow you to work with database tables as Python classes and database rows as Python objects. This abstraction makes it easier to write database code and reduces the risk of SQL injection attacks. SQLAlchemy handles the translation between Python objects and SQL queries, manages database connections, and provides features like lazy loading and eager loading for optimizing database queries.</p>
+                            
+                            <p><strong>Model Relationships</strong> define how different entities in your application relate to each other. Common relationship types include one-to-one, one-to-many, and many-to-many relationships. Properly defining these relationships is essential for data integrity and application performance. SQLAlchemy provides declarative syntax for defining relationships, and it automatically handles the SQL JOIN operations needed to retrieve related data.</p>
+                            
+                            <p><strong>Database Migrations</strong> are a way to manage database schema changes over time. Migrations are version-controlled scripts that describe how to transform your database from one state to another. They can be applied forward to update your database schema or backward to roll back changes. Alembic integrates with SQLAlchemy and can automatically generate migration scripts based on changes to your model definitions. This makes it easier to manage database schema changes in a controlled and repeatable way.</p>
+                            
+                            <p><strong>Data Validation and Constraints</strong> ensure that your data remains consistent and valid. This includes implementing database-level constraints like unique keys, foreign keys, and check constraints, as well as application-level validation using tools like Marshmallow or WTForms. Validation should happen at multiple levels to ensure data integrity and provide good user experience.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: SQLAlchemy and Database Design</h5>
+                                <p>For comprehensive coverage of SQLAlchemy and database integration, we recommend <strong>"Essential SQLAlchemy: Mapping Python to Databases" by Jason Myers and Rick Copeland</strong> (available on Amazon). This book provides detailed guidance on using SQLAlchemy effectively, including model design, query optimization, and integration with Flask applications.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>🌐 API Design: Creating RESTful Web Services</h4>
+                            <p>API design is crucial for creating web services that are easy to use, maintain, and extend. A well-designed API provides a clear interface for clients to interact with your application, whether those clients are web browsers, mobile apps, or other services. REST (Representational State Transfer) is a popular architectural style for designing web APIs.</p>
+                            
+                            <p><strong>RESTful Principles</strong> guide the design of web APIs. REST APIs use HTTP methods (GET, POST, PUT, DELETE) to perform operations on resources, which are identified by URLs. GET requests retrieve data, POST requests create new resources, PUT requests update existing resources, and DELETE requests remove resources. REST APIs should be stateless, meaning that each request contains all the information needed to process it.</p>
+                            
+                            <p><strong>Error Handling</strong> is essential for providing a good developer experience. APIs should return appropriate HTTP status codes to indicate the success or failure of requests. Common status codes include 200 (OK) for successful requests, 201 (Created) for successful resource creation, 400 (Bad Request) for invalid input, 401 (Unauthorized) for authentication failures, 404 (Not Found) for missing resources, and 500 (Internal Server Error) for server errors. Error responses should include meaningful error messages and, when appropriate, suggestions for fixing the issue.</p>
+                            
+                            <p><strong>API Documentation</strong> helps developers understand how to use your API. This can include interactive documentation tools like Swagger/OpenAPI, which allow developers to explore your API endpoints and test them directly from the documentation. Good documentation should include examples of requests and responses, descriptions of parameters and return values, and information about authentication and rate limiting.</p>
+                            
+                            <p><strong>Versioning and Backward Compatibility</strong> are important considerations for APIs that will be used by multiple clients over time. API versioning allows you to introduce breaking changes while maintaining support for existing clients. Common versioning strategies include URL versioning (e.g., /api/v1/users), header versioning, and content negotiation. Backward compatibility should be maintained for as long as possible to avoid breaking existing integrations.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: RESTful API Design</h5>
+                                <p>For comprehensive coverage of RESTful API design and best practices, we recommend <strong>"RESTful Web Services" by Leonard Richardson and Sam Ruby</strong> (available on Amazon). This book provides detailed guidance on designing RESTful APIs, including principles, patterns, and practical examples for building web services.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Next Steps Section -->
+                <section id="next-steps" class="content-section">
+                    <h2>Next Steps</h2>
+                    
+                    <div class="next-steps-content">
+                        <h3>Preparation for Chapter 8</h3>
+                        <p>Before moving to the next chapter, practice:</p>
+                        <ol>
+                            <li>Build a complete Flask application with authentication</li>
+                            <li>Implement CRUD operations for multiple entities</li>
+                            <li>Create a responsive frontend interface</li>
+                            <li>Write comprehensive tests for your application</li>
+                            <li>Deploy your application to a cloud platform</li>
+                        </ol>
+                        
+                        <div class="navigation-buttons">
+                            <a href="06-systems-design-principles.html" class="btn btn-secondary">← Previous Chapter</a>
+                            <a href="08-network-troubleshooting.html" class="btn btn-primary">Next Chapter →</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cross-References Section -->
+                <section id="cross-references" class="content-section">
+                    <h2>Cross-References</h2>
+                    
+                    <div class="references-grid">
+                        <div class="reference-card">
+                            <h4>Related Chapters</h4>
+                            <ul>
+                                <li><a href="06-systems-design-principles.html">Chapter 6: Systems Design Principles</a></li>
+                                <li><a href="08-network-troubleshooting.html">Chapter 8: Network Troubleshooting</a></li>
+                                <li><a href="12-security-fundamentals.html">Chapter 12: Security Fundamentals</a></li>
+                            </ul>
+                        </div>
+                        <div class="reference-card">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://flask.palletsprojects.com/" target="_blank">Flask Documentation</a></li>
+                                <li><a href="https://flask-sqlalchemy.palletsprojects.com/" target="_blank">Flask-SQLAlchemy Documentation</a></li>
+                                <li><a href="https://flask-migrate.readthedocs.io/" target="_blank">Flask-Migrate Documentation</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Conclusion Section -->
+                <section id="conclusion" class="content-section">
+                    <h2>Conclusion</h2>
+                    
+                    <div class="conclusion-content">
+                        <p>You've now built a complete full-stack application using Flask, SQLAlchemy, and modern web technologies. This foundation will serve you well as you move into more advanced topics like network troubleshooting, debugging, and deployment.</p>
+                        
+                        <div class="key-message">
+                            <blockquote>
+                                <p>Remember: A well-structured Flask application is the foundation for scalable, maintainable web services. Focus on clean architecture and proper separation of concerns.</p>
+                            </blockquote>
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            <!-- Chapter Navigation -->
+            <nav class="chapter-navigation">
+                <div class="nav-buttons">
+                    <a href="06-systems-design-principles.html" class="btn btn-secondary">← Previous Chapter</a>
+                    <a href="08-network-troubleshooting.html" class="btn btn-primary">Next Chapter →</a>
+                </div>
+                <div class="chapter-list">
+                    <a href="01-setting-up-python.html" class="chapter-link">Chapter 1</a>
+                    <a href="02-using-chatgpt.html" class="chapter-link">Chapter 2</a>
+                    <a href="03-using-cursor.html" class="chapter-link">Chapter 3</a>
+                    <a href="04-database-design-fundamentals.html" class="chapter-link">Chapter 4</a>
+                    <a href="05-advanced-data-modeling.html" class="chapter-link">Chapter 5</a>
+                    <a href="06-systems-design-principles.html" class="chapter-link">Chapter 6</a>
+                    <a href="07-building-fullstack-flask.html" class="current-chapter">Chapter 7</a>
+                </div>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design & Python Development</h4>
+                    <p>A comprehensive guide to building scalable applications with Python and modern web technologies.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">GitHub</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design & Python Development. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

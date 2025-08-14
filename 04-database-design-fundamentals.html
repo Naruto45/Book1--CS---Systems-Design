@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4: Database Design Fundamentals - System Design & Python Development</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <script src="js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>System Design & Python</h1>
+                <span class="subtitle">Complete Development Guide</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <div class="nav-dropdown">
+                    <button class="nav-link dropdown-toggle">Chapters</button>
+                    <div class="dropdown-content">
+                        <a href="01-setting-up-python.html">Chapter 1: Setting Up Python</a>
+                        <a href="02-using-chatgpt.html">Chapter 2: Using ChatGPT</a>
+                        <a href="03-using-cursor.html">Chapter 3: Using Cursor</a>
+                        <a href="04-database-design-fundamentals.html">Chapter 4: Database Design</a>
+                        <a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling</a>
+                        <a href="06-systems-design-principles.html">Chapter 6: Systems Design</a>
+                        <a href="07-building-fullstack-flask.html">Chapter 7: Building Flask Apps</a>
+                        <a href="08-network-troubleshooting.html">Chapter 8: Network Troubleshooting</a>
+                        <a href="09-application-debugging.html">Chapter 9: Application Debugging</a>
+                        <a href="10-algorithmic-thinking.html">Chapter 10: Algorithmic Thinking</a>
+                        <a href="11-testing-strategies.html">Chapter 11: Testing Strategies</a>
+                        <a href="12-security-fundamentals.html">Chapter 12: Security Fundamentals</a>
+                        <a href="13-deployment-devops.html">Chapter 13: Deployment & DevOps</a>
+                        <a href="14-advanced-topics.html">Chapter 14: Advanced Topics</a>
+                    </div>
+                </div>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Chapter Header -->
+            <header class="chapter-header">
+                <div class="chapter-meta">
+                    <span class="chapter-number">Chapter 4</span>
+                    <h1 class="chapter-title">Database Design Fundamentals</h1>
+                    <div class="chapter-info">
+                        <span class="version">Version: 1.0.0</span>
+                        <span class="last-updated">Last Updated: 2024-12-19</span>
+                        <span class="reading-time">Reading Time: ~45 minutes</span>
+                    </div>
+                </div>
+                <div class="chapter-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="progress-text">0% Complete</span>
+                </div>
+            </header>
+
+            <!-- Table of Contents -->
+            <aside class="table-of-contents">
+                <h3>Table of Contents</h3>
+                <nav class="toc-nav">
+                    <ul>
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#critical-configurations">Critical Configurations</a></li>
+                        <li><a href="#three-stages">Three Stages of Database Modeling</a></li>
+                        <li><a href="#entity-relationship-diagrams">Entity-Relationship Diagrams</a></li>
+                        <li><a href="#normalization">Normalization</a></li>
+                        <li><a href="#indexing">Indexing Strategies</a></li>
+                        <li><a href="#flask-sqlalchemy">Flask + SQLAlchemy Implementation</a></li>
+                        <li><a href="#hands-on-exercise">Hands-On Exercise</a></li>
+                        <li><a href="#key-takeaways">Key Takeaways</a></li>
+                        <li><a href="#next-steps">Next Steps</a></li>
+                        <li><a href="#cross-references">Cross-References</a></li>
+                        <li><a href="#conclusion">Conclusion</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Chapter Content -->
+            <article class="chapter-content">
+                <!-- Overview Section -->
+                <section id="overview" class="content-section">
+                    <h2>Overview</h2>
+                    <p>Before you write a single line of application code, you should design your database. Most beginner developers do the opposite: they start coding routes, business logic, and user interfaces, and only think about the database when they need to "store something."</p>
+                    
+                    <p>The result? Messy schemas, slow queries, and painful migrations.</p>
+
+                    <p>In professional software engineering — and especially in systems design — you start with the database because:</p>
+                    <ul>
+                        <li><strong>Data is the most persistent part of a system.</strong> Applications can be rewritten; data lasts decades.</li>
+                        <li><strong>Data structure determines system capabilities.</strong> Poor schema = limited features.</li>
+                        <li><strong>Performance starts here.</strong> A well-designed schema reduces the need for expensive app-side fixes.</li>
+                        <li><strong>Security starts here.</strong> The database layer controls access, encryption, and audit logging.</li>
+                    </ul>
+                    
+                    <div class="learning-objectives">
+                        <h3>Learning Objectives</h3>
+                        <ul>
+                            <li>Understand the three stages of database modeling</li>
+                            <li>Create Entity-Relationship Diagrams (ERDs)</li>
+                            <li>Apply normalization rules and know when to break them</li>
+                            <li>Design effective indexing strategies</li>
+                            <li>Implement database designs with Flask + SQLAlchemy</li>
+                        </ul>
+                    </div>
+
+                    <div class="prerequisites">
+                        <h3>Prerequisites</h3>
+                        <ul>
+                            <li>Python environment setup (from Chapter 1)</li>
+                            <li>Basic understanding of data structures</li>
+                            <li>Familiarity with SQL concepts</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Critical Configurations Section -->
+                <section id="critical-configurations" class="content-section">
+                    <h2>Critical Configurations</h2>
+                    
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>MongoDB Atlas Connection</h4>
+                            <ul>
+                                <li><strong>Connection String:</strong> mongodb+srv://blackloin:naruto45@cluster0.fmktl.mongodb.net/gameeng?retryWrites=true&w=majority</li>
+                                <li><strong>Database:</strong> gameeng</li>
+                                <li><strong>Authentication:</strong> Username/password</li>
+                                <li><strong>SSL:</strong> Enabled for secure connections</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Database Design Principles</h4>
+                            <ul>
+                                <li><strong>Normalization:</strong> Start with 3NF, denormalize only when justified</li>
+                                <li><strong>Indexing:</strong> Strategic indexes for query performance</li>
+                                <li><strong>Constraints:</strong> Enforce data integrity at the database level</li>
+                                <li><strong>Relationships:</strong> Clear foreign key relationships</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Three Stages Section -->
+                <section id="three-stages" class="content-section">
+                    <h2>The Three Stages of Database Modeling</h2>
+                    
+                    <p>A professional schema design process moves through three levels:</p>
+                    <ol>
+                        <li><strong>Conceptual Model</strong> — What entities exist and how they relate</li>
+                        <li><strong>Logical Model</strong> — What attributes those entities have and what the relationships are in detail</li>
+                        <li><strong>Physical Model</strong> — The actual SQL tables, columns, indexes, and constraints</li>
+                    </ol>
+
+                    <!-- Database Design Process Diagram -->
+                    <div class="visual-content">
+                        <h3>Database Design Process Flow</h3>
+                        
+                        <!-- Dataset Table -->
+                        <div class="dataset-table">
+                            <h4>Database Modeling Stages Dataset</h4>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Stage</th>
+                                        <th>Focus</th>
+                                        <th>Deliverables</th>
+                                        <th>Stakeholders</th>
+                                        <th>Time Investment</th>
+                                        <th>Tools</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Conceptual</td>
+                                        <td>Business Entities</td>
+                                        <td>Entity List, Relationships</td>
+                                        <td>Business Analysts</td>
+                                        <td>20%</td>
+                                        <td>Whiteboard, ERD Tools</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Logical</td>
+                                        <td>Data Structure</td>
+                                        <td>Detailed ERD, Attributes</td>
+                                        <td>Data Architects</td>
+                                        <td>40%</td>
+                                        <td>ERD Software, UML</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Physical</td>
+                                        <td>Implementation</td>
+                                        <td>SQL Schema, Indexes</td>
+                                        <td>Database Developers</td>
+                                        <td>40%</td>
+                                        <td>SQL, ORM Tools</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mermaid Diagram -->
+                        <div class="diagram-container">
+                            <h4>Database Design Process Flow</h4>
+                            <div class="mermaid">
+                                flowchart TD
+                                    A[Business Requirements] --> B[Conceptual Modeling]
+                                    B --> C[Identify Entities]
+                                    B --> D[Define Relationships]
+                                    
+                                    C --> E[Logical Modeling]
+                                    D --> E
+                                    E --> F[Define Attributes]
+                                    E --> G[Establish Keys]
+                                    E --> H[Normalize Schema]
+                                    
+                                    F --> I[Physical Modeling]
+                                    G --> I
+                                    H --> I
+                                    I --> J[Choose DBMS]
+                                    I --> K[Define Data Types]
+                                    I --> L[Create Indexes]
+                                    I --> M[Set Constraints]
+                                    
+                                    J --> N[Implementation]
+                                    K --> N
+                                    L --> N
+                                    M --> N
+                                    
+                                    N --> O[Testing & Validation]
+                                    O --> P{Schema Valid?}
+                                    P -->|No| Q[Refactor Design]
+                                    Q --> E
+                                    P -->|Yes| R[Deploy & Monitor]
+                                    
+                                    style A fill:#e3f2fd
+                                    style R fill:#c8e6c9
+                                    style P fill:#ffecb3
+                                    style Q fill:#ffcdd2
+                                    
+                                    subgraph "Design Phases"
+                                        B
+                                        E
+                                        I
+                                    end
+                                    
+                                    subgraph "Implementation"
+                                        N
+                                        O
+                                        R
+                                    end
+                            </div>
+                        </div>
+
+                        <!-- Variable Definitions -->
+                        <div class="variable-definitions">
+                            <h4>Database Design Variables & Configuration</h4>
+                            <div class="var-grid">
+                                <div class="var-card">
+                                    <h5>Connection String</h5>
+                                    <code>DATABASE_URL = "mongodb+srv://user:pass@cluster.mongodb.net/dbname"</code>
+                                    <p>MongoDB Atlas connection string with authentication</p>
+                                    <a href="https://docs.mongodb.com/guides/cloud/connectionstring/" target="_blank">📖 MongoDB Connection Guide</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>SQLAlchemy Configuration</h5>
+                                    <code>app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL</code>
+                                    <p>Flask-SQLAlchemy database URI configuration</p>
+                                    <a href="https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/config/" target="_blank">📖 Flask-SQLAlchemy Config</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Model Definition</h5>
+                                    <code>class User(db.Model): id = db.Column(db.Integer, primary_key=True)</code>
+                                    <p>SQLAlchemy model class with primary key definition</p>
+                                    <a href="https://docs.sqlalchemy.org/en/20/orm/declarative_tables.html" target="_blank">📖 SQLAlchemy Models</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Index Configuration</h5>
+                                    <code>__table_args__ = {'mysql_engine': 'InnoDB'}</code>
+                                    <p>Table-level configuration for indexes and constraints</p>
+                                    <a href="https://docs.sqlalchemy.org/en/20/core/constraints.html" target="_blank">📖 SQLAlchemy Constraints</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Migration Setup</h5>
+                                    <code>migrate = Migrate(app, db)</code>
+                                    <p>Flask-Migrate configuration for database migrations</p>
+                                    <a href="https://flask-migrate.readthedocs.io/en/latest/" target="_blank">📖 Flask-Migrate Docs</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>Environment Variables</h5>
+                                    <code>DATABASE_URL = os.environ.get('DATABASE_URL')</code>
+                                    <p>Environment variable for database configuration</p>
+                                    <a href="https://docs.python.org/3/library/os.html#os.environ" target="_blank">📖 Python Environment Variables</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Conceptual Model</h3>
+                    <p>At this stage, you:</p>
+                    <ul>
+                        <li>Identify entities (things in the system)</li>
+                        <li>Identify relationships (how entities interact)</li>
+                        <li>Don't worry about actual table names or column types yet</li>
+                    </ul>
+
+                    <div class="code-example">
+                        <h4>Example: Task Tracking App</h4>
+                        <p><strong>Entities:</strong> User, Task, Project</p>
+                        <p><strong>Relationships:</strong></p>
+                        <ul>
+                            <li>A User can be assigned many Tasks</li>
+                            <li>A Task belongs to one Project</li>
+                            <li>A User can belong to multiple Projects</li>
+                        </ul>
+                    </div>
+
+                    <h3>Logical Model</h3>
+                    <p>Now you define:</p>
+                    <ul>
+                        <li>Attributes for each entity</li>
+                        <li>Relationship cardinality (1:1, 1:N, M:N)</li>
+                        <li>Keys (primary, foreign, composite)</li>
+                    </ul>
+
+                    <div class="code-example">
+                        <h4>Example:</h4>
+                        <pre><code class="language-sql line-numbers">User:
+- id (Primary Key)
+- name
+- email
+- password_hash
+
+Task:
+- id (PK)
+- title
+- description
+- status
+- assigned_user_id (FK → User.id)</code></pre>
+                    </div>
+
+                    <h3>Physical Model</h3>
+                    <p>Finally, you translate your logical model into actual database tables:</p>
+                    <ul>
+                        <li>Define column data types</li>
+                        <li>Add indexes for performance</li>
+                        <li>Enforce constraints (NOT NULL, UNIQUE, FOREIGN KEY)</li>
+                    </ul>
+                </section>
+
+                <!-- Entity-Relationship Diagrams Section -->
+                <section id="entity-relationship-diagrams" class="content-section">
+                    <h2>Entity-Relationship Diagrams (ERDs)</h2>
+                    
+                    <p>ERDs visually represent your conceptual and logical models. They help you:</p>
+                    <ul>
+                        <li>Visualize relationships between entities</li>
+                        <li>Identify missing relationships</li>
+                        <li>Plan database structure</li>
+                        <li>Communicate design to stakeholders</li>
+                    </ul>
+
+                    <h3>Basic ERD Notation</h3>
+                    <div class="config-card">
+                        <h4>ERD Symbols</h4>
+                        <ul>
+                            <li><strong>Rectangle:</strong> Entity/Table</li>
+                            <li><strong>Diamond:</strong> Relationship</li>
+                            <li><strong>Line:</strong> Connection between entity and relationship</li>
+                            <li><strong>Crow's Foot:</strong> "Many" side of relationship</li>
+                            <li><strong>Single Line:</strong> "One" side of relationship</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Task Management System ERD</h4>
+                        <pre><code class="language-sql line-numbers">-- Users Table
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Projects Table
+CREATE TABLE projects (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    owner_id INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tasks Table
+CREATE TABLE tasks (
+    id INTEGER PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    description TEXT,
+    status VARCHAR(20) DEFAULT 'pending',
+    assigned_user_id INTEGER REFERENCES users(id),
+    project_id INTEGER REFERENCES projects(id),
+    due_date DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);</code></pre>
+                    </div>
+                </section>
+
+                <!-- Normalization Section -->
+                <section id="normalization" class="content-section">
+                    <h2>Normalization</h2>
+                    
+                    <p>Normalization is the process of organizing data to reduce redundancy and improve data integrity. The goal is to ensure that each piece of data is stored in only one place.</p>
+
+                    <h3>Normal Forms</h3>
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>First Normal Form (1NF)</h4>
+                            <ul>
+                                <li>Each column contains atomic values</li>
+                                <li>No repeating groups</li>
+                                <li>Each row is unique</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Second Normal Form (2NF)</h4>
+                            <ul>
+                                <li>Must be in 1NF</li>
+                                <li>No partial dependencies</li>
+                                <li>All non-key attributes depend on the entire primary key</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Third Normal Form (3NF)</h4>
+                            <ul>
+                                <li>Must be in 2NF</li>
+                                <li>No transitive dependencies</li>
+                                <li>Non-key attributes don't depend on other non-key attributes</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Normalization Example</h4>
+                        <pre><code class="language-sql line-numbers">-- Before Normalization (Violates 1NF)
+CREATE TABLE orders (
+    order_id INTEGER PRIMARY KEY,
+    customer_name VARCHAR(100),
+    items VARCHAR(500)  -- "item1,item2,item3" - violates 1NF
+);
+
+-- After Normalization (3NF)
+CREATE TABLE orders (
+    order_id INTEGER PRIMARY KEY,
+    customer_id INTEGER REFERENCES customers(id)
+);
+
+CREATE TABLE order_items (
+    order_id INTEGER REFERENCES orders(id),
+    product_id INTEGER REFERENCES products(id),
+    quantity INTEGER,
+    PRIMARY KEY (order_id, product_id)
+);</code></pre>
+                    </div>
+                </section>
+
+                <!-- Indexing Section -->
+                <section id="indexing" class="content-section">
+                    <h2>Indexing Strategies</h2>
+                    
+                    <p>Indexes are data structures that improve the speed of data retrieval operations. They work like the index of a book — instead of reading every page to find information, you can jump directly to the right page.</p>
+
+                    <h3>Types of Indexes</h3>
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>B-Tree Indexes</h4>
+                            <ul>
+                                <li>Most common type</li>
+                                <li>Good for equality and range queries</li>
+                                <li>Automatically created for PRIMARY KEY and UNIQUE constraints</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Hash Indexes</h4>
+                            <ul>
+                                <li>Fast for equality queries</li>
+                                <li>Not suitable for range queries</li>
+                                <li>Used in memory-based databases</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Composite Indexes</h4>
+                            <ul>
+                                <li>Index on multiple columns</li>
+                                <li>Order of columns matters</li>
+                                <li>Useful for complex queries</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Indexing Examples</h4>
+                        <pre><code class="language-sql line-numbers">-- Single column index
+CREATE INDEX idx_users_email ON users(email);
+
+-- Composite index (order matters!)
+CREATE INDEX idx_tasks_status_due_date ON tasks(status, due_date);
+
+-- Unique index
+CREATE UNIQUE INDEX idx_users_username ON users(username);
+
+-- Partial index (PostgreSQL)
+CREATE INDEX idx_active_tasks ON tasks(due_date) WHERE status = 'active';</code></pre>
+                    </div>
+
+                    <h3>Indexing Best Practices</h3>
+                    <div class="config-card">
+                        <h4>When to Create Indexes</h4>
+                        <ul>
+                            <li><strong>Primary Keys:</strong> Automatically indexed</li>
+                            <li><strong>Foreign Keys:</strong> Usually benefit from indexes</li>
+                            <li><strong>WHERE clauses:</strong> Columns used in WHERE conditions</li>
+                            <li><strong>JOIN conditions:</strong> Columns used in JOINs</li>
+                            <li><strong>ORDER BY:</strong> Columns used for sorting</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Flask + SQLAlchemy Section -->
+                <section id="flask-sqlalchemy" class="content-section">
+                    <h2>Flask + SQLAlchemy Implementation</h2>
+                    
+                    <p>SQLAlchemy is a powerful ORM (Object-Relational Mapping) library that lets you work with databases using Python objects instead of writing raw SQL.</p>
+
+                    <div class="code-example">
+                        <h3>Basic SQLAlchemy Setup</h3>
+                        <pre><code class="language-python line-numbers">from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+# User Model
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Relationship
+    tasks = db.relationship('Task', backref='assigned_user', lazy=True)
+
+# Task Model
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text)
+    status = db.Column(db.String(20), default='pending')
+    assigned_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    due_date = db.Column(db.Date)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+# Create tables
+with app.app_context():
+    db.create_all()</code></pre>
+                    </div>
+
+                    <h3>Advanced SQLAlchemy Features</h3>
+                    <div class="code-example">
+                        <h4>Indexes and Constraints</h4>
+                        <pre><code class="language-python line-numbers">class Task(db.Model):
+    __tablename__ = 'tasks'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    status = db.Column(db.String(20), default='pending', index=True)
+    due_date = db.Column(db.Date, index=True)
+    
+    # Composite index
+    __table_args__ = (
+        db.Index('idx_status_due_date', 'status', 'due_date'),
+        {'sqlite_autoincrement': True}
+    )</code></pre>
+                    </div>
+                </section>
+
+                <!-- Hands-On Exercise Section -->
+                <section id="hands-on-exercise" class="content-section">
+                    <h2>Hands-On Exercise: Design a Blog System Database</h2>
+                    
+                    <div class="exercise-container">
+                        <div class="exercise-header">
+                            <h3>Creating a Complete Database Schema</h3>
+                            <div class="difficulty-badge">Intermediate</div>
+                        </div>
+                        
+                        <div class="exercise-content">
+                            <h4>Objective</h4>
+                            <p>Design and implement a complete database schema for a blog system with users, posts, comments, and tags.</p>
+                            
+                            <h4>Requirements</h4>
+                            <ul>
+                                <li>User registration and authentication</li>
+                                <li>Blog posts with categories and tags</li>
+                                <li>Comment system with threading</li>
+                                <li>User profiles and relationships</li>
+                                <li>Search and filtering capabilities</li>
+                            </ul>
+                            
+                            <h4>Steps</h4>
+                            <ol>
+                                <li>Create the conceptual model (entities and relationships)</li>
+                                <li>Design the logical model (attributes and keys)</li>
+                                <li>Implement the physical model with SQLAlchemy</li>
+                                <li>Add appropriate indexes and constraints</li>
+                                <li>Test the schema with sample data</li>
+                            </ol>
+                            
+                            <div class="exercise-code">
+                                <h4>Starter Code</h4>
+                                <pre><code class="language-python line-numbers">from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+db = SQLAlchemy(app)
+
+# Your models here...
+
+# Test the schema
+with app.app_context():
+    db.create_all()
+    print("Database schema created successfully!")</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Takeaways Section -->
+                <section id="key-takeaways" class="content-section">
+                    <h2>Key Takeaways</h2>
+                    
+                    <div class="takeaways-grid">
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🗄️</div>
+                            <h4>Design First</h4>
+                            <p>Always design your database before writing application code. Data structure determines system capabilities.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">📊</div>
+                            <h4>Three-Stage Process</h4>
+                            <p>Follow the conceptual → logical → physical modeling process for robust database design.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🔗</div>
+                            <h4>Normalization</h4>
+                            <p>Start with 3NF and denormalize only when performance justifies it. Data integrity comes first.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">⚡</div>
+                            <h4>Strategic Indexing</h4>
+                            <p>Index foreign keys, WHERE clause columns, and JOIN conditions. Monitor query performance.</p>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Explanations Section -->
+                    <div class="detailed-explanations">
+                        <h3>Comprehensive Concept Breakdown</h3>
+                        
+                        <div class="concept-detail">
+                            <h4>🗄️ Design First: The Foundation of Successful Applications</h4>
+                            <p>Database design is not just a preliminary step—it's the architectural foundation that determines your application's scalability, performance, and maintainability. When you design your database first, you're essentially creating the blueprint for your entire data architecture. This approach forces you to think critically about data relationships, access patterns, and future growth requirements before writing a single line of application code.</p>
+                            
+                            <p>The "Design First" principle encompasses several critical aspects that every developer must understand. First, it involves identifying all entities (tables) and their relationships before any coding begins. This includes understanding cardinality (one-to-one, one-to-many, many-to-many relationships), business rules, and data constraints. Second, it requires planning for scalability from day one—considering how your data will grow and how queries will perform as your application scales. Third, it involves designing for data integrity, ensuring that your database enforces business rules and prevents data corruption through proper constraints and relationships.</p>
+                            
+                            <p>Many developers make the mistake of starting with application code and "figuring out" the database as they go. This approach leads to several problems: inconsistent data structures, poor performance due to inefficient queries, difficulty in maintaining data integrity, and challenges when trying to scale the application. By designing the database first, you create a solid foundation that supports your application's current needs and future growth.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Database Design Fundamentals</h5>
+                                <p>For a comprehensive understanding of database design principles, we recommend <strong>"Database Design for Mere Mortals: A Hands-On Guide to Relational Database Design" by Michael J. Hernandez</strong> (available on Amazon). This book provides step-by-step guidance through the entire database design process, from initial requirements gathering to final implementation. It covers entity-relationship modeling, normalization, and practical design patterns that you'll use throughout your career.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>📊 Three-Stage Process: A Systematic Approach to Database Design</h4>
+                            <p>The three-stage database modeling process (Conceptual → Logical → Physical) is a systematic methodology that ensures thorough and well-planned database design. Each stage builds upon the previous one, adding more detail and technical specifications as you progress from high-level business concepts to actual implementation.</p>
+                            
+                            <p><strong>Conceptual Stage:</strong> This is where you capture the business requirements and create a high-level view of your data. You identify entities (the "things" in your system), their attributes, and how they relate to each other. At this stage, you're not concerned with technical implementation details—you're focused on understanding the business domain. For example, in an e-commerce system, you might identify entities like Customer, Product, Order, and Category, along with their basic relationships.</p>
+                            
+                            <p><strong>Logical Stage:</strong> Here you refine your conceptual model by adding more detail to entities and relationships. You define primary keys, foreign keys, and the exact nature of relationships (one-to-one, one-to-many, many-to-many). You also begin to think about data types and constraints. This stage bridges the gap between business requirements and technical implementation, ensuring that your database design accurately represents the business rules and data requirements.</p>
+                            
+                            <p><strong>Physical Stage:</strong> This is where you translate your logical model into actual database tables, columns, indexes, and constraints. You choose specific data types, define indexes for performance, and implement constraints to maintain data integrity. You also consider database-specific features and optimizations that will improve performance and maintainability.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Database Modeling and Design</h5>
+                                <p>For detailed coverage of the three-stage modeling process, we recommend <strong>"Database Modeling and Design: Logical Design" by Toby J. Teorey, Sam S. Lightstone, and Tom Nadeau</strong> (available on Amazon). This comprehensive textbook covers all aspects of database modeling, from conceptual design through physical implementation, with practical examples and case studies.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>🔗 Normalization: The Science of Data Organization</h4>
+                            <p>Normalization is a systematic approach to organizing data in a database to reduce redundancy and improve data integrity. It's based on mathematical principles and involves decomposing tables into smaller, more focused tables while maintaining data relationships. The goal is to ensure that each piece of data is stored in only one place, eliminating data anomalies and inconsistencies.</p>
+                            
+                            <p>The normalization process follows a series of "normal forms," each building upon the previous one. <strong>First Normal Form (1NF)</strong> requires that each column contains atomic (indivisible) values and that there are no repeating groups. For example, instead of storing multiple phone numbers in a single column like "555-1234, 555-5678," you would create separate rows or a related table for phone numbers.</p>
+                            
+                            <p><strong>Second Normal Form (2NF)</strong> builds on 1NF and requires that all non-key attributes depend on the entire primary key, not just part of it. This eliminates partial dependencies. <strong>Third Normal Form (3NF)</strong> goes further by eliminating transitive dependencies—situations where a non-key attribute depends on another non-key attribute rather than the primary key.</p>
+                            
+                            <p>While normalization is crucial for data integrity, it's important to understand when to stop normalizing. Over-normalization can lead to excessive joins and poor performance. The key is finding the right balance between data integrity and performance. In some cases, you might intentionally denormalize certain aspects of your database to improve query performance, but this should always be done thoughtfully and with a clear understanding of the trade-offs involved.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Database Normalization</h5>
+                                <p>For an in-depth understanding of normalization principles and practices, we recommend <strong>"Database Systems: The Complete Book" by Hector Garcia-Molina, Jeffrey D. Ullman, and Jennifer Widom</strong> (available on Amazon). This comprehensive textbook covers all aspects of database systems, including detailed explanations of normalization theory and practical applications.</p>
+                            </div>
+                        </div>
+
+                        <div class="concept-detail">
+                            <h4>⚡ Strategic Indexing: Optimizing Database Performance</h4>
+                            <p>Indexing is one of the most powerful tools for optimizing database performance, but it requires careful planning and understanding of your application's query patterns. An index is a data structure that improves the speed of data retrieval operations by providing a quick lookup mechanism for specific column values. Think of it like the index in a book—instead of reading every page to find information, you can jump directly to the right page.</p>
+                            
+                            <p>Strategic indexing involves understanding which columns to index based on how they're used in queries. <strong>Primary keys are automatically indexed</strong> in most database systems, but you need to carefully consider which other columns to index. Foreign keys are excellent candidates for indexing because they're frequently used in JOIN operations. Columns used in WHERE clauses, especially those with equality comparisons, should typically be indexed. Columns used in ORDER BY clauses can also benefit from indexes, particularly if the database can use the index to avoid sorting.</p>
+                            
+                            <p>However, indexing is not without costs. Each index requires additional storage space and slows down INSERT, UPDATE, and DELETE operations because the database must maintain the index alongside the data. Therefore, it's crucial to monitor index usage and performance. Most database systems provide tools to analyze query performance and identify which indexes are being used effectively and which might be unnecessary.</p>
+                            
+                            <p>Advanced indexing strategies include composite indexes (indexes on multiple columns), partial indexes (indexes that only include rows meeting certain conditions), and covering indexes (indexes that include all columns needed for a query, eliminating the need to access the actual table). Understanding these advanced techniques can significantly improve your database performance.</p>
+                            
+                            <div class="textbook-reference">
+                                <h5>📚 Recommended Reading: Database Performance and Tuning</h5>
+                                <p>For comprehensive coverage of database performance optimization and indexing strategies, we recommend <strong>"High Performance MySQL: Optimization, Backups, and Replication" by Baron Schwartz, Peter Zaitsev, and Vadim Tkachenko</strong> (available on Amazon). While focused on MySQL, this book provides universal principles of database performance tuning that apply to all relational databases.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Next Steps Section -->
+                <section id="next-steps" class="content-section">
+                    <h2>Next Steps</h2>
+                    
+                    <div class="next-steps-content">
+                        <h3>Preparation for Chapter 5</h3>
+                        <p>Before moving to the next chapter, practice:</p>
+                        <ol>
+                            <li>Design a database schema for a real-world application</li>
+                            <li>Create ERDs for complex relationships</li>
+                            <li>Implement models with SQLAlchemy</li>
+                            <li>Add appropriate indexes and test performance</li>
+                            <li>Practice normalization and denormalization</li>
+                        </ol>
+                        
+                        <div class="navigation-buttons">
+                            <a href="03-using-cursor.html" class="btn btn-secondary">← Previous Chapter</a>
+                            <a href="05-advanced-data-modeling.html" class="btn btn-primary">Next Chapter →</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cross-References Section -->
+                <section id="cross-references" class="content-section">
+                    <h2>Cross-References</h2>
+                    
+                    <div class="references-grid">
+                        <div class="reference-card">
+                            <h4>Related Chapters</h4>
+                            <ul>
+                                <li><a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling & Storage Strategy</a></li>
+                                <li><a href="07-building-fullstack-flask.html">Chapter 7: Building a Full-Stack App with Flask</a></li>
+                                <li><a href="09-application-debugging.html">Chapter 9: Application Debugging & Optimization</a></li>
+                            </ul>
+                        </div>
+                        <div class="reference-card">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://docs.sqlalchemy.org/" target="_blank">SQLAlchemy Documentation</a></li>
+                                <li><a href="https://flask-sqlalchemy.palletsprojects.com/" target="_blank">Flask-SQLAlchemy Documentation</a></li>
+                                <li><a href="https://www.postgresql.org/docs/" target="_blank">PostgreSQL Documentation</a></li>
+                                <li><a href="https://docs.mongodb.com/" target="_blank">MongoDB Documentation</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Conclusion Section -->
+                <section id="conclusion" class="content-section">
+                    <h2>Conclusion</h2>
+                    
+                    <div class="conclusion-content">
+                        <p>Database design is the foundation of any successful application. By following the three-stage modeling process, applying normalization principles, and implementing strategic indexing, you can create robust, scalable database schemas that support your application's needs.</p>
+                        
+                        <div class="key-message">
+                            <blockquote>
+                                <p>Remember: A well-designed database is like a well-organized library — everything has its place, and you can find what you need quickly and efficiently.</p>
+                            </blockquote>
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            <!-- Chapter Navigation -->
+            <nav class="chapter-navigation">
+                <div class="nav-buttons">
+                    <a href="03-using-cursor.html" class="btn btn-secondary">← Previous Chapter</a>
+                    <a href="05-advanced-data-modeling.html" class="btn btn-primary">Next Chapter →</a>
+                </div>
+                <div class="chapter-list">
+                    <a href="01-setting-up-python.html" class="chapter-link">Chapter 1</a>
+                    <a href="02-using-chatgpt.html" class="chapter-link">Chapter 2</a>
+                    <a href="03-using-cursor.html" class="chapter-link">Chapter 3</a>
+                    <a href="04-database-design-fundamentals.html" class="current-chapter">Chapter 4</a>
+                    <a href="05-advanced-data-modeling.html" class="chapter-link">Chapter 5</a>
+                    <a href="06-systems-design-principles.html" class="chapter-link">Chapter 6</a>
+                    <a href="07-building-fullstack-flask.html" class="chapter-link">Chapter 7</a>
+                </div>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>System Design & Python Development</h4>
+                    <p>A comprehensive guide to building scalable applications with Python and modern web technologies.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">GitHub</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 System Design & Python Development. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
