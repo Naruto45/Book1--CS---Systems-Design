@@ -1,4 +1,4 @@
-# System Design & Python Development - Complete Guide
+# BlackArmorAI LMS: CS with Python & System Design Thinking  Development - Complete Guide
 
 A comprehensive technical book website covering system design, Python development, and modern web technologies. This project serves as both a learning resource and a demonstration of professional web development practices, featuring 14 detailed chapters that guide readers from basic Python setup to advanced system architecture concepts.
 

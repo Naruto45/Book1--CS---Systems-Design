@@ -2,7 +2,7 @@
 # This file ensures proper deployment on GitHub Pages
 
 # Site settings
-title: "System Design & Python Development"
+title: "BlackArmorAI LMS: CS with Python & System Design Thinking  Development"
 description: "A comprehensive guide to building scalable applications with Python and modern web technologies"
 url: "https://russellpowers.github.io/Book1_CS/book-website/"
 baseurl: "/Book1_CS/book-website"
@@ -90,7 +90,7 @@ sitemap:
 
 # SEO
 seo:
-  title: "System Design & Python Development - Complete Guide"
+  title: "BlackArmorAI LMS: CS with Python & System Design Thinking  Development - Complete Guide"
   description: "A comprehensive technical book covering system design, Python development, and modern web technologies"
   author: "Russell Powers"
   image: ""

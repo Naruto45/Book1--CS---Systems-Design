@@ -1,5 +1,5 @@
 // Book Website JavaScript
-// System Design & Python Development
+// BlackArmorAI LMS: CS with Python & System Design Thinking  Development
 
 (function() {
     'use strict';
