@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 3: Using Cursor with Python for System Design - System Design & Python Development</title>
+    <title>Chapter 10: Algorithmic Thinking & Problem Solving - System Design & Python Development</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
@@ -1315,7 +1315,7 @@
                     <button class="nav-link dropdown-toggle">Chapters</button>
                     <div class="dropdown-content">
                         <a href="01-setting-up-python.html">Chapter 1: Setting Up Python</a>
-                        <a href="02-using-chatgpt.html">Chapter 3: Using ChatGPT</a>
+                        <a href="02-using-chatgpt.html">Chapter 10: Using ChatGPT</a>
                         <a href="03-using-cursor.html">Chapter 3: Using Cursor</a>
                         <a href="04-database-design-fundamentals.html">Chapter 4: Database Design</a>
                         <a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling</a>
@@ -1347,7 +1347,7 @@
             <!-- Chapter Header -->
             <header class="chapter-header">
                 <div class="chapter-meta">
-                    <span class="chapter-number">Chapter 3</span>
+                    <span class="chapter-number">Chapter 10</span>
                     <h1 class="chapter-title">Using ChatGPT to Design and Plan Code</h1>
                     <div class="chapter-info">
                         <span class="version">Version: 1.0.0</span>
@@ -1672,6 +1672,99 @@ Design the system architecture with:
 
                     <!-- ChatGPT Workflow Diagram -->
                     <div class="visual-content">
+                        <!-- Dataset Table -->
+                        <div class="dataset-table">
+                            <h4>Algorithmic Problem-Solving Framework</h4>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Phase</th>
+                                        <th>Approach</th>
+                                        <th>Key Techniques</th>
+                                        <th>Expected Output</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Understanding</td>
+                                        <td>Problem analysis</td>
+                                        <td>Requirements gathering, constraints identification</td>
+                                        <td>Clear problem statement</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Design</td>
+                                        <td>Algorithm planning</td>
+                                        <td>Pseudocode, flowcharts, complexity analysis</td>
+                                        <td>Solution blueprint</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Implementation</td>
+                                        <td>Code development</td>
+                                        <td>Data structures, algorithms, testing</td>
+                                        <td>Working solution</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Optimization</td>
+                                        <td>Performance tuning</td>
+                                        <td>Profiling, refactoring, complexity reduction</td>
+                                        <td>Efficient solution</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mermaid Diagram -->
+                        <div class="mermaid">
+                            <h4>Problem-Solving Process Flow</h4>
+                            <div class="mermaid-diagram">
+                                <div class="mermaid">
+                                    graph TD
+                                        A[Problem Statement] --> B[Understand Requirements]
+                                        B --> C[Identify Constraints]
+                                        C --> D[Choose Data Structure]
+                                        D --> E[Design Algorithm]
+                                        E --> F[Analyze Complexity]
+                                        F --> G[Implement Solution]
+                                        G --> H[Test & Debug]
+                                        H --> I{Performance OK?}
+                                        I -->|No| J[Optimize]
+                                        J --> G
+                                        I -->|Yes| K[Solution Complete]
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Variable Definitions -->
+                        <div class="variable-definitions">
+                            <h4>Key Algorithm Concepts & Variables</h4>
+                            <div class="var-grid">
+                                <div class="var-card">
+                                    <h5>time_complexity</h5>
+                                    <code>O(n), O(log n), O(n²)</code>
+                                    <p>Measures how algorithm runtime scales with input size.</p>
+                                    <a href="https://docs.python.org/3/tutorial/datastructures.html" target="_blank">Python Data Structures →</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>space_complexity</h5>
+                                    <code>O(1), O(n), O(log n)</code>
+                                    <p>Measures memory usage relative to input size.</p>
+                                    <a href="https://docs.python.org/3/library/sys.html" target="_blank">Python sys module →</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>recursive_function</h5>
+                                    <code>def factorial(n): return 1 if n <= 1 else n * factorial(n-1)</code>
+                                    <p>Function that calls itself with smaller input.</p>
+                                    <a href="https://docs.python.org/3/tutorial/controlflow.html#defining-functions" target="_blank">Python Functions →</a>
+                                </div>
+                                <div class="var-card">
+                                    <h5>dynamic_programming</h5>
+                                    <code>memo = {}; result = memo.get(key, compute_value())</code>
+                                    <p>Optimization technique using memoization.</p>
+                                    <a href="https://docs.python.org/3/library/functools.html#functools.lru_cache" target="_blank">Python functools →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                         <h3>ChatGPT-Assisted Development Workflow</h3>
                         
                         <!-- Dataset Table -->
@@ -2078,8 +2171,8 @@ Generate:
                         </ol>
                         
                         <div class="navigation-buttons">
-                            <a href="02-using-chatgpt.html" class="btn btn-secondary">← Previous Chapter</a>
-                            <a href="04-database-design-fundamentals.html" class="btn btn-primary">Next Chapter →</a>
+                            <a href="09-application-debugging.html" class="btn btn-secondary">← Previous Chapter</a>
+                            <a href="11-testing-strategies.html" class="btn btn-primary">Next Chapter →</a>
                         </div>
                     </div>
                 </section>
@@ -2127,12 +2220,12 @@ Generate:
             <!-- Chapter Navigation -->
             <nav class="chapter-navigation">
                 <div class="nav-buttons">
-                    <a href="02-using-chatgpt.html" class="btn btn-secondary">← Previous Chapter</a>
-                    <a href="04-database-design-fundamentals.html" class="btn btn-primary">Next Chapter →</a>
+                    <a href="09-application-debugging.html" class="btn btn-secondary">← Previous Chapter</a>
+                    <a href="11-testing-strategies.html" class="btn btn-primary">Next Chapter →</a>
                 </div>
                 <div class="chapter-list">
                     <a href="01-setting-up-python.html" class="chapter-link">Chapter 1</a>
-                    <a href="02-using-chatgpt.html" class="current-chapter">Chapter 3</a>
+                    <a href="02-using-chatgpt.html" class="current-chapter">Chapter 10</a>
                     <a href="03-using-cursor.html" class="chapter-link">Chapter 3</a>
                     <a href="04-database-design-fundamentals.html" class="chapter-link">Chapter 4</a>
                     <a href="05-advanced-data-modeling.html" class="chapter-link">Chapter 5</a>
@@ -2271,7 +2364,7 @@ Generate:
     (function() {
         'use strict';
         
-        let currentChapter = 3;
+        let currentChapter = 10;
         
         // Initialize when DOM is ready
         function init() {
@@ -2600,7 +2693,7 @@ Generate:
         function getCurrentChapterId() {
             const path = window.location.pathname;
             const match = path.match(/0(\d+)-/);
-            return match ? match[1] : '3';
+            return match ? match[1] : '10';
         }
         
         // Analytics

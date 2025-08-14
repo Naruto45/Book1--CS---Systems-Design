@@ -443,7 +443,6 @@
             });
         }
     }
-    }
 
     // Search functionality
     function setupSearch() {

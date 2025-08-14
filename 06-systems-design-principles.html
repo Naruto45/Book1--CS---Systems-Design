@@ -4,12 +4,1302 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chapter 6: Systems Design Principles - System Design & Python Development</title>
-    <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
-    <script src="js/config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+    /* ===== RESET & BASE STYLES ===== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    :root {
+        /* Color Palette */
+        --primary-color: #3B82F6;
+        --primary-dark: #2563EB;
+        --primary-light: #60A5FA;
+        --secondary-color: #10B981;
+        --accent-color: #F59E0B;
+        --warning-color: #EF4444;
+        
+        /* Neutral Colors */
+        --white: #FFFFFF;
+        --gray-50: #F9FAFB;
+        --gray-100: #F3F4F6;
+        --gray-200: #E5E7EB;
+        --gray-300: #D1D5DB;
+        --gray-400: #9CA3AF;
+        --gray-500: #6B7280;
+        --gray-600: #4B5563;
+        --gray-700: #374151;
+        --gray-800: #1F2937;
+        --gray-900: #111827;
+        
+        /* Dark Theme Colors */
+        --dark-bg: #0F172A;
+        --dark-surface: #1E293B;
+        --dark-surface-2: #334155;
+        --dark-border: #475569;
+        --dark-text: #F1F5F9;
+        --dark-text-secondary: #CBD5E1;
+        
+        /* Typography */
+        --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        --font-size-xs: 0.75rem;
+        --font-size-sm: 0.875rem;
+        --font-size-base: 1rem;
+        --font-size-lg: 1.125rem;
+        --font-size-xl: 1.25rem;
+        --font-size-2xl: 1.5rem;
+        --font-size-3xl: 1.875rem;
+        --font-size-4xl: 2.25rem;
+        --font-size-5xl: 3rem;
+        
+        /* Spacing */
+        --spacing-xs: 0.25rem;
+        --spacing-sm: 0.5rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+        --spacing-2xl: 3rem;
+        --spacing-3xl: 4rem;
+        
+        /* Border Radius */
+        --radius-sm: 0.25rem;
+        --radius-md: 0.375rem;
+        --radius-lg: 0.5rem;
+        --radius-xl: 0.75rem;
+        --radius-2xl: 1rem;
+        
+        /* Shadows */
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        
+        /* Transitions */
+        --transition-fast: 150ms ease-in-out;
+        --transition-normal: 250ms ease-in-out;
+        --transition-slow: 350ms ease-in-out;
+        
+        /* Layout */
+        --max-width: 1200px;
+        --sidebar-width: 280px;
+        --header-height: 70px;
+    }
+    
+    body {
+        font-family: var(--font-family);
+        font-size: var(--font-size-base);
+        line-height: 1.6;
+        color: var(--dark-text);
+        background: linear-gradient(135deg, var(--dark-bg) 0%, #1E293B 100%);
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+    
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: var(--spacing-lg);
+        color: var(--white);
+    }
+    
+    h1 {
+        font-size: var(--font-size-4xl);
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--white) 0%, var(--primary-light) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    h2 {
+        font-size: var(--font-size-3xl);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: var(--spacing-sm);
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    h3 {
+        font-size: var(--font-size-2xl);
+        color: var(--primary-light);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    h4 {
+        font-size: var(--font-size-xl);
+        color: var(--white);
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    p {
+        margin-bottom: var(--spacing-md);
+        color: var(--dark-text-secondary);
+        line-height: 1.7;
+    }
+    
+    a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: var(--transition-fast);
+        border-bottom: 1px solid transparent;
+    }
+    
+    a:hover {
+        color: var(--primary-light);
+        border-bottom-color: var(--primary-light);
+    }
+    
+    /* ===== LAYOUT COMPONENTS ===== */
+    .container {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-lg);
+    }
+    
+    /* ===== NAVIGATION ===== */
+    .navbar {
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--dark-border);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        height: var(--header-height);
+        display: flex;
+        align-items: center;
+    }
+    
+    .navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-lg);
+    }
+    
+    .nav-brand a {
+        font-size: var(--font-size-xl);
+        font-weight: 700;
+        color: var(--white);
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: var(--spacing-xl);
+        align-items: center;
+    }
+    
+    .nav-links a {
+        color: var(--dark-text-secondary);
+        font-weight: 500;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--radius-lg);
+        transition: var(--transition-fast);
+    }
+    
+    .nav-links a:hover {
+        color: var(--white);
+        background: rgba(59, 130, 246, 0.1);
+        border-bottom: none;
+    }
+    
+    /* ===== DROPDOWN NAVIGATION ===== */
+    .nav-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .dropdown-toggle {
+        background: none;
+        border: none;
+        color: var(--dark-text-secondary);
+        font-weight: 500;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--radius-lg);
+        transition: var(--transition-fast);
+        cursor: pointer;
+        font-family: inherit;
+        font-size: inherit;
+    }
+    
+    .dropdown-toggle:hover {
+        color: var(--white);
+        background: rgba(59, 130, 246, 0.1);
+    }
+    
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: var(--dark-surface);
+        border: 1px solid var(--dark-border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-xl);
+        min-width: 300px;
+        z-index: 1000;
+        padding: var(--spacing-sm);
+    }
+    
+    .nav-dropdown:hover .dropdown-content {
+        display: block;
+    }
+    
+    .dropdown-content a {
+        display: block;
+        padding: var(--spacing-sm) var(--spacing-md);
+        color: var(--dark-text-secondary);
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .dropdown-content a:hover {
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--primary-light);
+    }
+    
+    .nav-toggle {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 4px;
+    }
+    
+    .nav-toggle span {
+        width: 25px;
+        height: 3px;
+        background: var(--white);
+        border-radius: 2px;
+        transition: var(--transition-fast);
+    }
+    
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+        margin-top: var(--header-height);
+        min-height: calc(100vh - var(--header-height));
+        padding: var(--spacing-2xl) 0;
+    }
+    
+    .main-content .container {
+        display: grid;
+        grid-template-columns: 1fr var(--sidebar-width);
+        gap: var(--spacing-2xl);
+        align-items: start;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-lg);
+    }
+    
+    /* ===== CHAPTER HEADER ===== */
+    .chapter-header {
+        background: linear-gradient(135deg, var(--dark-surface) 0%, var(--dark-surface-2) 100%);
+        border-radius: var(--radius-2xl);
+        padding: var(--spacing-2xl);
+        margin-bottom: var(--spacing-3xl);
+        border: 1px solid var(--dark-border);
+        box-shadow: var(--shadow-xl);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .chapter-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+    }
+    
+    .chapter-meta {
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: center;
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .chapter-number {
+        background: var(--primary-color);
+        color: var(--white);
+        padding: var(--spacing-xs) var(--spacing-md);
+        border-radius: var(--radius-lg);
+        font-weight: 600;
+        font-size: var(--font-size-sm);
+    }
+    
+    .difficulty {
+        background: var(--accent-color);
+        color: var(--gray-900);
+        padding: var(--spacing-xs) var(--spacing-md);
+        border-radius: var(--radius-lg);
+        font-weight: 600;
+        font-size: var(--font-size-sm);
+        text-transform: uppercase;
+    }
+    
+    .duration {
+        color: var(--dark-text-secondary);
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+    }
+    
+    .chapter-subtitle {
+        font-size: var(--font-size-lg);
+        color: var(--dark-text-secondary);
+        margin-top: var(--spacing-md);
+        line-height: 1.6;
+    }
+    
+    /* ===== TABLE OF CONTENTS ===== */
+    .table-of-contents {
+        background: var(--dark-surface);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        border: 1px solid var(--dark-border);
+        box-shadow: var(--shadow-lg);
+        position: sticky;
+        top: calc(var(--header-height) + var(--spacing-lg));
+        max-height: calc(100vh - var(--header-height) - var(--spacing-2xl));
+        overflow-y: auto;
+    }
+    
+    .table-of-contents h3 {
+        color: var(--white);
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-sm);
+        border-bottom: 2px solid var(--primary-color);
+    }
+    
+    .table-of-contents ul {
+        list-style: none;
+    }
+    
+    .table-of-contents li {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .table-of-contents a {
+        display: block;
+        padding: var(--spacing-sm) var(--spacing-md);
+        color: var(--dark-text-secondary);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+    }
+    
+    .table-of-contents a:hover {
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--primary-light);
+        border-bottom: none;
+    }
+    
+    /* ===== CONTENT SECTIONS ===== */
+    .chapter-content {
+        background: var(--dark-surface);
+        border-radius: var(--radius-2xl);
+        padding: var(--spacing-2xl);
+        border: 1px solid var(--dark-border);
+        box-shadow: var(--shadow-xl);
+    }
+    
+    .content-section {
+        margin-bottom: var(--spacing-3xl);
+    }
+    
+    .content-section:last-child {
+        margin-bottom: 0;
+    }
+    
+    .overview-content {
+        background: rgba(59, 130, 246, 0.05);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    .key-points {
+        background: var(--dark-surface-2);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+        border-left: 4px solid var(--primary-color);
+    }
+    
+    .key-points h4 {
+        color: var(--primary-light);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .key-points ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .key-points li {
+        padding: var(--spacing-xs) 0;
+        color: var(--dark-text-secondary);
+        position: relative;
+        padding-left: var(--spacing-lg);
+    }
+    
+    .key-points li::before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+    
+    /* ===== CONFIGURATION GRIDS ===== */
+    .config-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+        margin: var(--spacing-xl) 0;
+    }
+    
+    .config-card {
+        background: var(--dark-surface-2);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        border: 1px solid var(--dark-border);
+        transition: var(--transition-fast);
+    }
+    
+    .config-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-color);
+    }
+    
+    .config-card h4 {
+        color: var(--primary-light);
+        margin-bottom: var(--spacing-md);
+        font-size: var(--font-size-lg);
+    }
+    
+    .config-card ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .config-card li {
+        padding: var(--spacing-xs) 0;
+        color: var(--dark-text-secondary);
+        position: relative;
+        padding-left: var(--spacing-lg);
+    }
+    
+    .config-card li::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+    
+    /* ===== CODE BLOCKS ===== */
+    pre {
+        background: var(--gray-900);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        overflow-x: auto;
+        border: 1px solid var(--dark-border);
+        margin: var(--spacing-lg) 0;
+        position: relative;
+    }
+    
+    pre::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    
+    code {
+        font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+    }
+    
+    /* ===== DATASET TABLES ===== */
+    .dataset-table {
+        background: linear-gradient(135deg, var(--dark-surface) 0%, var(--dark-surface-2) 100%);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        border: 1px solid var(--dark-border);
+        box-shadow: var(--shadow-lg);
+        margin: var(--spacing-xl) 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .dataset-table::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    }
+    
+    .dataset-table h4 {
+        color: var(--primary-light);
+        margin-bottom: var(--spacing-lg);
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .dataset-table h4::before {
+        content: '📊';
+        font-size: var(--font-size-xl);
+    }
+    
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: var(--spacing-md) 0;
+        font-size: var(--font-size-sm);
+        background: var(--dark-surface-2);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: var(--spacing-md);
+        text-align: left;
+        border-bottom: 1px solid var(--dark-border);
+    }
+    
+    .data-table th {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: var(--white);
+        font-weight: 600;
+        font-size: var(--font-size-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .data-table tr:nth-child(even) {
+        background: rgba(59, 130, 246, 0.05);
+    }
+    
+    .data-table tr:hover {
+        background: rgba(59, 130, 246, 0.1);
+        transition: var(--transition-fast);
+    }
+    
+    .data-table td {
+        color: var(--dark-text-secondary);
+        font-weight: 500;
+    }
+    
+    /* ===== MERMAID DIAGRAMS ===== */
+    .mermaid {
+        background: linear-gradient(135deg, var(--dark-surface) 0%, var(--dark-surface-2) 100%);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        border: 1px solid var(--dark-border);
+        box-shadow: var(--shadow-lg);
+        margin: var(--spacing-xl) 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .mermaid::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+    }
+    
+    .mermaid h4 {
+        color: var(--secondary-color);
+        margin-bottom: var(--spacing-lg);
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .mermaid h4::before {
+        content: '🔗';
+        font-size: var(--font-size-xl);
+    }
+    
+    .mermaid-diagram {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        margin: var(--spacing-md) 0;
+        box-shadow: var(--shadow-md);
+        overflow-x: auto;
+        text-align: center;
+    }
+    
+    .mermaid-diagram svg {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--radius-md);
+    }
+    
+    /* ===== VARIABLE DEFINITIONS ===== */
+    .variable-definitions {
+        background: linear-gradient(135deg, var(--dark-surface) 0%, var(--dark-surface-2) 100%);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        border: 1px solid var(--dark-border);
+        box-shadow: var(--shadow-lg);
+        margin: var(--spacing-xl) 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .variable-definitions::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent-color) 0%, var(--warning-color) 100%);
+    }
+    
+    .variable-definitions h4 {
+        color: var(--accent-color);
+        margin-bottom: var(--spacing-lg);
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .variable-definitions h4::before {
+        content: '⚙️';
+        font-size: var(--font-size-xl);
+    }
+    
+    .var-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-md);
+    }
+    
+    .var-card {
+        background: var(--dark-surface-2);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        border: 1px solid var(--dark-border);
+        transition: var(--transition-fast);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .var-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--primary-color);
+    }
+    
+    .var-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-color);
+    }
+    
+    .var-card h5 {
+        color: var(--primary-light);
+        margin-bottom: var(--spacing-md);
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    }
+    
+    .var-card code {
+        display: block;
+        background: var(--gray-900);
+        color: var(--primary-light);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+        font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+        font-size: var(--font-size-sm);
+        margin: var(--spacing-md) 0;
+        overflow-x: auto;
+        border: 1px solid var(--dark-border);
+    }
+    
+    .var-card p {
+        color: var(--dark-text-secondary);
+        font-size: var(--font-size-sm);
+        line-height: 1.6;
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .var-card a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        transition: var(--transition-fast);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-md);
+        background: rgba(59, 130, 246, 0.1);
+    }
+    
+    .var-card a:hover {
+        background: var(--primary-color);
+        color: var(--white);
+        border-bottom: none;
+        transform: translateX(2px);
+    }
+    
+    /* ===== TAKEAWAYS GRID ===== */
+    .takeaways-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--spacing-lg);
+        margin: var(--spacing-xl) 0;
+    }
+    
+    .takeaway-card {
+        background: linear-gradient(135deg, var(--dark-surface) 0%, var(--dark-surface-2) 100%);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        border: 1px solid var(--dark-border);
+        transition: var(--transition-fast);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .takeaway-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    }
+    
+    .takeaway-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-xl);
+        border-color: var(--primary-color);
+    }
+    
+    .takeaway-icon {
+        font-size: var(--font-size-3xl);
+        margin-bottom: var(--spacing-md);
+        display: block;
+    }
+    
+    .takeaway-card h4 {
+        color: var(--white);
+        margin-bottom: var(--spacing-md);
+        font-size: var(--font-size-lg);
+    }
+    
+    .takeaway-card p {
+        color: var(--dark-text-secondary);
+        font-size: var(--font-size-sm);
+        line-height: 1.6;
+    }
+    
+    /* ===== DETAILED EXPLANATIONS ===== */
+    .detailed-explanations {
+        background: linear-gradient(135deg, var(--dark-surface) 0%, var(--dark-surface-2) 100%);
+        border-radius: var(--radius-2xl);
+        padding: var(--spacing-2xl);
+        border: 1px solid var(--dark-border);
+        box-shadow: var(--shadow-lg);
+        margin-top: var(--spacing-2xl);
+    }
+    
+    .detailed-explanations h3 {
+        text-align: center;
+        color: var(--white);
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--spacing-2xl);
+        padding-bottom: var(--spacing-lg);
+        border-bottom: 2px solid var(--primary-color);
+    }
+    
+    .concept-detail {
+        background: var(--dark-surface-2);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
+        border-left: 4px solid var(--primary-color);
+        transition: var(--transition-fast);
+    }
+    
+    .concept-detail:hover {
+        transform: translateX(4px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .concept-detail h4 {
+        color: var(--primary-light);
+        font-size: var(--font-size-xl);
+        margin-bottom: var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .concept-detail p {
+        color: var(--dark-text-secondary);
+        line-height: 1.7;
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .concept-detail p strong {
+        color: var(--white);
+        font-weight: 600;
+    }
+    
+    .textbook-reference {
+        background: rgba(59, 130, 246, 0.1);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    
+    .textbook-reference h5 {
+        color: var(--primary-color);
+        margin-bottom: var(--spacing-md);
+        font-size: var(--font-size-lg);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .textbook-reference p {
+        color: var(--dark-text-secondary);
+        line-height: 1.6;
+        margin-bottom: 0;
+    }
+    
+    .textbook-reference strong {
+        color: var(--white);
+        font-weight: 600;
+    }
+    
+    /* ===== EXERCISE CONTAINERS ===== */
+    .exercise-container {
+        background: linear-gradient(135deg, var(--dark-surface) 0%, var(--dark-surface-2) 100%);
+        border-radius: var(--radius-2xl);
+        padding: var(--spacing-2xl);
+        border: 2px solid var(--accent-color);
+        box-shadow: var(--shadow-lg);
+        margin: var(--spacing-xl) 0;
+        position: relative;
+    }
+    
+    .exercise-container::before {
+        content: '💡 Exercise';
+        position: absolute;
+        top: -12px;
+        left: var(--spacing-lg);
+        background: var(--accent-color);
+        color: var(--gray-900);
+        padding: var(--spacing-xs) var(--spacing-md);
+        border-radius: var(--radius-lg);
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+    }
+    
+    .exercise-container h3 {
+        color: var(--accent-color);
+        margin-top: var(--spacing-lg);
+    }
+    
+    .exercise-container h4 {
+        color: var(--primary-light);
+        margin-top: var(--spacing-lg);
+    }
+    
+    /* ===== NAVIGATION BUTTONS ===== */
+    .chapter-navigation {
+        background: var(--dark-surface);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        border: 1px solid var(--dark-border);
+        box-shadow: var(--shadow-lg);
+        margin-top: var(--spacing-3xl);
+    }
+    
+    .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        font-weight: 600;
+        text-decoration: none;
+        transition: var(--transition-fast);
+        border: 2px solid transparent;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: var(--white);
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        border-bottom: none;
+    }
+    
+    .btn-secondary {
+        background: transparent;
+        color: var(--dark-text-secondary);
+        border-color: var(--dark-border);
+    }
+    
+    .btn-secondary:hover {
+        background: var(--dark-surface-2);
+        color: var(--white);
+        border-color: var(--primary-color);
+        border-bottom: none;
+    }
+    
+    .chapter-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+        justify-content: center;
+    }
+    
+    .chapter-link {
+        padding: var(--spacing-xs) var(--spacing-md);
+        background: var(--dark-surface-2);
+        color: var(--dark-text-secondary);
+        border-radius: var(--radius-md);
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        transition: var(--transition-fast);
+    }
+    
+    .chapter-link:hover {
+        background: var(--primary-color);
+        color: var(--white);
+        border-bottom: none;
+    }
+    
+    .current-chapter {
+        background: var(--primary-color);
+        color: var(--white);
+    }
+    
+    /* ===== FOOTER ===== */
+    .footer {
+        background: var(--dark-surface);
+        border-top: 1px solid var(--dark-border);
+        padding: var(--spacing-2xl) 0;
+        margin-top: var(--spacing-3xl);
+    }
+    
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .footer-section h4 {
+        color: var(--white);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .footer-section p {
+        color: var(--dark-text-secondary);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .footer-section ul {
+        list-style: none;
+    }
+    
+    .footer-section li {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .footer-section a {
+        color: var(--dark-text-secondary);
+        transition: var(--transition-fast);
+    }
+    
+    .footer-section a:hover {
+        color: var(--primary-color);
+        border-bottom: none;
+    }
+    
+    .social-links {
+        display: flex;
+        gap: var(--spacing-md);
+    }
+    
+    .social-link {
+        padding: var(--spacing-sm) var(--spacing-md);
+        background: var(--dark-surface-2);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+    }
+    
+    .social-link:hover {
+        background: var(--primary-color);
+        color: var(--white);
+        border-bottom: none;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+        padding-top: var(--spacing-lg);
+        border-top: 1px solid var(--dark-border);
+        color: var(--dark-text-secondary);
+    }
+    
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 1024px) {
+        .main-content .container {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-xl);
+        }
+        
+        .table-of-contents {
+            position: static;
+            max-height: none;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        :root {
+            --sidebar-width: 100%;
+        }
+        
+        .nav-menu {
+            display: none;
+        }
+        
+        .nav-menu.active {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--dark-surface);
+            border: 1px solid var(--dark-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            padding: var(--spacing-lg);
+            z-index: 1000;
+        }
+        
+        .nav-dropdown {
+            width: 100%;
+        }
+        
+        .dropdown-content {
+            position: static;
+            display: none;
+            box-shadow: none;
+            border: none;
+            background: transparent;
+            padding: var(--spacing-sm) 0;
+        }
+        
+        .nav-dropdown:hover .dropdown-content,
+        .nav-dropdown.active .dropdown-content {
+            display: block;
+        }
+        
+        .nav-toggle {
+            display: flex;
+        }
+        
+        .chapter-header {
+            padding: var(--spacing-lg);
+        }
+        
+        .chapter-content {
+            padding: var(--spacing-lg);
+        }
+        
+        .takeaways-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .config-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .nav-buttons {
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        
+        .chapter-list {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1 {
+            font-size: var(--font-size-3xl);
+        }
+        
+        h2 {
+            font-size: var(--font-size-2xl);
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .container {
+            padding: 0 var(--spacing-md);
+        }
+        
+        .chapter-header {
+            padding: var(--spacing-md);
+        }
+        
+        .chapter-content {
+            padding: var(--spacing-md);
+        }
+        
+        .detailed-explanations {
+            padding: var(--spacing-lg);
+        }
+        
+        .concept-detail {
+            padding: var(--spacing-lg);
+        }
+    }
+    
+    /* ===== SCROLLBAR STYLING ===== */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: var(--dark-surface);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: var(--dark-border);
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-color);
+    }
+    
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .content-section {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    /* ===== FOCUS STATES ===== */
+    a:focus,
+    button:focus,
+    input:focus,
+    textarea:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+    }
+    
+    /* ===== PRINT STYLES ===== */
+    @media print {
+        .navbar,
+        .table-of-contents,
+        .chapter-navigation,
+        .footer {
+            display: none;
+        }
+        
+        .main-content {
+            margin-top: 0;
+        }
+        
+        body {
+            background: white;
+            color: black;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            color: black;
+        }
+        
+        p {
+            color: black;
+        }
+    }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -25,7 +1315,7 @@
                     <button class="nav-link dropdown-toggle">Chapters</button>
                     <div class="dropdown-content">
                         <a href="01-setting-up-python.html">Chapter 1: Setting Up Python</a>
-                        <a href="02-using-chatgpt.html">Chapter 2: Using ChatGPT</a>
+                        <a href="02-using-chatgpt.html">Chapter 6: Using ChatGPT</a>
                         <a href="03-using-cursor.html">Chapter 3: Using Cursor</a>
                         <a href="04-database-design-fundamentals.html">Chapter 4: Database Design</a>
                         <a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling</a>
@@ -58,11 +1348,11 @@
             <header class="chapter-header">
                 <div class="chapter-meta">
                     <span class="chapter-number">Chapter 6</span>
-                    <h1 class="chapter-title">Systems Design Principles</h1>
+                    <h1 class="chapter-title">Using ChatGPT to Design and Plan Code</h1>
                     <div class="chapter-info">
                         <span class="version">Version: 1.0.0</span>
                         <span class="last-updated">Last Updated: 2024-12-19</span>
-                        <span class="reading-time">Reading Time: ~40 minutes</span>
+                        <span class="reading-time">Reading Time: ~35 minutes</span>
                     </div>
                 </div>
                 <div class="chapter-progress">
@@ -80,13 +1370,11 @@
                     <ul>
                         <li><a href="#overview">Overview</a></li>
                         <li><a href="#critical-configurations">Critical Configurations</a></li>
-                        <li><a href="#three-pillars">Three Pillars of System Design</a></li>
-                        <li><a href="#layered-architecture">Layered Architecture</a></li>
-                        <li><a href="#trust-boundaries">Trust Boundaries</a></li>
-                        <li><a href="#data-flow">Data Flow Diagrams</a></li>
-                        <li><a href="#scalability-design">Designing for Scalability</a></li>
-                        <li><a href="#maintainability">Designing for Maintainability</a></li>
-                        <li><a href="#resilience">Designing for Resilience</a></li>
+                        <li><a href="#effective-prompting">Effective Prompting</a></li>
+                        <li><a href="#system-architecture">System Architecture Design</a></li>
+                        <li><a href="#database-design">Database Design</a></li>
+                        <li><a href="#code-generation">Code Generation</a></li>
+                        <li><a href="#debugging">Debugging with AI</a></li>
                         <li><a href="#hands-on-exercise">Hands-On Exercise</a></li>
                         <li><a href="#key-takeaways">Key Takeaways</a></li>
                         <li><a href="#next-steps">Next Steps</a></li>
@@ -101,25 +1389,163 @@
                 <!-- Overview Section -->
                 <section id="overview" class="content-section">
                     <h2>Overview</h2>
-                    <p>You've now built a solid database foundation and planned for growth. The next step is to wrap that data in a complete, scalable, and secure system.</p>
                     
-                    <p>System design is where your database meets the real world:</p>
-                    <ul>
-                        <li>Users connect through networks</li>
-                        <li>APIs serve and transform data</li>
-                        <li>Security policies govern every interaction</li>
-                        <li>Infrastructure scales to meet demand</li>
-                    </ul>
+                    <div class="overview-content">
+                        <p>ChatGPT has revolutionized how developers approach coding, design, and problem-solving. This chapter explores how to effectively integrate ChatGPT into your Python development workflow, from initial design and planning to debugging and optimization. You'll learn how to craft effective prompts, validate AI-generated code, and use ChatGPT as a collaborative development partner.</p>
+                        
+                        <p>We'll cover practical techniques for using ChatGPT in system design, database modeling, API development, and testing. You'll discover how to leverage AI assistance while maintaining code quality and understanding the underlying principles. These skills will significantly accelerate your development process and improve your problem-solving capabilities.</p>
+                        
+                        <div class="key-points">
+                            <h4>What You'll Learn:</h4>
+                            <ul>
+                                <li>Effective prompt engineering for development tasks</li>
+                                <li>System design and architecture planning with AI</li>
+                                <li>Database modeling and optimization strategies</li>
+                                <li>Code generation and review techniques</li>
+                                <li>Debugging and troubleshooting with AI assistance</li>
+                                <li>Best practices for AI-assisted development</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Visual Content Section -->
+                <section id="visual-content" class="content-section">
+                    <h2>ChatGPT Development Workflow</h2>
                     
-                    <div class="learning-objectives">
-                        <h3>Learning Objectives</h3>
-                        <ul>
-                            <li>Understand the three pillars of system design</li>
-                            <li>Design layered architectures for scalability</li>
-                            <li>Implement trust boundaries and security</li>
-                            <li>Create data flow diagrams and documentation</li>
-                            <li>Plan Flask architecture for production systems</li>
-                        </ul>
+                    <!-- Dataset Table -->
+                    <div class="dataset-table">
+                        <h4>ChatGPT Development Use Cases & Prompts</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Development Phase</th>
+                                    <th>Use Case</th>
+                                    <th>Prompt Strategy</th>
+                                    <th>Expected Output</th>
+                                    <th>Validation Method</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Planning</td>
+                                    <td>System architecture design</td>
+                                    <td>Context + requirements + constraints</td>
+                                    <td>Architecture diagram, component list</td>
+                                    <td>Review with team, feasibility check</td>
+                                </tr>
+                                <tr>
+                                    <td>Design</td>
+                                    <td>Database schema design</td>
+                                    <td>Data requirements + relationships + scale</td>
+                                    <td>ERD, table definitions, indexes</td>
+                                    <td>Normalization check, performance review</td>
+                                </tr>
+                                <tr>
+                                    <td>Implementation</td>
+                                    <td>Code generation</td>
+                                    <td>Function spec + language + patterns</td>
+                                    <td>Working code with comments</td>
+                                    <td>Unit tests, code review</td>
+                                </tr>
+                                <tr>
+                                    <td>Testing</td>
+                                    <td>Test case generation</td>
+                                    <td>Function spec + edge cases + scenarios</td>
+                                    <td>Test cases, mock data</td>
+                                    <td>Test execution, coverage analysis</td>
+                                </tr>
+                                <tr>
+                                    <td>Debugging</td>
+                                    <td>Error analysis</td>
+                                    <td>Error message + context + code</td>
+                                    <td>Root cause, solution steps</td>
+                                    <td>Solution implementation, verification</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mermaid Diagram -->
+                    <div class="mermaid">
+                        <h4>AI-Assisted Development Process</h4>
+                        <div class="mermaid-diagram">
+                            graph TD
+                                A[Define Problem] --> B[Craft Prompt]
+                                B --> C[Generate Response]
+                                C --> D[Review Output]
+                                D --> E{Quality Check}
+                                E -->|Pass| F[Implement Solution]
+                                E -->|Fail| G[Refine Prompt]
+                                G --> C
+                                F --> H[Test Implementation]
+                                H --> I{Test Results}
+                                I -->|Pass| J[Document Solution]
+                                I -->|Fail| K[Debug Issues]
+                                K --> L[Ask ChatGPT for Help]
+                                L --> M[Get Debugging Tips]
+                                M --> N[Apply Fixes]
+                                N --> H
+                                J --> O[Iterate & Improve]
+                                
+                                style A fill:#e1f5fe
+                                style B fill:#f3e5f5
+                                style C fill:#e8f5e8
+                                style D fill:#fff3e0
+                                style E fill:#fce4ec
+                                style F fill:#e0f2f1
+                                style H fill:#f1f8e9
+                                style I fill:#e8eaf6
+                                style J fill:#fafafa
+                                style K fill:#fff8e1
+                                style L fill:#f3e5f5
+                                style M fill:#e8f5e8
+                                style N fill:#c8e6c9
+                                style O fill:#e1f5fe
+                        </div>
+                    </div>
+
+                    <!-- Variable Definitions -->
+                    <div class="variable-definitions">
+                        <h4>Key ChatGPT Configuration & Prompt Variables</h4>
+                        <div class="var-grid">
+                            <div class="var-card">
+                                <h5>OPENAI_API_KEY</h5>
+                                <code>sk-...your-api-key...</code>
+                                <p>Authentication key for OpenAI API access. Required for programmatic ChatGPT integration and custom applications.</p>
+                                <a href="https://platform.openai.com/docs/api-reference/authentication" target="_blank">OpenAI API Authentication →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>CHATGPT_MODEL</h5>
+                                <code>gpt-4, gpt-3.5-turbo</code>
+                                <p>Specifies which ChatGPT model to use. Different models have varying capabilities and cost structures.</p>
+                                <a href="https://platform.openai.com/docs/models" target="_blank">OpenAI Models Documentation →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>MAX_TOKENS</h5>
+                                <code>4000, 8000, 32000</code>
+                                <p>Maximum number of tokens in the response. Controls response length and API cost.</p>
+                                <a href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-max_tokens" target="_blank">Token Limits Documentation →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>TEMPERATURE</h5>
+                                <code>0.0 - 2.0</code>
+                                <p>Controls randomness in responses. Lower values are more deterministic, higher values more creative.</p>
+                                <a href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature" target="_blank">Temperature Parameter →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>SYSTEM_PROMPT</h5>
+                                <code>You are a Python expert...</code>
+                                <p>Defines the AI's role and behavior. Sets context and constraints for all interactions.</p>
+                                <a href="https://platform.openai.com/docs/guides/gpt/chat-completions-api" target="_blank">Chat Completions API →</a>
+                            </div>
+                            <div class="var-card">
+                                <h5>CONTEXT_WINDOW</h5>
+                                <code>4096, 8192, 32768</code>
+                                <p>Maximum tokens for input context. Determines how much information can be included in prompts.</p>
+                                <a href="https://platform.openai.com/docs/models/gpt-4" target="_blank">GPT-4 Context Window →</a>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -129,74 +1555,187 @@
                     
                     <div class="config-grid">
                         <div class="config-card">
-                            <h4>System Architecture Principles</h4>
+                            <h4>AI Tools</h4>
                             <ul>
-                                <li><strong>Layered Design:</strong> Separate concerns for maintainability</li>
-                                <li><strong>Trust Boundaries:</strong> Validate data at every boundary</li>
-                                <li><strong>Fail-Safe Defaults:</strong> Deny by default, explicitly allow</li>
-                                <li><strong>Defense in Depth:</strong> Multiple layers of security</li>
+                                <li>ChatGPT Plus (recommended)</li>
+                                <li>Claude or other AI assistants</li>
+                                <li>GitHub Copilot (optional)</li>
                             </ul>
                         </div>
                         <div class="config-card">
-                            <h4>Port Configuration</h4>
+                            <h4>Prompting Framework</h4>
                             <ul>
-                                <li><strong>Backend Port:</strong> 3005 (Flask application)</li>
-                                <li><strong>Frontend Port:</strong> 3036 (React/UI application)</li>
-                                <li><strong>Database Port:</strong> 5432 (PostgreSQL)</li>
-                                <li><strong>Redis Port:</strong> 6379 (Caching)</li>
+                                <li>Context provision</li>
+                                <li>Clear requirements</li>
+                                <li>Output format specification</li>
+                                <li>Iterative refinement</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Integration Points</h4>
+                            <ul>
+                                <li>System design phase</li>
+                                <li>Database modeling</li>
+                                <li>Code generation</li>
+                                <li>Debugging sessions</li>
                             </ul>
                         </div>
                     </div>
                 </section>
 
-                <!-- Three Pillars Section -->
-                <section id="three-pillars" class="content-section">
-                    <h2>The Three Pillars of Good System Design</h2>
+                <!-- Effective Prompting Section -->
+                <section id="effective-prompting" class="content-section">
+                    <h2>Effective Prompting Techniques</h2>
                     
-                    <p>When designing a system, every decision should be tested against three pillars:</p>
+                    <h3>The Five-Step Prompting Framework</h3>
+                    <p>Effective prompting is the key to getting useful responses from ChatGPT. Here's a proven framework:</p>
 
-                    <!-- System Design Pillars Diagram -->
+                    <div class="code-example">
+                        <h4>Example: Task Management System Prompt</h4>
+                        <pre><code class="language-text line-numbers">I am building a task-tracking web app in Flask for small teams.
+
+Requirements:
+- Python 3.12, Flask, SQLAlchemy
+- SQLite database for development
+- CRUD operations for tasks
+- Authentication with Flask-Login
+- Routes for creating, viewing, updating, and deleting tasks
+- Each task should have: title, description, status, assigned user, due date
+
+Generate the SQLAlchemy models and Flask routes, and explain your design choices.</code></pre>
+                        <div class="code-explanation">
+                            <p>This prompt provides context, specific requirements, technology constraints, and asks for explanation of design decisions.</p>
+                        </div>
+                    </div>
+
+                    <h3>Prompt Structure Best Practices</h3>
+                    <div class="config-card">
+                        <h4>Components of a Good Prompt</h4>
+                        <ol>
+                            <li><strong>Context</strong>: What you're building and why</li>
+                            <li><strong>Requirements</strong>: Specific features and constraints</li>
+                            <li><strong>Technology Stack</strong>: Languages, frameworks, databases</li>
+                            <li><strong>Output Format</strong>: How you want the response structured</li>
+                            <li><strong>Next Steps</strong>: What you'll do with the response</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- System Architecture Section -->
+                <section id="system-architecture" class="content-section">
+                    <h2>System Architecture Design</h2>
+                    
+                    <h3>Using ChatGPT for Architecture Decisions</h3>
+                    <p>ChatGPT can help you design system architecture by considering scalability, maintainability, and performance requirements.</p>
+
+                    <div class="code-example">
+                        <h4>Architecture Design Prompt</h4>
+                        <pre><code class="language-text line-numbers">I need to design a scalable e-commerce system that can handle:
+- 10,000 concurrent users
+- Product catalog with 100,000+ items
+- Real-time inventory management
+- Payment processing
+- Order tracking
+
+Technology constraints: Python, Flask, PostgreSQL
+Budget: Moderate (can use cloud services)
+
+Design the system architecture with:
+1. Component diagram
+2. Database schema
+3. API endpoints
+4. Scalability considerations
+5. Security measures</code></pre>
+                    </div>
+
+                    <h3>Architecture Patterns</h3>
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h4>Layered Architecture</h4>
+                            <ul>
+                                <li>Presentation Layer</li>
+                                <li>Application Layer</li>
+                                <li>Data Layer</li>
+                                <li>Infrastructure Layer</li>
+                            </ul>
+                        </div>
+                        <div class="config-card">
+                            <h4>Microservices</h4>
+                            <ul>
+                                <li>Service decomposition</li>
+                                <li>API gateways</li>
+                                <li>Service discovery</li>
+                                <li>Data consistency</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- ChatGPT Workflow Diagram -->
                     <div class="visual-content">
-                        <h3>System Design Pillars Framework</h3>
+                        <h3>ChatGPT-Assisted Development Workflow</h3>
                         
                         <!-- Dataset Table -->
                         <div class="dataset-table">
-                            <h4>System Design Pillars Dataset</h4>
+                            <h4>AI Development Process Dataset</h4>
                             <table class="data-table">
                                 <thead>
                                     <tr>
-                                        <th>Pillar</th>
-                                        <th>Focus Area</th>
-                                        <th>Key Metrics</th>
-                                        <th>Design Patterns</th>
-                                        <th>Implementation Priority</th>
-                                        <th>Success Indicators</th>
+                                        <th>Development Phase</th>
+                                        <th>ChatGPT Role</th>
+                                        <th>Input Type</th>
+                                        <th>Output Type</th>
+                                        <th>Success Rate</th>
+                                        <th>Time Saved</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Scalability</td>
-                                        <td>Performance & Growth</td>
-                                        <td>Response Time, Throughput</td>
-                                        <td>Load Balancing, Caching</td>
-                                        <td>High</td>
-                                        <td>99.9% Uptime, <200ms Response</td>
+                                        <td>System Design</td>
+                                        <td>Architecture Planning</td>
+                                        <td>Requirements Doc</td>
+                                        <td>Architecture Diagram</td>
+                                        <td>85%</td>
+                                        <td>60%</td>
                                     </tr>
                                     <tr>
-                                        <td>Maintainability</td>
-                                        <td>Code Quality & Evolution</td>
-                                        <td>Code Complexity, Test Coverage</td>
-                                        <td>Modular Design, Clean Code</td>
-                                        <td>High</td>
-                                        <td>90% Test Coverage, <10 Cyclomatic Complexity</td>
+                                        <td>Database Design</td>
+                                        <td>Schema Generation</td>
+                                        <td>Entity List</td>
+                                        <td>ERD + SQLAlchemy Models</td>
+                                        <td>90%</td>
+                                        <td>70%</td>
                                     </tr>
                                     <tr>
-                                        <td>Resilience</td>
-                                        <td>Fault Tolerance</td>
-                                        <td>MTTR, MTTF</td>
-                                        <td>Circuit Breakers, Retry Logic</td>
-                                        <td>High</td>
-                                        <td><5min MTTR, 99.99% Availability</td>
+                                        <td>Code Generation</td>
+                                        <td>Boilerplate Creation</td>
+                                        <td>API Spec</td>
+                                        <td>Flask Routes + Models</td>
+                                        <td>80%</td>
+                                        <td>50%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Debugging</td>
+                                        <td>Error Analysis</td>
+                                        <td>Error Stack Trace</td>
+                                        <td>Solution + Explanation</td>
+                                        <td>75%</td>
+                                        <td>40%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Testing</td>
+                                        <td>Test Case Generation</td>
+                                        <td>Function Code</td>
+                                        <td>Unit Tests</td>
+                                        <td>70%</td>
+                                        <td>45%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Documentation</td>
+                                        <td>Doc Generation</td>
+                                        <td>Code Comments</td>
+                                        <td>API Documentation</td>
+                                        <td>95%</td>
+                                        <td>80%</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -204,361 +1743,292 @@
 
                         <!-- Mermaid Diagram -->
                         <div class="diagram-container">
-                            <h4>System Design Pillars Architecture</h4>
+                            <h4>AI-Assisted Development Process Flow</h4>
                             <div class="mermaid">
                                 flowchart TD
-                                    A[System Requirements] --> B[Design Analysis]
-                                    B --> C{Evaluate Against Pillars}
+                                    A[Project Requirements] --> B[ChatGPT Analysis]
+                                    B --> C[System Architecture Design]
+                                    C --> D[Database Schema Design]
+                                    D --> E[API Endpoint Planning]
+                                    E --> F[Code Generation Phase]
                                     
-                                    C --> D[Scalability Assessment]
-                                    C --> E[Maintainability Assessment]
-                                    C --> F[Resilience Assessment]
+                                    F --> G[Flask App Structure]
+                                    F --> H[SQLAlchemy Models]
+                                    F --> I[Authentication System]
+                                    F --> J[CRUD Operations]
                                     
-                                    D --> G[Horizontal Scaling]
-                                    D --> H[Vertical Scaling]
-                                    D --> I[Load Balancing]
+                                    G --> K[Implementation Review]
+                                    H --> K
+                                    I --> K
+                                    J --> K
                                     
-                                    E --> J[Modular Architecture]
-                                    E --> K[Clean Interfaces]
-                                    E --> L[Documentation]
+                                    K --> L[Code Testing]
+                                    L --> M{Code Working?}
+                                    M -->|No| N[Debug with ChatGPT]
+                                    N --> O[Error Analysis]
+                                    O --> P[Solution Generation]
+                                    P --> Q[Code Fixes]
+                                    Q --> L
                                     
-                                    F --> M[Redundancy]
-                                    F --> N[Failover Systems]
-                                    F --> O[Circuit Breakers]
-                                    
-                                    G --> P[Design Validation]
-                                    H --> P
-                                    I --> P
-                                    J --> P
-                                    K --> P
-                                    L --> P
-                                    M --> P
-                                    N --> P
-                                    O --> P
-                                    
-                                    P --> Q{All Pillars Satisfied?}
-                                    Q -->|No| R[Refactor Design]
-                                    R --> B
-                                    Q -->|Yes| S[Implementation Ready]
+                                    M -->|Yes| R[Performance Optimization]
+                                    R --> S[Documentation Generation]
+                                    S --> T[Deployment Planning]
+                                    T --> U[Project Complete]
                                     
                                     style A fill:#e3f2fd
-                                    style S fill:#c8e6c9
-                                    style C fill:#ffecb3
-                                    style Q fill:#ffecb3
-                                    style R fill:#ffcdd2
-                                    
-                                    subgraph "Scalability"
-                                        G
-                                        H
-                                        I
-                                    end
-                                    
-                                    subgraph "Maintainability"
-                                        J
-                                        K
-                                        L
-                                    end
-                                    
-                                    subgraph "Resilience"
-                                        M
-                                        N
-                                        O
-                                    end
+                                    style U fill:#c8e6c9
+                                    style M fill:#ffecb3
+                                    style N fill:#ffcdd2
                             </div>
                         </div>
 
                         <!-- Variable Definitions -->
                         <div class="variable-definitions">
-                            <h4>System Design Configuration Variables</h4>
+                            <h4>ChatGPT Integration Variables & Configuration</h4>
                             <div class="var-grid">
                                 <div class="var-card">
-                                    <h5>Load Balancer Configuration</h5>
-                                    <code>LOAD_BALANCER_ALGORITHM = "round_robin"</code>
-                                    <p>Algorithm for distributing traffic across servers</p>
-                                    <a href="https://nginx.org/en/docs/http/load_balancing.html" target="_blank">📖 Nginx Load Balancing</a>
+                                    <h5>API Configuration</h5>
+                                    <code>OPENAI_API_KEY = "sk-..."</code>
+                                    <p>OpenAI API key for programmatic access</p>
+                                    <a href="https://platform.openai.com/docs/api-reference" target="_blank">📖 OpenAI API Reference</a>
                                 </div>
                                 <div class="var-card">
-                                    <h5>Circuit Breaker Settings</h5>
-                                    <code>CIRCUIT_BREAKER_THRESHOLD = 5</code>
-                                    <p>Number of failures before opening circuit breaker</p>
-                                    <a href="https://github.com/pybreaker/pybreaker" target="_blank">📖 PyBreaker Documentation</a>
+                                    <h5>Model Selection</h5>
+                                    <code>model = "gpt-4"</code>
+                                    <p>AI model for code generation and analysis</p>
+                                    <a href="https://platform.openai.com/docs/models" target="_blank">📖 OpenAI Models</a>
                                 </div>
                                 <div class="var-card">
-                                    <h5>Retry Configuration</h5>
-                                    <code>MAX_RETRY_ATTEMPTS = 3</code>
-                                    <p>Maximum number of retry attempts for failed requests</p>
-                                    <a href="https://docs.python.org/3/library/time.html" target="_blank">📖 Python Time Module</a>
+                                    <h5>Temperature Setting</h5>
+                                    <code>temperature = 0.3</code>
+                                    <p>Controls creativity vs consistency in responses</p>
+                                    <a href="https://platform.openai.com/docs/api-reference/completions/create#completions-create-temperature" target="_blank">📖 Temperature Parameter</a>
                                 </div>
                                 <div class="var-card">
-                                    <h5>Health Check Interval</h5>
-                                    <code>HEALTH_CHECK_INTERVAL = 30</code>
-                                    <p>Interval in seconds for health check monitoring</p>
-                                    <a href="https://flask.palletsprojects.com/en/3.0.x/patterns/appfactories/" target="_blank">📖 Flask App Factory</a>
+                                    <h5>Max Tokens</h5>
+                                    <code>max_tokens = 4000</code>
+                                    <p>Maximum response length for code generation</p>
+                                    <a href="https://platform.openai.com/docs/api-reference/completions/create#completions-create-max_tokens" target="_blank">📖 Max Tokens Parameter</a>
                                 </div>
                                 <div class="var-card">
-                                    <h5>Cache TTL</h5>
-                                    <code>CACHE_TTL_SECONDS = 3600</code>
-                                    <p>Time-to-live for cached data in seconds</p>
-                                    <a href="https://redis.io/commands/expire" target="_blank">📖 Redis Expire Command</a>
+                                    <h5>Prompt Template</h5>
+                                    <code>PROMPT_TEMPLATE = "Context: {context}\nRequirements: {requirements}\nOutput: {format}"</code>
+                                    <p>Structured prompt template for consistent results</p>
+                                    <a href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank">📖 Prompt Engineering Guide</a>
                                 </div>
                                 <div class="var-card">
-                                    <h5>Database Connection Pool</h5>
-                                    <code>DB_POOL_SIZE = 20</code>
-                                    <p>Maximum number of database connections in pool</p>
-                                    <a href="https://docs.sqlalchemy.org/en/20/core/pooling.html" target="_blank">📖 SQLAlchemy Pooling</a>
+                                    <h5>Response Validation</h5>
+                                    <code>VALIDATION_RULES = ["syntax_check", "security_scan", "performance_review"]</code>
+                                    <p>Validation rules for generated code quality</p>
+                                    <a href="https://platform.openai.com/docs/guides/safety-best-practices" target="_blank">📖 Safety Best Practices</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <h3>Scalability</h3>
-                    <p>Can it handle more users, data, and traffic without breaking?</p>
-                    
-                    <div class="config-grid">
-                        <div class="config-card">
-                            <h4>Scalability Strategies</h4>
-                            <ul>
-                                <li><strong>Horizontal Scaling:</strong> Add more servers/containers</li>
-                                <li><strong>Vertical Scaling:</strong> More CPU/RAM for existing servers</li>
-                                <li><strong>Load Balancing:</strong> Distribute traffic across multiple instances</li>
-                                <li><strong>Caching:</strong> Reduce database load with Redis/Memcached</li>
-                                <li><strong>Database Optimization:</strong> Indexes, query optimization, read replicas</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <h3>Maintainability</h3>
-                    <p>Can you change or extend it without rewriting everything?</p>
-                    
-                    <div class="config-grid">
-                        <div class="config-card">
-                            <h4>Maintainability Principles</h4>
-                            <ul>
-                                <li><strong>Modular Design:</strong> Break system into independent components</li>
-                                <li><strong>Clear Interfaces:</strong> Well-defined APIs between components</li>
-                                <li><strong>Consistent Patterns:</strong> Use the same approaches throughout</li>
-                                <li><strong>Documentation:</strong> Keep design decisions and architecture current</li>
-                                <li><strong>Testing:</strong> Automated tests to catch regressions</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <h3>Resilience</h3>
-                    <p>Can it survive failures without losing data or service availability?</p>
-                    
-                    <div class="config-grid">
-                        <div class="config-card">
-                            <h4>Resilience Patterns</h4>
-                            <ul>
-                                <li><strong>Redundancy:</strong> Multiple instances of critical components</li>
-                                <li><strong>Failover:</strong> Automatic switching to backup systems</li>
-                                <li><strong>Graceful Degradation:</strong> Core services remain available</li>
-                                <li><strong>Circuit Breakers:</strong> Prevent cascade failures</li>
-                                <li><strong>Retry Logic:</strong> Handle temporary failures</li>
-                            </ul>
-                        </div>
-                    </div>
                 </section>
 
-                <!-- Layered Architecture Section -->
-                <section id="layered-architecture" class="content-section">
-                    <h2>The Layered Architecture Model</h2>
+                <!-- Database Design Section -->
+                <section id="database-design" class="content-section">
+                    <h2>Database Design with AI</h2>
                     
-                    <p>A clean, layered architecture separates concerns so you can change one part without affecting the others.</p>
+                    <h3>Entity-Relationship Design</h3>
+                    <p>ChatGPT can help you design database schemas by understanding your domain model and suggesting optimal relationships.</p>
 
                     <div class="code-example">
-                        <h3>Flask Layered Architecture Example</h3>
-                        <pre><code class="language-python line-numbers"># Presentation Layer (Routes)
-@app.route('/api/users', methods=['GET'])
-@jwt_required()
-def get_users():
-    try:
-        users = user_service.get_all_users()
-        return jsonify(users), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+                        <h4>Database Design Prompt</h4>
+                        <pre><code class="language-text line-numbers">Design a database schema for a project management system with:
 
-# Application Layer (Services)
-class UserService:
-    def __init__(self, user_repository):
-        self.user_repository = user_repository
-    
-    def get_all_users(self):
-        return self.user_repository.find_all()
-    
-    def create_user(self, user_data):
-        # Business logic validation
-        if not self._validate_user_data(user_data):
-            raise ValueError("Invalid user data")
-        return self.user_repository.create(user_data)
+Entities:
+- Users (employees, managers)
+- Projects (with budgets, timelines)
+- Tasks (assigned to users, part of projects)
+- Time entries (users log time on tasks)
+- Comments (on tasks and projects)
 
-# Data Layer (Repository)
-class UserRepository:
-    def __init__(self, db_session):
-        self.db_session = db_session
-    
-    def find_all(self):
-        return self.db_session.query(User).all()
-    
-    def create(self, user_data):
-        user = User(**user_data)
-        self.db_session.add(user)
-        self.db_session.commit()
-        return user
+Requirements:
+- Support for project hierarchies
+- Time tracking and reporting
+- User role management
+- Audit trail for changes
 
-# Infrastructure Layer (Configuration)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-app.config['REDIS_URL'] = os.environ.get('REDIS_URL')</code></pre>
+Generate:
+1. ERD with relationships
+2. SQLAlchemy models
+3. Indexing strategy
+4. Sample queries for common operations</code></pre>
                     </div>
-                </section>
 
-                <!-- Trust Boundaries Section -->
-                <section id="trust-boundaries" class="content-section">
-                    <h2>Trust Boundaries</h2>
-                    
-                    <p>Trust boundaries are points where data crosses from one security context to another. Every boundary should validate and sanitize data.</p>
-
+                    <h3>Normalization and Optimization</h3>
                     <div class="config-card">
-                        <h4>Common Trust Boundaries</h4>
+                        <h4>Database Design Principles</h4>
                         <ul>
-                            <li><strong>User Input:</strong> Forms, API requests, file uploads</li>
-                            <li><strong>External APIs:</strong> Third-party services and integrations</li>
-                            <li><strong>Database:</strong> Data persistence and retrieval</li>
-                            <li><strong>Network:</strong> Internal vs. external networks</li>
-                            <li><strong>Authentication:</strong> User sessions and tokens</li>
+                            <li>Normalize to 3NF for data integrity</li>
+                            <li>Denormalize for performance when needed</li>
+                            <li>Use appropriate indexes</li>
+                            <li>Consider partitioning for large tables</li>
+                            <li>Plan for future growth</li>
                         </ul>
                     </div>
+                </section>
+
+                <!-- Code Generation Section -->
+                <section id="code-generation" class="content-section">
+                    <h2>Code Generation and Boilerplate</h2>
+                    
+                    <h3>Generating Starter Code</h3>
+                    <p>ChatGPT excels at generating boilerplate code and starter templates for common patterns.</p>
 
                     <div class="code-example">
-                        <h4>Trust Boundary Implementation</h4>
-                        <pre><code class="language-python line-numbers">from flask import request, jsonify
-from marshmallow import Schema, fields, ValidationError
-import bleach
+                        <h4>Flask Application Structure</h4>
+                        <pre><code class="language-python line-numbers"># Generated by ChatGPT
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
+from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
-# Input validation schema
-class UserSchema(Schema):
-    username = fields.Str(required=True, validate=lambda x: len(x) >= 3)
-    email = fields.Email(required=True)
-    password = fields.Str(required=True, validate=lambda x: len(x) >= 8)
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-key-change-in-production')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///app.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Trust boundary: User input validation
-@app.route('/api/users', methods=['POST'])
-def create_user():
-    try:
-        # Validate and sanitize input
-        schema = UserSchema()
-        data = schema.load(request.get_json())
-        
-        # Sanitize text fields
-        data['username'] = bleach.clean(data['username'])
-        data['email'] = bleach.clean(data['email'])
-        
-        # Hash password before storage
-        data['password'] = generate_password_hash(data['password'])
-        
-        # Create user in database
-        user = user_service.create_user(data)
-        return jsonify(user.to_dict()), 201
-        
-    except ValidationError as e:
-        return jsonify({'error': 'Validation failed', 'details': e.messages}), 400
-    except Exception as e:
-        return jsonify({'error': 'Internal server error'}), 500</code></pre>
+db = SQLAlchemy(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'auth.login'
+
+# Models
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128))
+    tasks = db.relationship('Task', backref='assigned_user', lazy=True)
+
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text)
+    status = db.Column(db.String(50), default='pending')
+    assigned_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    due_date = db.Column(db.DateTime)
+
+# Routes
+@app.route('/api/tasks', methods=['GET'])
+@login_required
+def get_tasks():
+    tasks = Task.query.all()
+    return jsonify([{
+        'id': task.id,
+        'title': task.title,
+        'status': task.status,
+        'assigned_user': task.assigned_user.username if task.assigned_user else None
+    } for task in tasks])
+
+if __name__ == '__main__':
+    app.run(debug=True)</code></pre>
                     </div>
                 </section>
 
-                <!-- Data Flow Section -->
-                <section id="data-flow" class="content-section">
-                    <h2>Data Flow Diagrams</h2>
+                <!-- Debugging Section -->
+                <section id="debugging" class="content-section">
+                    <h2>Debugging with AI</h2>
                     
-                    <p>Data Flow Diagrams (DFDs) show how data moves through your system, helping identify bottlenecks and security vulnerabilities.</p>
+                    <h3>Error Analysis and Fixes</h3>
+                    <p>ChatGPT can help you debug code by analyzing error messages and suggesting fixes.</p>
 
                     <div class="code-example">
-                        <h4>Simple Data Flow Example</h4>
-                        <pre><code class="language-python line-numbers"># Data flow: User Registration
-def user_registration_flow():
-    """
-    1. User submits registration form
-    2. Frontend validates input
-    3. API receives request
-    4. Backend validates and sanitizes
-    5. Password is hashed
-    6. User is saved to database
-    7. Confirmation email is sent
-    8. Response is returned to user
-    """
-    
-    # Step 1: Input validation
-    user_data = validate_registration_input(request_data)
-    
-    # Step 2: Business logic
-    if user_service.email_exists(user_data['email']):
-        raise ValidationError("Email already exists")
-    
-    # Step 3: Data persistence
-    user = user_service.create_user(user_data)
-    
-    # Step 4: External service call
-    email_service.send_welcome_email(user.email)
-    
-    # Step 5: Response
-    return user.to_dict()</code></pre>
+                        <h4>Debugging Prompt Example</h4>
+                        <pre><code class="language-text line-numbers">I'm getting this error in my Flask app:
+
+Traceback (most recent call last):
+  File "app.py", line 45, in <module>
+    db.create_all()
+  File "/venv/lib/python3.9/site-packages/flask_sqlalchemy/__init__.py", line 963, in create_all
+    self._execute_for_all_tables(app, bind, 'create_all')
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) table user already exists
+
+My code:
+[Include relevant code here]
+
+How do I fix this and prevent it in the future?</code></pre>
+                    </div>
+
+                    <!-- Interactive Demo: ChatGPT Debugging -->
+                    <div class="interactive-demo">
+                        <h3>Interactive Demo: ChatGPT Debugging</h3>
+                        <div class="demo-container">
+                            <div class="demo-controls">
+                                <button class="btn btn-primary" onclick="runChatGPTDemo()">Ask ChatGPT</button>
+                                <button class="btn btn-secondary" onclick="resetChatGPTDemo()">Reset</button>
+                            </div>
+                            <div class="demo-output">
+                                <pre id="chatgpt-demo-result">Click "Ask ChatGPT" to see how AI would debug this error...</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Performance Optimization</h3>
+                    <div class="config-card">
+                        <h4>Common Performance Issues</h4>
+                        <ul>
+                            <li>N+1 query problems</li>
+                            <li>Missing database indexes</li>
+                            <li>Inefficient algorithms</li>
+                            <li>Memory leaks</li>
+                            <li>Unnecessary database calls</li>
+                        </ul>
                     </div>
                 </section>
 
                 <!-- Hands-On Exercise Section -->
                 <section id="hands-on-exercise" class="content-section">
-                    <h2>Hands-On Exercise: Design a Microservice Architecture</h2>
+                    <h2>Hands-On Exercise: AI-Assisted Project Planning</h2>
                     
                     <div class="exercise-container">
                         <div class="exercise-header">
-                            <h3>Building a Scalable E-commerce System</h3>
-                            <div class="difficulty-badge">Advanced</div>
+                            <h3>Designing a Blog System with ChatGPT</h3>
+                            <div class="difficulty-badge">Intermediate</div>
                         </div>
                         
                         <div class="exercise-content">
                             <h4>Objective</h4>
-                            <p>Design and implement a microservice-based e-commerce system that demonstrates the three pillars of system design.</p>
+                            <p>Use ChatGPT to design and plan a complete blog system, then implement the core functionality.</p>
                             
-                            <h4>Requirements</h4>
-                            <ul>
-                                <li>User management service</li>
-                                <li>Product catalog service</li>
-                                <li>Order management service</li>
-                                <li>Payment processing service</li>
-                                <li>API gateway for routing</li>
-                            </ul>
+                            <h4>Steps</h4>
+                            <ol>
+                                <li>Create a comprehensive prompt for the blog system</li>
+                                <li>Get ChatGPT to design the architecture</li>
+                                <li>Generate database models and API endpoints</li>
+                                <li>Implement the core functionality</li>
+                                <li>Test and refine the implementation</li>
+                            </ol>
                             
                             <div class="exercise-code">
-                                <h4>Service Architecture</h4>
-                                <pre><code class="language-python line-numbers"># API Gateway
-from flask import Flask, request, jsonify
-import requests
+                                <h4>Sample Prompt</h4>
+                                <pre><code class="language-text line-numbers">Design a blog system with the following requirements:
 
-app = Flask(__name__)
+Features:
+- User registration and authentication
+- Create, edit, delete blog posts
+- Comment system on posts
+- Tag system for categorizing posts
+- Search functionality
+- Admin panel for managing users and content
 
-SERVICES = {
-    'users': 'http://user-service:3001',
-    'products': 'http://product-service:3002',
-    'orders': 'http://order-service:3003',
-    'payments': 'http://payment-service:3004'
-}
+Technical requirements:
+- Flask backend with SQLAlchemy
+- RESTful API design
+- JWT authentication
+- PostgreSQL database
+- File upload for images
 
-@app.route('/api/<service>/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def proxy_request(service, path):
-    if service not in SERVICES:
-        return jsonify({'error': 'Service not found'}), 404
-    
-    # Forward request to appropriate service
-    service_url = f"{SERVICES[service]}/{path}"
-    response = requests.request(
-        method=request.method,
-        url=service_url,
-        headers=request.headers,
-        data=request.get_data()
-    )
-    
-    return response.content, response.status_code, response.headers.items()</code></pre>
+Generate:
+1. System architecture diagram
+2. Database schema with relationships
+3. API endpoint specifications
+4. Flask application structure
+5. Security considerations</code></pre>
                             </div>
                         </div>
                     </div>
@@ -570,101 +2040,24 @@ def proxy_request(service, path):
                     
                     <div class="takeaways-grid">
                         <div class="takeaway-card">
-                            <div class="takeaway-icon">📈</div>
-                            <h4>Scalability First</h4>
-                            <p>Design for growth from day one. Plan for horizontal scaling and implement caching strategies early.</p>
+                            <div class="takeaway-icon">💬</div>
+                            <h4>Effective Prompting</h4>
+                            <p>Clear, specific prompts with context and requirements produce the best results from AI tools.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🏗️</div>
+                            <h4>Architecture Design</h4>
+                            <p>Use AI to explore different architectural patterns and make informed design decisions.</p>
+                        </div>
+                        <div class="takeaway-card">
+                            <div class="takeaway-icon">🗄️</div>
+                            <h4>Database Modeling</h4>
+                            <p>AI can help design optimal database schemas and suggest indexing strategies.</p>
                         </div>
                         <div class="takeaway-card">
                             <div class="takeaway-icon">🔧</div>
-                            <h4>Maintainable Code</h4>
-                            <p>Use layered architecture and clear interfaces. Write code that's easy to understand and modify.</p>
-                        </div>
-                        <div class="takeaway-card">
-                            <div class="takeaway-icon">🛡️</div>
-                            <h4>Resilient Systems</h4>
-                            <p>Implement circuit breakers, retry logic, and graceful degradation. Plan for failure scenarios.</p>
-                        </div>
-                        <div class="takeaway-card">
-                            <div class="takeaway-icon">🔒</div>
-                            <h4>Trust Boundaries</h4>
-                            <p>Validate and sanitize data at every boundary. Implement defense in depth for security.</p>
-                        </div>
-                    </div>
-
-                    <!-- Detailed Explanations Section -->
-                    <div class="detailed-explanations">
-                        <h3>Comprehensive Concept Breakdown</h3>
-                        
-                        <div class="concept-detail">
-                            <h4>📈 Scalability First: Building for Growth from Day One</h4>
-                            <p>Scalability is not just about handling more users—it's about building a system that can grow efficiently without proportional increases in complexity, cost, or maintenance overhead. The "Scalability First" principle means designing your system architecture with growth in mind from the very beginning, rather than trying to retrofit scalability into an existing system later.</p>
-                            
-                            <p><strong>Horizontal scaling</strong> involves adding more servers or instances to handle increased load. This approach is more cost-effective and flexible than vertical scaling (adding more resources to existing servers). To enable horizontal scaling, your system must be designed as stateless, meaning that any server can handle any request without depending on local state. This is achieved through techniques like session externalization, database centralization, and stateless application design.</p>
-                            
-                            <p><strong>Caching strategies</strong> are essential for scalability because they reduce the load on your primary data sources and improve response times. Effective caching involves multiple layers: application-level caching (in-memory caches like Redis), database query caching, CDN caching for static content, and browser caching. The key is to cache data that is frequently accessed but rarely changed, and to implement proper cache invalidation strategies to ensure data consistency.</p>
-                            
-                            <p><strong>Load balancing</strong> distributes incoming requests across multiple servers to ensure no single server becomes overwhelmed. This can be implemented at multiple levels: DNS load balancing, application load balancing, and database load balancing. Load balancers can use various algorithms like round-robin, least connections, or weighted distribution based on server capacity.</p>
-                            
-                            <p>Scalability also involves <strong>database scaling strategies</strong> like read replicas, sharding, and partitioning. Read replicas allow you to distribute read operations across multiple database instances, while write operations go to the primary database. Sharding involves distributing data across multiple databases based on a shard key, while partitioning divides data within a single database into smaller, more manageable pieces.</p>
-                            
-                            <div class="textbook-reference">
-                                <h5>📚 Recommended Reading: Scalable System Design</h5>
-                                <p>For comprehensive coverage of scalability principles and patterns, we recommend <strong>"Scalable Internet Architectures" by Theo Schlossnagle</strong> (available on Amazon). This book provides detailed guidance on designing scalable systems, including practical examples and real-world case studies from high-traffic websites.</p>
-                            </div>
-                        </div>
-
-                        <div class="concept-detail">
-                            <h4>🔧 Maintainable Code: The Foundation of Long-Term Success</h4>
-                            <p>Maintainable code is the foundation of any successful software project. It's code that can be easily understood, modified, and extended by developers who didn't write it originally. This is especially important in enterprise environments where systems may be maintained for decades and by multiple generations of developers.</p>
-                            
-                            <p><strong>Layered architecture</strong> is a fundamental pattern for creating maintainable systems. It separates concerns into distinct layers, each with a specific responsibility. The presentation layer handles user interface concerns, the application layer contains business logic, the data layer manages data persistence, and the infrastructure layer provides cross-cutting concerns like logging and security. This separation makes the system easier to understand, test, and modify.</p>
-                            
-                            <p><strong>Clear interfaces</strong> between components are essential for maintainability. Interfaces should be well-defined, documented, and stable. They should hide implementation details and expose only what's necessary for other components to function. This principle applies at all levels: between classes, between modules, between services, and between systems. Good interfaces make it easier to change implementations without affecting other parts of the system.</p>
-                            
-                            <p><strong>Code quality practices</strong> include consistent naming conventions, proper documentation, comprehensive testing, and code reviews. Naming conventions should be descriptive and consistent across the codebase. Documentation should explain not just what the code does, but why it does it that way. Testing should cover both unit tests (testing individual components) and integration tests (testing how components work together). Code reviews help catch issues early and ensure that code follows established patterns and standards.</p>
-                            
-                            <p><strong>Refactoring</strong> is the process of improving code structure without changing its behavior. Regular refactoring helps maintain code quality over time by removing duplication, simplifying complex logic, and improving readability. Refactoring should be done incrementally and should always be accompanied by tests to ensure that behavior doesn't change.</p>
-                            
-                            <div class="textbook-reference">
-                                <h5>📚 Recommended Reading: Clean Code and Maintainability</h5>
-                                <p>For detailed guidance on writing maintainable code, we recommend <strong>"Clean Code: A Handbook of Agile Software Craftsmanship" by Robert C. Martin</strong> (available on Amazon). This book provides comprehensive coverage of clean code principles, including naming conventions, function design, error handling, and testing strategies.</p>
-                            </div>
-                        </div>
-
-                        <div class="concept-detail">
-                            <h4>🛡️ Resilient Systems: Preparing for the Inevitable</h4>
-                            <p>Resilience is the ability of a system to continue functioning correctly in the face of failures. In distributed systems, failures are not just possible—they're inevitable. Hardware fails, networks become congested, services become unavailable, and bugs are introduced. A resilient system is designed with these realities in mind and includes mechanisms to detect, isolate, and recover from failures automatically.</p>
-                            
-                            <p><strong>Circuit breakers</strong> are a pattern for preventing cascading failures. When a service is failing repeatedly, the circuit breaker "opens" and stops sending requests to that service for a period of time. This prevents the failure from spreading to other parts of the system and gives the failing service time to recover. Circuit breakers can be implemented at multiple levels: between services, between applications and databases, and between clients and external APIs.</p>
-                            
-                            <p><strong>Retry logic</strong> handles transient failures by automatically retrying failed operations. Retry strategies should be exponential backoff (increasing delays between retries) to avoid overwhelming failing services. Retry logic should distinguish between transient failures (like network timeouts) and permanent failures (like authentication errors) to avoid retrying operations that are guaranteed to fail.</p>
-                            
-                            <p><strong>Graceful degradation</strong> allows the system to continue providing service even when some components are unavailable. This might involve serving cached data when the database is unavailable, providing basic functionality when advanced features are down, or showing appropriate error messages when services are temporarily unavailable. The key is to maintain a good user experience even during partial failures.</p>
-                            
-                            <p><strong>Health checks and monitoring</strong> are essential for detecting failures quickly and accurately. Health checks should verify that each component is functioning correctly and responding within acceptable time limits. Monitoring should track key metrics like response times, error rates, and resource utilization. Alerts should be configured to notify operators when thresholds are exceeded or when failures are detected.</p>
-                            
-                            <div class="textbook-reference">
-                                <h5>📚 Recommended Reading: System Resilience and Fault Tolerance</h5>
-                                <p>For comprehensive coverage of resilience patterns and fault tolerance, we recommend <strong>"Release It!: Design and Deploy Production-Ready Software" by Michael T. Nygard</strong> (available on Amazon). This book provides detailed guidance on building resilient systems, including practical patterns for handling failures and maintaining system stability.</p>
-                            </div>
-                        </div>
-
-                        <div class="concept-detail">
-                            <h4>🔒 Trust Boundaries: Security by Design</h4>
-                            <p>Trust boundaries are the points in your system where data transitions between different security contexts. These boundaries are critical security control points where you must implement appropriate security measures to protect against malicious attacks, data breaches, and unauthorized access. Understanding and properly implementing trust boundaries is essential for building secure systems.</p>
-                            
-                            <p><strong>Input validation</strong> is the first line of defense at trust boundaries. All user input should be validated for type, length, format, and business rules. This includes checking for common attack vectors like SQL injection, cross-site scripting (XSS), and command injection. Validation should happen as close to the boundary as possible, before the data is processed by business logic. The principle of "never trust user input" should be applied consistently throughout the system.</p>
-                            
-                            <p><strong>Authentication and authorization</strong> ensure that only authorized users can access specific resources. Authentication verifies the identity of users, while authorization determines what actions they're allowed to perform. These controls should be implemented at every trust boundary, not just at the system's entry points. In distributed systems, this often involves implementing token-based authentication and role-based access control.</p>
-                            
-                            <p><strong>Data sanitization</strong> involves cleaning and validating data to remove potentially malicious content. This includes escaping special characters, removing HTML tags, and validating file uploads. Data sanitization should be applied to all data that crosses trust boundaries, including data received from external APIs, file uploads, and user input.</p>
-                            
-                            <p><strong>Defense in depth</strong> involves implementing multiple layers of security controls. This means not relying on a single security measure, but implementing multiple complementary controls. For example, you might implement input validation, authentication, authorization, and encryption at different layers of your system. This approach ensures that if one security control fails, others will still provide protection.</p>
-                            
-                            <div class="textbook-reference">
-                                <h5>📚 Recommended Reading: Application Security</h5>
-                                <p>For comprehensive coverage of trust boundaries and application security, we recommend <strong>"The Web Application Hacker's Handbook: Finding and Exploiting Security Flaws" by Dafydd Stuttard and Marcus Pinto</strong> (available on Amazon). This book provides detailed explanations of security vulnerabilities and how to implement proper security controls at trust boundaries.</p>
-                            </div>
+                            <h4>Code Generation</h4>
+                            <p>Generate boilerplate code and starter templates to accelerate development.</p>
                         </div>
                     </div>
                 </section>
@@ -674,14 +2067,14 @@ def proxy_request(service, path):
                     <h2>Next Steps</h2>
                     
                     <div class="next-steps-content">
-                        <h3>Preparation for Chapter 7</h3>
+                        <h3>Preparation for Chapter 3</h3>
                         <p>Before moving to the next chapter, practice:</p>
                         <ol>
-                            <li>Design a system architecture diagram for a real application</li>
-                            <li>Implement layered architecture in a Flask application</li>
-                            <li>Set up trust boundaries and input validation</li>
-                            <li>Create data flow diagrams for complex processes</li>
-                            <li>Plan for scalability and resilience in your designs</li>
+                            <li>Create prompts for different types of projects</li>
+                            <li>Use ChatGPT to design a simple application</li>
+                            <li>Generate and test code snippets</li>
+                            <li>Practice debugging with AI assistance</li>
+                            <li>Explore different architectural patterns</li>
                         </ol>
                         
                         <div class="navigation-buttons">
@@ -699,17 +2092,17 @@ def proxy_request(service, path):
                         <div class="reference-card">
                             <h4>Related Chapters</h4>
                             <ul>
-                                <li><a href="05-advanced-data-modeling.html">Chapter 5: Advanced Data Modeling & Storage Strategy</a></li>
+                                <li><a href="03-using-cursor.html">Chapter 3: Using Cursor with Python for System Design</a></li>
+                                <li><a href="04-database-design-fundamentals.html">Chapter 4: Database Design Fundamentals</a></li>
                                 <li><a href="07-building-fullstack-flask.html">Chapter 7: Building a Full-Stack App with Flask</a></li>
-                                <li><a href="12-security-fundamentals.html">Chapter 12: Security Fundamentals</a></li>
                             </ul>
                         </div>
                         <div class="reference-card">
                             <h4>External Resources</h4>
                             <ul>
-                                <li><a href="https://flask.palletsprojects.com/" target="_blank">Flask Documentation</a></li>
-                                <li><a href="https://microservices.io/" target="_blank">Microservices Patterns</a></li>
-                                <li><a href="https://martinfowler.com/articles/microservices.html" target="_blank">Martin Fowler on Microservices</a></li>
+                                <li><a href="https://openai.com/chatgpt" target="_blank">ChatGPT Official Site</a></li>
+                                <li><a href="https://platform.openai.com/docs" target="_blank">OpenAI API Documentation</a></li>
+                                <li><a href="https://github.com/openai/openai-python" target="_blank">OpenAI Python Library</a></li>
                             </ul>
                         </div>
                     </div>
@@ -720,11 +2113,11 @@ def proxy_request(service, path):
                     <h2>Conclusion</h2>
                     
                     <div class="conclusion-content">
-                        <p>System design is the bridge between your database and the real world. By following the three pillars of scalability, maintainability, and resilience, you can create systems that grow with your business and withstand the challenges of production environments.</p>
+                        <p>ChatGPT is a powerful tool that can significantly enhance your development workflow when used effectively. By mastering the art of prompting and understanding how to integrate AI assistance into your development process, you can accelerate your learning and build better applications.</p>
                         
                         <div class="key-message">
                             <blockquote>
-                                <p>Remember: Good system design is not about building the perfect system today, but about building a system that can evolve and adapt to tomorrow's requirements.</p>
+                                <p>Remember: ChatGPT is a tool to enhance your skills, not replace them. The best developers use AI to amplify their capabilities while maintaining their critical thinking and problem-solving abilities.</p>
                             </blockquote>
                         </div>
                     </div>
@@ -739,11 +2132,11 @@ def proxy_request(service, path):
                 </div>
                 <div class="chapter-list">
                     <a href="01-setting-up-python.html" class="chapter-link">Chapter 1</a>
-                    <a href="02-using-chatgpt.html" class="chapter-link">Chapter 2</a>
+                    <a href="02-using-chatgpt.html" class="current-chapter">Chapter 6</a>
                     <a href="03-using-cursor.html" class="chapter-link">Chapter 3</a>
                     <a href="04-database-design-fundamentals.html" class="chapter-link">Chapter 4</a>
                     <a href="05-advanced-data-modeling.html" class="chapter-link">Chapter 5</a>
-                    <a href="06-systems-design-principles.html" class="current-chapter">Chapter 6</a>
+                    <a href="06-systems-design-principles.html" class="chapter-link">Chapter 6</a>
                     <a href="07-building-fullstack-flask.html" class="chapter-link">Chapter 7</a>
                 </div>
             </nav>
@@ -785,6 +2178,573 @@ def proxy_request(service, path):
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
-    <script src="js/script.js"></script>
+    <script>
+    // Configuration for GitHub Pages and Local Development
+    (function() {
+        'use strict';
+        
+        // Detect if we're on GitHub Pages
+        const isGitHubPages = window.location.hostname === 'russellpowers.github.io' || 
+                             window.location.hostname === 'naruto45.github.io' ||
+                             window.location.hostname.includes('github.io');
+        
+        console.log('Config: Hostname:', window.location.hostname);
+        console.log('Config: Pathname:', window.location.pathname);
+        console.log('Config: Is GitHub Pages:', isGitHubPages);
+        
+        // Base path for assets - handle different repository structures
+        let basePath = '/';
+        if (isGitHubPages) {
+            if (window.location.pathname.includes('Book1--CS---Systems-Design')) {
+                basePath = '/Book1--CS---Systems-Design/';
+            } else if (window.location.pathname.includes('Book1_CS/book-website')) {
+                basePath = '/Book1_CS/book-website/';
+            } else {
+                basePath = '/';
+            }
+        }
+        
+        console.log('Config: Determined basePath:', basePath);
+        
+        // Update all relative paths
+        function updatePaths() {
+            console.log('Config: Updating paths with basePath:', basePath);
+            
+            // Update CSS links
+            const cssLinks = document.querySelectorAll('link[href^="css/"]');
+            console.log('Config: Found CSS links:', cssLinks.length);
+            cssLinks.forEach(link => {
+                const oldHref = link.href;
+                link.href = basePath + link.href;
+                console.log('Config: Updated CSS path from', oldHref, 'to', link.href);
+            });
+            
+            // Update JS links
+            const jsLinks = document.querySelectorAll('script[src^="js/"]');
+            console.log('Config: Found JS links:', jsLinks.length);
+            jsLinks.forEach(script => {
+                const oldSrc = script.src;
+                script.src = basePath + script.src;
+                console.log('Config: Updated JS path from', oldSrc, 'to', script.src);
+            });
+            
+            // Update navigation links
+            const navLinks = document.querySelectorAll('a[href^="./"], a[href^="0"], a[href^="index.html"], a[href^="resources.html"], a[href^="about.html"]');
+            console.log('Config: Found navigation links:', navLinks.length);
+            navLinks.forEach(link => {
+                if (link.href.includes('http')) return; // Skip external links
+                
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('http') && !href.startsWith('#')) {
+                    const oldHref = link.href;
+                    link.href = basePath + href;
+                    console.log('Config: Updated nav path from', oldHref, 'to', link.href);
+                }
+            });
+            
+            // Update image sources
+            const images = document.querySelectorAll('img[src^="images/"]');
+            console.log('Config: Found images:', images.length);
+            images.forEach(img => {
+                const oldSrc = img.src;
+                img.src = basePath + img.src;
+                console.log('Config: Updated image path from', oldSrc, 'to', img.src);
+            });
+        }
+        
+        // Update paths immediately and when DOM is ready
+        updatePaths();
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', updatePaths);
+        }
+        
+        // Export configuration for other scripts
+        window.SiteConfig = {
+            basePath: basePath,
+            isGitHubPages: isGitHubPages
+        };
+        
+    })();
+
+    // Main JavaScript functionality
+    (function() {
+        'use strict';
+        
+        let currentChapter = 6;
+        
+        // Initialize when DOM is ready
+        function init() {
+            setupNavigation();
+            setupInteractiveDemos();
+            setupSearch();
+            setupBookmarking();
+            setupMermaid();
+            setupCodeCopying();
+            setupProgressTracking();
+            setupAnalytics();
+        }
+        
+        // Navigation functionality
+        function setupNavigation() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.navbar')) {
+                    navMenu?.classList.remove('active');
+                }
+            });
+        }
+        
+        // Interactive demos
+        function setupInteractiveDemos() {
+            // ChatGPT Demo
+            const chatgptDemo = document.getElementById('chatgpt-demo');
+            if (chatgptDemo) {
+                const runBtn = chatgptDemo.querySelector('.run-demo');
+                const resetBtn = chatgptDemo.querySelector('.reset-demo');
+                
+                if (runBtn) {
+                    runBtn.addEventListener('click', runChatGPTDemo);
+                }
+                if (resetBtn) {
+                    resetBtn.addEventListener('click', resetChatGPTDemo);
+                }
+            }
+            
+            // Cursor Demo
+            const cursorDemo = document.getElementById('cursor-demo');
+            if (cursorDemo) {
+                const runBtn = cursorDemo.querySelector('.run-demo');
+                const resetBtn = cursorDemo.querySelector('.reset-demo');
+                
+                if (runBtn) {
+                    runBtn.addEventListener('click', runCursorDemo);
+                }
+                if (resetBtn) {
+                    resetBtn.addEventListener('click', resetCursorDemo);
+                }
+            }
+        }
+        
+        function runChatGPTDemo() {
+            const demo = document.getElementById('chatgpt-demo');
+            if (!demo) return;
+            
+            const output = demo.querySelector('.demo-output');
+            const steps = [
+                'Initializing ChatGPT API...',
+                'Sending prompt: "Design a Flask API for user management"...',
+                'Receiving response...',
+                'Generating code structure...',
+                'Creating models and routes...',
+                'Adding authentication...',
+                'Demo completed!'
+            ];
+            
+            let stepIndex = 0;
+            const interval = setInterval(() => {
+                if (stepIndex < steps.length) {
+                    output.innerHTML += `<div class="demo-step">${steps[stepIndex]}</div>`;
+                    output.scrollTop = output.scrollHeight;
+                    stepIndex++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 800);
+        }
+        
+        function resetChatGPTDemo() {
+            const demo = document.getElementById('chatgpt-demo');
+            if (!demo) return;
+            
+            const output = demo.querySelector('.demo-output');
+            output.innerHTML = '<div class="demo-start">Click "Run Demo" to start...</div>';
+        }
+        
+        function runCursorDemo() {
+            const demo = document.getElementById('cursor-demo');
+            if (!demo) return;
+            
+            const output = demo.querySelector('.demo-output');
+            const steps = [
+                'Opening Cursor editor...',
+                'Loading project files...',
+                'Analyzing code structure...',
+                'Generating AI suggestions...',
+                'Applying code improvements...',
+                'Running tests...',
+                'Demo completed!'
+            ];
+            
+            let stepIndex = 0;
+            const interval = setInterval(() => {
+                if (stepIndex < steps.length) {
+                    output.innerHTML += `<div class="demo-step">${steps[stepIndex]}</div>`;
+                    output.scrollTop = output.scrollHeight;
+                    stepIndex++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 800);
+        }
+        
+        function resetCursorDemo() {
+            const demo = document.getElementById('cursor-demo');
+            if (!demo) return;
+            
+            const output = demo.querySelector('.demo-output');
+            output.innerHTML = '<div class="demo-start">Click "Run Demo" to start...</div>';
+        }
+        
+        // Mermaid diagrams
+        function setupMermaid() {
+            if (typeof mermaid !== 'undefined') {
+                mermaid.initialize({
+                    startOnLoad: true,
+                    theme: 'dark',
+                    flowchart: {
+                        useMaxWidth: true,
+                        htmlLabels: true,
+                        curve: 'basis'
+                    },
+                    themeVariables: {
+                        primaryColor: '#3B82F6',
+                        primaryTextColor: '#FFFFFF',
+                        primaryBorderColor: '#2563EB',
+                        lineColor: '#6B7280',
+                        secondaryColor: '#10B981',
+                        tertiaryColor: '#F59E0B'
+                    }
+                });
+            }
+        }
+        
+        // Code copying functionality
+        function setupCodeCopying() {
+            document.querySelectorAll('pre code').forEach(block => {
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.textContent = 'Copy';
+                copyBtn.addEventListener('click', () => copyCodeToClipboard(block, copyBtn));
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-wrapper';
+                block.parentNode.insertBefore(wrapper, block);
+                wrapper.appendChild(block);
+                wrapper.appendChild(copyBtn);
+            });
+        }
+        
+        function copyCodeToClipboard(codeBlock, button) {
+            const text = codeBlock.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy code:', err);
+                button.textContent = 'Failed';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+        
+        // Progress tracking
+        function setupProgressTracking() {
+            const progressFill = document.querySelector('.progress-fill');
+            const progressText = document.querySelector('.progress-text');
+            
+            if (progressFill && progressText) {
+                const updateProgress = () => {
+                    const scrollTop = window.pageYOffset;
+                    const docHeight = document.body.scrollHeight - window.innerHeight;
+                    const scrollPercent = Math.min((scrollTop / docHeight) * 100, 100);
+                    
+                    progressFill.style.width = scrollPercent + '%';
+                    progressText.textContent = Math.round(scrollPercent) + '% Complete';
+                };
+                
+                window.addEventListener('scroll', updateProgress);
+                updateProgress();
+            }
+        }
+        
+        // Search functionality
+        function setupSearch() {
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', debounce(handleSearch, 300));
+            }
+        }
+        
+        function handleSearch(e) {
+            const query = e.target.value.toLowerCase();
+            const content = document.querySelector('.chapter-content');
+            
+            if (query.length < 2) {
+                clearSearchHighlights();
+                return;
+            }
+            
+            highlightSearchTerms(content, query);
+        }
+        
+        function highlightSearchTerms(container, query) {
+            clearSearchHighlights();
+            
+            const walker = document.createTreeWalker(
+                container,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            const textNodes = [];
+            let node;
+            while (node = walker.nextNode()) {
+                textNodes.push(node);
+            }
+            
+            textNodes.forEach(textNode => {
+                const text = textNode.textContent;
+                const regex = new RegExp(`(${query})`, 'gi');
+                
+                if (regex.test(text)) {
+                    const highlightedText = text.replace(regex, '<mark class="search-highlight">$1</mark>');
+                    const span = document.createElement('span');
+                    span.innerHTML = highlightedText;
+                    textNode.parentNode.replaceChild(span, textNode);
+                }
+            });
+        }
+        
+        function clearSearchHighlights() {
+            document.querySelectorAll('.search-highlight').forEach(highlight => {
+                const parent = highlight.parentNode;
+                parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+                parent.normalize();
+            });
+        }
+        
+        // Bookmarking functionality
+        function setupBookmarking() {
+            loadBookmarks();
+            updateBookmarkButtons();
+        }
+        
+        function toggleBookmark(e) {
+            e.preventDefault();
+            const chapterId = getCurrentChapterId();
+            const bookmarks = getBookmarks();
+            
+            if (bookmarks.includes(chapterId)) {
+                removeBookmark(chapterId);
+            } else {
+                addBookmark(chapterId);
+            }
+            
+            updateBookmarkButtons();
+        }
+        
+        function addBookmark(chapterId) {
+            const bookmarks = getBookmarks();
+            if (!bookmarks.includes(chapterId)) {
+                bookmarks.push(chapterId);
+                localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+            }
+        }
+        
+        function removeBookmark(chapterId) {
+            const bookmarks = getBookmarks();
+            const filtered = bookmarks.filter(id => id !== chapterId);
+            localStorage.setItem('bookmarks', JSON.stringify(filtered));
+        }
+        
+        function getBookmarks() {
+            const stored = localStorage.getItem('bookmarks');
+            return stored ? JSON.parse(stored) : [];
+        }
+        
+        function loadBookmarks() {
+            const bookmarks = getBookmarks();
+            bookmarks.forEach(chapterId => {
+                const link = document.querySelector(`[data-chapter="${chapterId}"]`);
+                if (link) {
+                    link.classList.add('bookmarked');
+                }
+            });
+        }
+        
+        function updateBookmarkButtons() {
+            const chapterId = getCurrentChapterId();
+            const bookmarks = getBookmarks();
+            const isBookmarked = bookmarks.includes(chapterId);
+            
+            document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                btn.textContent = isBookmarked ? '★' : '☆';
+                btn.classList.toggle('bookmarked', isBookmarked);
+            });
+        }
+        
+        function getCurrentChapterId() {
+            const path = window.location.pathname;
+            const match = path.match(/0(\d+)-/);
+            return match ? match[1] : '6';
+        }
+        
+        // Analytics
+        function setupAnalytics() {
+            trackPageView();
+        }
+        
+        function trackPageView() {
+            const pageData = {
+                page: window.location.pathname,
+                title: document.title,
+                timestamp: Date.now(),
+                userAgent: navigator.userAgent
+            };
+            
+            console.log('Page view tracked:', pageData);
+        }
+        
+        function trackEvent(eventName, data = {}) {
+            const eventData = {
+                event: eventName,
+                chapter: currentChapter,
+                timestamp: Date.now(),
+                ...data
+            };
+            
+            console.log('Event tracked:', eventData);
+        }
+        
+        // Error handling
+        function handleError(error, context = '') {
+            console.error(`Error in ${context}:`, error);
+            
+            const errorData = {
+                error: error.message,
+                stack: error.stack,
+                context: context,
+                chapter: currentChapter,
+                timestamp: Date.now()
+            };
+            
+            console.log('Error logged:', errorData);
+        }
+        
+        // Performance monitoring
+        function measurePerformance() {
+            if ('performance' in window) {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                const loadTime = perfData.loadEventEnd - perfData.loadEventStart;
+                
+                console.log(`Page load time: ${loadTime}ms`);
+                
+                if (loadTime > 3000) {
+                    console.warn('Slow page load detected');
+                }
+            }
+        }
+        
+        // Accessibility enhancements
+        function setupAccessibility() {
+            // Skip to content link
+            const skipLink = document.createElement('a');
+            skipLink.href = '#main-content';
+            skipLink.textContent = 'Skip to main content';
+            skipLink.className = 'skip-link';
+            document.body.insertBefore(skipLink, document.body.firstChild);
+            
+            // ARIA labels for interactive elements
+            document.querySelectorAll('.btn').forEach(btn => {
+                if (!btn.getAttribute('aria-label')) {
+                    btn.setAttribute('aria-label', btn.textContent.trim());
+                }
+            });
+            
+            // Focus management
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    document.body.classList.add('keyboard-navigation');
+                }
+            });
+            
+            document.addEventListener('mousedown', () => {
+                document.body.classList.remove('keyboard-navigation');
+            });
+        }
+        
+        // Utility functions
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // Navigation functions
+        function navigateToChapter(chapterNumber) {
+            const basePath = window.SiteConfig ? window.SiteConfig.basePath : '/';
+            const chapterUrl = `${basePath}0${chapterNumber}-chapter-${chapterNumber}.html`;
+            window.location.href = chapterUrl;
+        }
+        
+        function updateNavigationLinks() {
+            const prevBtn = document.querySelector('.btn-secondary');
+            const nextBtn = document.querySelector('.btn-primary');
+            const basePath = window.SiteConfig ? window.SiteConfig.basePath : '/';
+            
+            if (prevBtn && currentChapter > 1) {
+                prevBtn.href = `${basePath}0${currentChapter - 1}-chapter-${currentChapter - 1}.html`;
+            }
+            
+            if (nextBtn && currentChapter < 14) {
+                nextBtn.href = `${basePath}0${currentChapter + 1}-chapter-${currentChapter + 1}.html`;
+            }
+        }
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+        
+        // Track page view after initialization
+        window.addEventListener('load', () => {
+            trackPageView();
+            measurePerformance();
+            setupAccessibility();
+        });
+        
+        // Export functions for global access
+        window.BookWebsite = {
+            navigateToChapter,
+            toggleBookmark,
+            copyCodeToClipboard,
+            trackEvent,
+            handleError
+        };
+        
+    })();
+    </script>
 </body>
 </html>
