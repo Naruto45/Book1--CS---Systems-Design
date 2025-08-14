@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - System Design & Python Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+    /* ===== RESET & BASE STYLES ===== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* ===== CSS VARIABLES ===== */
+    :root {
+        /* Colors - Dark Theme */
+        --dark-bg: #0a0e1a;
+        --dark-surface: #1a1f2e;
+        --dark-surface-2: #2a2f3e;
+        --dark-surface-3: #3a3f4e;
+        --dark-border: #404552;
+        --dark-text-primary: #e1e5f0;
+        --dark-text-secondary: #9ca3af;
+        --dark-text-muted: #6b7280;
+        
+        /* Accent Colors */
+        --primary-color: #3b82f6;
+        --secondary-color: #06b6d4;
+        --accent-color: #8b5cf6;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --error-color: #ef4444;
+        
+        /* Gradients */
+        --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        --gradient-accent: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+        --gradient-surface: linear-gradient(135deg, var(--dark-surface) 0%, var(--dark-surface-2) 100%);
+        
+        /* Typography */
+        --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        --font-size-xs: 0.75rem;
+        --font-size-sm: 0.875rem;
+        --font-size-base: 1rem;
+        --font-size-lg: 1.125rem;
+        --font-size-xl: 1.25rem;
+        --font-size-2xl: 1.5rem;
+        --font-size-3xl: 1.875rem;
+        --font-size-4xl: 2.25rem;
+        
+        /* Spacing */
+        --spacing-xs: 0.25rem;
+        --spacing-sm: 0.5rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+        --spacing-2xl: 3rem;
+        --spacing-3xl: 4rem;
+        
+        /* Borders & Radius */
+        --radius-sm: 0.375rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        --radius-xl: 1rem;
+        --radius-2xl: 1.5rem;
+        
+        /* Shadows */
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+        
+        /* Transitions */
+        --transition-fast: 0.15s ease-out;
+        --transition-base: 0.25s ease-out;
+        --transition-slow: 0.4s ease-out;
+        
+        /* Layout */
+        --header-height: 4rem;
+        --sidebar-width: 280px;
+        --container-max-width: 1200px;
+    }
+
+    /* ===== BASE ELEMENTS ===== */
+    html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+    }
+
+    body {
+        font-family: var(--font-family-sans);
+        background: var(--dark-bg);
+        color: var(--dark-text-primary);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ===== HEADER & NAVIGATION ===== */
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--header-height);
+        background: rgba(26, 31, 46, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--dark-border);
+        z-index: 1000;
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+        max-width: var(--container-max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-lg);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        font-weight: 700;
+        font-size: var(--font-size-lg);
+        color: var(--dark-text-primary);
+        text-decoration: none;
+        transition: var(--transition-base);
+    }
+
+    .logo:hover {
+        color: var(--primary-color);
+    }
+
+    .logo::before {
+        content: '📚';
+        font-size: var(--font-size-xl);
+    }
+
+    .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        list-style: none;
+    }
+
+    .nav-item {
+        position: relative;
+    }
+
+    .nav-link {
+        color: var(--dark-text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--radius-md);
+        transition: var(--transition-base);
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--dark-text-primary);
+        background: var(--dark-surface);
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+        margin-top: var(--header-height);
+        min-height: calc(100vh - var(--header-height));
+    }
+
+    .container {
+        max-width: var(--container-max-width);
+        margin: 0 auto;
+        padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+        text-align: center;
+        padding: var(--spacing-3xl) 0;
+        background: var(--gradient-surface);
+        border-radius: var(--radius-2xl);
+        margin-bottom: var(--spacing-3xl);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient-primary);
+    }
+
+    .hero-title {
+        font-size: var(--font-size-4xl);
+        font-weight: 700;
+        margin-bottom: var(--spacing-lg);
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero-subtitle {
+        font-size: var(--font-size-xl);
+        color: var(--dark-text-secondary);
+        margin-bottom: var(--spacing-xl);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* ===== RESOURCE SECTIONS ===== */
+    .resources-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-3xl);
+    }
+
+    .resource-section {
+        background: var(--gradient-surface);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        border: 1px solid var(--dark-border);
+        box-shadow: var(--shadow-lg);
+        position: relative;
+        overflow: hidden;
+        transition: var(--transition-base);
+    }
+
+    .resource-section:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .resource-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient-accent);
+    }
+
+    .resource-section h2 {
+        font-size: var(--font-size-2xl);
+        font-weight: 600;
+        margin-bottom: var(--spacing-lg);
+        color: var(--secondary-color);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+
+    .resource-section h3 {
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+        color: var(--dark-text-primary);
+    }
+
+    .resource-list {
+        list-style: none;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .resource-item {
+        margin-bottom: var(--spacing-sm);
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-base);
+    }
+
+    .resource-item:hover {
+        background: var(--dark-surface-2);
+    }
+
+    .resource-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        transition: var(--transition-base);
+    }
+
+    .resource-link:hover {
+        color: var(--secondary-color);
+    }
+
+    .resource-link::after {
+        content: '↗';
+        font-size: var(--font-size-sm);
+        opacity: 0.7;
+    }
+
+    .resource-description {
+        color: var(--dark-text-secondary);
+        font-size: var(--font-size-sm);
+        margin-top: var(--spacing-xs);
+    }
+
+    /* ===== TOOLS GRID ===== */
+    .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-lg);
+        margin: var(--spacing-xl) 0;
+    }
+
+    .tool-card {
+        background: var(--dark-surface);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        border: 1px solid var(--dark-border);
+        transition: var(--transition-base);
+    }
+
+    .tool-card:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-1px);
+    }
+
+    .tool-name {
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .tool-category {
+        font-size: var(--font-size-xs);
+        color: var(--dark-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .tool-description {
+        color: var(--dark-text-secondary);
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+    }
+
+    /* ===== CODE BLOCKS ===== */
+    .code-example {
+        background: var(--dark-surface);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        margin: var(--spacing-lg) 0;
+        border: 1px solid var(--dark-border);
+        position: relative;
+        overflow-x: auto;
+    }
+
+    .code-example::before {
+        content: attr(data-language);
+        position: absolute;
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        font-size: var(--font-size-xs);
+        color: var(--dark-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .code-example code {
+        font-family: var(--font-family-mono);
+        color: var(--dark-text-primary);
+        font-size: var(--font-size-sm);
+        line-height: 1.6;
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 768px) {
+        .header-content {
+            padding: 0 var(--spacing-md);
+        }
+
+        .nav-menu {
+            gap: var(--spacing-md);
+        }
+
+        .nav-link {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: var(--font-size-sm);
+        }
+
+        .container {
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .hero {
+            padding: var(--spacing-xl) 0;
+        }
+
+        .hero-title {
+            font-size: var(--font-size-3xl);
+        }
+
+        .hero-subtitle {
+            font-size: var(--font-size-lg);
+        }
+
+        .resources-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .tools-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+        background: var(--dark-surface);
+        border-top: 1px solid var(--dark-border);
+        padding: var(--spacing-xl) 0;
+        margin-top: var(--spacing-3xl);
+        text-align: center;
+    }
+
+    .footer-content {
+        max-width: var(--container-max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-lg);
+        color: var(--dark-text-secondary);
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .footer-link {
+        color: var(--dark-text-secondary);
+        text-decoration: none;
+        transition: var(--transition-base);
+    }
+
+    .footer-link:hover {
+        color: var(--primary-color);
+    }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                System Design & Python
+            </a>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="01-setting-up-python.html" class="nav-link">Chapters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="resources.html" class="nav-link active">Resources</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link">About</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1 class="hero-title">📚 Resources & Tools</h1>
+                <p class="hero-subtitle">
+                    Essential tools, documentation, and learning resources for system design and Python development
+                </p>
+            </section>
+
+            <!-- Resources Grid -->
+            <div class="resources-grid">
+                <!-- Python Resources -->
+                <section class="resource-section">
+                    <h2>🐍 Python Resources</h2>
+                    
+                    <h3>Official Documentation</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://docs.python.org/3/" class="resource-link" target="_blank">
+                                Python 3 Documentation
+                            </a>
+                            <p class="resource-description">Complete Python language reference and library documentation</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://peps.python.org/" class="resource-link" target="_blank">
+                                Python Enhancement Proposals (PEPs)
+                            </a>
+                            <p class="resource-description">Official design documents for Python language evolution</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://docs.python.org/3/tutorial/" class="resource-link" target="_blank">
+                                Python Tutorial
+                            </a>
+                            <p class="resource-description">Official Python tutorial for beginners</p>
+                        </li>
+                    </ul>
+
+                    <h3>Flask & Web Development</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://flask.palletsprojects.com/" class="resource-link" target="_blank">
+                                Flask Documentation
+                            </a>
+                            <p class="resource-description">Official Flask web framework documentation</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://docs.sqlalchemy.org/" class="resource-link" target="_blank">
+                                SQLAlchemy Documentation
+                            </a>
+                            <p class="resource-description">Python SQL toolkit and Object-Relational Mapping</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://flask-migrate.readthedocs.io/" class="resource-link" target="_blank">
+                                Flask-Migrate
+                            </a>
+                            <p class="resource-description">Database migration tool for Flask applications</p>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- AI & Development Tools -->
+                <section class="resource-section">
+                    <h2>🤖 AI Development Tools</h2>
+                    
+                    <h3>ChatGPT & OpenAI</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://platform.openai.com/docs" class="resource-link" target="_blank">
+                                OpenAI API Documentation
+                            </a>
+                            <p class="resource-description">Complete guide to OpenAI's API and models</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://chat.openai.com/" class="resource-link" target="_blank">
+                                ChatGPT Web Interface
+                            </a>
+                            <p class="resource-description">Web-based ChatGPT for development assistance</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://platform.openai.com/playground" class="resource-link" target="_blank">
+                                OpenAI Playground
+                            </a>
+                            <p class="resource-description">Interactive environment for testing OpenAI models</p>
+                        </li>
+                    </ul>
+
+                    <h3>Code Editors & IDEs</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://cursor.sh/" class="resource-link" target="_blank">
+                                Cursor IDE
+                            </a>
+                            <p class="resource-description">AI-powered code editor for enhanced productivity</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://code.visualstudio.com/" class="resource-link" target="_blank">
+                                Visual Studio Code
+                            </a>
+                            <p class="resource-description">Popular code editor with extensive Python support</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://www.jetbrains.com/pycharm/" class="resource-link" target="_blank">
+                                PyCharm
+                            </a>
+                            <p class="resource-description">Professional Python IDE with advanced features</p>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Database Resources -->
+                <section class="resource-section">
+                    <h2>🗄️ Database & Storage</h2>
+                    
+                    <h3>SQL Databases</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://www.postgresql.org/docs/" class="resource-link" target="_blank">
+                                PostgreSQL Documentation
+                            </a>
+                            <p class="resource-description">Advanced open-source relational database</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://dev.mysql.com/doc/" class="resource-link" target="_blank">
+                                MySQL Documentation
+                            </a>
+                            <p class="resource-description">Popular open-source relational database</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://sqlite.org/docs.html" class="resource-link" target="_blank">
+                                SQLite Documentation
+                            </a>
+                            <p class="resource-description">Lightweight embedded SQL database</p>
+                        </li>
+                    </ul>
+
+                    <h3>NoSQL & Cloud Databases</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://docs.mongodb.com/" class="resource-link" target="_blank">
+                                MongoDB Documentation
+                            </a>
+                            <p class="resource-description">Document-oriented NoSQL database</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://redis.io/documentation" class="resource-link" target="_blank">
+                                Redis Documentation
+                            </a>
+                            <p class="resource-description">In-memory data structure store and cache</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://aws.amazon.com/rds/" class="resource-link" target="_blank">
+                                Amazon RDS
+                            </a>
+                            <p class="resource-description">Managed relational database service</p>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- System Design Resources -->
+                <section class="resource-section">
+                    <h2>⚡ System Design & Architecture</h2>
+                    
+                    <h3>Design Patterns & Architecture</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://refactoring.guru/design-patterns" class="resource-link" target="_blank">
+                                Design Patterns Guide
+                            </a>
+                            <p class="resource-description">Comprehensive guide to software design patterns</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://microservices.io/" class="resource-link" target="_blank">
+                                Microservices Architecture
+                            </a>
+                            <p class="resource-description">Patterns and practices for microservices</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://12factor.net/" class="resource-link" target="_blank">
+                                The Twelve-Factor App
+                            </a>
+                            <p class="resource-description">Methodology for building SaaS applications</p>
+                        </li>
+                    </ul>
+
+                    <h3>Scalability & Performance</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://highscalability.com/" class="resource-link" target="_blank">
+                                High Scalability
+                            </a>
+                            <p class="resource-description">System design case studies and patterns</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://github.com/donnemartin/system-design-primer" class="resource-link" target="_blank">
+                                System Design Primer
+                            </a>
+                            <p class="resource-description">Learn system design fundamentals</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://martin.kleppmann.com/2017/03/27/logs-for-data-infrastructure.html" class="resource-link" target="_blank">
+                                Designing Data-Intensive Applications
+                            </a>
+                            <p class="resource-description">Advanced system design concepts</p>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- DevOps & Deployment -->
+                <section class="resource-section">
+                    <h2>🚀 DevOps & Deployment</h2>
+                    
+                    <h3>Containerization</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://docs.docker.com/" class="resource-link" target="_blank">
+                                Docker Documentation
+                            </a>
+                            <p class="resource-description">Containerization platform and tools</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://kubernetes.io/docs/" class="resource-link" target="_blank">
+                                Kubernetes Documentation
+                            </a>
+                            <p class="resource-description">Container orchestration system</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://docs.docker.com/compose/" class="resource-link" target="_blank">
+                                Docker Compose
+                            </a>
+                            <p class="resource-description">Multi-container application management</p>
+                        </li>
+                    </ul>
+
+                    <h3>Cloud Platforms</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://docs.aws.amazon.com/" class="resource-link" target="_blank">
+                                AWS Documentation
+                            </a>
+                            <p class="resource-description">Amazon Web Services cloud platform</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://cloud.google.com/docs" class="resource-link" target="_blank">
+                                Google Cloud Documentation
+                            </a>
+                            <p class="resource-description">Google Cloud Platform services</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://docs.microsoft.com/azure/" class="resource-link" target="_blank">
+                                Microsoft Azure Documentation
+                            </a>
+                            <p class="resource-description">Microsoft's cloud computing platform</p>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Testing & Quality Assurance -->
+                <section class="resource-section">
+                    <h2>🧪 Testing & Quality Assurance</h2>
+                    
+                    <h3>Testing Frameworks</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://docs.pytest.org/" class="resource-link" target="_blank">
+                                pytest Documentation
+                            </a>
+                            <p class="resource-description">Python testing framework</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://docs.python.org/3/library/unittest.html" class="resource-link" target="_blank">
+                                unittest Documentation
+                            </a>
+                            <p class="resource-description">Python's built-in unit testing framework</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://selenium-python.readthedocs.io/" class="resource-link" target="_blank">
+                                Selenium Python
+                            </a>
+                            <p class="resource-description">Web application testing automation</p>
+                        </li>
+                    </ul>
+
+                    <h3>Code Quality Tools</h3>
+                    <ul class="resource-list">
+                        <li class="resource-item">
+                            <a href="https://black.readthedocs.io/" class="resource-link" target="_blank">
+                                Black Code Formatter
+                            </a>
+                            <p class="resource-description">Python code formatter</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://flake8.pycqa.org/" class="resource-link" target="_blank">
+                                Flake8
+                            </a>
+                            <p class="resource-description">Python linting and style checking</p>
+                        </li>
+                        <li class="resource-item">
+                            <a href="https://mypy.readthedocs.io/" class="resource-link" target="_blank">
+                                MyPy
+                            </a>
+                            <p class="resource-description">Static type checker for Python</p>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Essential Tools Grid -->
+            <section>
+                <h2 style="text-align: center; margin-bottom: var(--spacing-xl); color: var(--secondary-color); font-size: var(--font-size-3xl);">
+                    🛠️ Essential Development Tools
+                </h2>
+                
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <div class="tool-category">Package Management</div>
+                        <div class="tool-name">pip</div>
+                        <div class="tool-description">Python package installer and dependency manager</div>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-category">Environment Management</div>
+                        <div class="tool-name">virtualenv / venv</div>
+                        <div class="tool-description">Create isolated Python environments</div>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-category">Version Control</div>
+                        <div class="tool-name">Git</div>
+                        <div class="tool-description">Distributed version control system</div>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-category">API Development</div>
+                        <div class="tool-name">Postman</div>
+                        <div class="tool-description">API development and testing platform</div>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-category">Database Management</div>
+                        <div class="tool-name">pgAdmin</div>
+                        <div class="tool-description">PostgreSQL administration tool</div>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-category">Monitoring</div>
+                        <div class="tool-name">Grafana</div>
+                        <div class="tool-description">Observability and monitoring platform</div>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-category">Terminal</div>
+                        <div class="tool-name">iTerm2 / Windows Terminal</div>
+                        <div class="tool-description">Enhanced terminal applications</div>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-category">HTTP Client</div>
+                        <div class="tool-name">HTTPie</div>
+                        <div class="tool-description">Command-line HTTP client</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Reference -->
+            <section style="margin-top: var(--spacing-3xl);">
+                <h2 style="text-align: center; margin-bottom: var(--spacing-xl); color: var(--secondary-color); font-size: var(--font-size-3xl);">
+                    📋 Quick Reference
+                </h2>
+                
+                <div class="resources-grid">
+                    <div class="resource-section">
+                        <h2>🔧 Essential Commands</h2>
+                        
+                        <div class="code-example" data-language="bash">
+<code># Python Environment Setup
+python3 -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
+
+# Package Management
+pip install -r requirements.txt
+pip freeze > requirements.txt
+
+# Flask Development
+export FLASK_APP=app.py
+export FLASK_ENV=development
+flask run
+
+# Database Migrations
+flask db init
+flask db migrate -m "Initial migration"
+flask db upgrade</code>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-section">
+                        <h2>🐳 Docker Commands</h2>
+                        
+                        <div class="code-example" data-language="bash">
+<code># Build and Run
+docker build -t myapp .
+docker run -p 5000:5000 myapp
+
+# Docker Compose
+docker-compose up -d
+docker-compose down
+docker-compose logs -f
+
+# Container Management
+docker ps
+docker exec -it container_name bash
+docker system prune</code>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">Home</a>
+                <a href="01-setting-up-python.html" class="footer-link">Chapters</a>
+                <a href="resources.html" class="footer-link">Resources</a>
+                <a href="#about" class="footer-link">About</a>
+            </div>
+            <p>&copy; 2024 System Design & Python Development Guide. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Add loading animation to external links
+    document.querySelectorAll('a[target="_blank"]').forEach(link => {
+        link.addEventListener('click', function() {
+            this.style.opacity = '0.7';
+            setTimeout(() => {
+                this.style.opacity = '1';
+            }, 300);
+        });
+    });
+
+    // Header scroll effect
+    window.addEventListener('scroll', function() {
+        const header = document.querySelector('.header');
+        if (window.scrollY > 100) {
+            header.style.background = 'rgba(26, 31, 46, 0.98)';
+        } else {
+            header.style.background = 'rgba(26, 31, 46, 0.95)';
+        }
+    });
+    </script>
+</body>
+</html>
